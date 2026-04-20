@@ -39,7 +39,6 @@ function getDB(): PDO {
 
     return $pdo;
 }
-<?php
 $host     = 'localhost';
 $db_name  = 'digital_cv_db';
 $username = 'root';
