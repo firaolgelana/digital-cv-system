@@ -39,15 +39,18 @@
           </select>
         </div>
 
-        <form id="login-form" action="#">
+        <!-- Alert message -->
+        <div id="login-alert" role="alert" style="display:none; padding: 0.75rem 1rem; border-radius: 10px; font-size:0.875rem; margin-bottom:1rem; font-weight:500;"></div>
+
+        <form id="login-form" autocomplete="on">
           <div class="form-group">
             <label class="form-label" for="login-email">Email address</label>
-            <input type="email" class="form-input" id="login-email" placeholder="you@university.edu" />
+            <input type="email" class="form-input" id="login-email" name="email" placeholder="you@university.edu" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="login-password">Password</label>
-            <input type="password" class="form-input" id="login-password" placeholder="••••••••" />
+            <input type="password" class="form-input" id="login-password" name="password" placeholder="••••••••" required />
           </div>
 
           <div class="flex justify-between items-center" style="margin-bottom: var(--space-xl);">
@@ -58,9 +61,9 @@
             <a href="#" style="font-size: 0.88rem;">Forgot password?</a>
           </div>
 
-          <button type="button" class="btn btn-primary btn-lg" style="width:100%;" id="login-btn">
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" id="login-btn">
             <i class="fas fa-right-to-bracket"></i>
-            Sign In
+            <span id="login-btn-text">Sign In</span>
           </button>
         </form>
 
@@ -106,18 +109,65 @@
     </div>
   </div>
 
-  <script>
-    // Simple mock navigation based on role
-    document.getElementById('login-btn').addEventListener('click', function () {
-      const role = document.getElementById('login-role').value;
-      switch (role) {
-        case 'student':     window.location.href = 'student-dashboard.html'; break;
-        case 'supervisor':  window.location.href = 'supervisor-dashboard.html'; break;
-        case 'examiner':    window.location.href = 'supervisor-dashboard.html'; break;
-        case 'recruiter':   window.location.href = 'recruiter-view.html'; break;
-        case 'admin':       window.location.href = 'admin-dashboard.html'; break;
+<script>
+(function () {
+  const form    = document.getElementById('login-form');
+  const alert   = document.getElementById('login-alert');
+  const btn     = document.getElementById('login-btn');
+  const btnText = document.getElementById('login-btn-text');
+
+  function showAlert(message, isSuccess) {
+    alert.textContent = message;
+    alert.style.display = 'block';
+    if (isSuccess) {
+      alert.style.background = 'rgba(34,197,94,0.15)';
+      alert.style.border = '1px solid rgba(34,197,94,0.4)';
+      alert.style.color = '#4ade80';
+    } else {
+      alert.style.background = 'rgba(239,68,68,0.15)';
+      alert.style.border = '1px solid rgba(239,68,68,0.4)';
+      alert.style.color = '#f87171';
+    }
+  }
+
+  function setLoading(loading) {
+    btn.disabled = loading;
+    btnText.textContent = loading ? 'Signing In…' : 'Sign In';
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    alert.style.display = 'none';
+
+    const payload = {
+      email:    document.getElementById('login-email').value.trim(),
+      password: document.getElementById('login-password').value,
+      role:     document.getElementById('login-role').value,
+    };
+
+    setLoading(true);
+
+    try {
+      const res  = await fetch('php_actions/login_action.php', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        showAlert(data.message, true);
+        setTimeout(() => { window.location.href = data.redirect; }, 900);
+      } else {
+        showAlert(data.message, false);
+        setLoading(false);
       }
-    });
-  </script>
+    } catch (err) {
+      showAlert('Network error. Please check your connection and try again.', false);
+      setLoading(false);
+    }
+  });
+})();
+</script>
 </body>
 </html>

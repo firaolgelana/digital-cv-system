@@ -26,26 +26,29 @@
         <h1 class="auth-card__title">Create Account</h1>
         <p class="auth-card__subtitle">Join DigiCV and start building your digital CV today</p>
 
-        <form id="register-form" action="#">
+        <!-- Alert message -->
+        <div id="reg-alert" role="alert" style="display:none; padding: 0.75rem 1rem; border-radius: 10px; font-size:0.875rem; margin-bottom:1rem; font-weight:500;"></div>
+
+        <form id="register-form" autocomplete="off">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="reg-first-name">First Name</label>
-              <input type="text" class="form-input" id="reg-first-name" placeholder="Firaol" />
+              <input type="text" class="form-input" id="reg-first-name" name="first_name" placeholder="Firaol" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="reg-last-name">Last Name</label>
-              <input type="text" class="form-input" id="reg-last-name" placeholder="Gelana" />
+              <input type="text" class="form-input" id="reg-last-name" name="last_name" placeholder="Gelana" required />
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="reg-email">University Email</label>
-            <input type="email" class="form-input" id="reg-email" placeholder="firaol@university.edu" />
+            <input type="email" class="form-input" id="reg-email" name="email" placeholder="firaol@university.edu" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="reg-student-id">Student ID</label>
-            <input type="text" class="form-input" id="reg-student-id" placeholder="UGR/12345/14" />
+            <input type="text" class="form-input" id="reg-student-id" name="student_id" placeholder="UGR/12345/14" required />
           </div>
 
           <div class="form-group">
@@ -65,11 +68,11 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="reg-password">Password</label>
-              <input type="password" class="form-input" id="reg-password" placeholder="••••••••" />
+              <input type="password" class="form-input" id="reg-password" name="password" placeholder="••••••••" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="reg-confirm-password">Confirm Password</label>
-              <input type="password" class="form-input" id="reg-confirm-password" placeholder="••••••••" />
+              <input type="password" class="form-input" id="reg-confirm-password" name="confirm_password" placeholder="••••••••" required />
             </div>
           </div>
 
@@ -80,9 +83,9 @@
             </span>
           </label>
 
-          <button type="button" class="btn btn-primary btn-lg" style="width:100%;" onclick="window.location.href='student-dashboard.html'">
+          <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" id="reg-submit-btn">
             <i class="fas fa-user-plus"></i>
-            Create Account
+            <span id="reg-btn-text">Create Account</span>
           </button>
         </form>
 
@@ -106,5 +109,76 @@
       </div>
     </div>
   </div>
+<script>
+(function () {
+  const form      = document.getElementById('register-form');
+  const alert     = document.getElementById('reg-alert');
+  const submitBtn = document.getElementById('reg-submit-btn');
+  const btnText   = document.getElementById('reg-btn-text');
+
+  function showAlert(message, isSuccess) {
+    alert.textContent = message;
+    alert.style.display = 'block';
+    if (isSuccess) {
+      alert.style.background = 'rgba(34,197,94,0.15)';
+      alert.style.border = '1px solid rgba(34,197,94,0.4)';
+      alert.style.color = '#4ade80';
+    } else {
+      alert.style.background = 'rgba(239,68,68,0.15)';
+      alert.style.border = '1px solid rgba(239,68,68,0.4)';
+      alert.style.color = '#f87171';
+    }
+    alert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function setLoading(loading) {
+    submitBtn.disabled = loading;
+    btnText.textContent = loading ? 'Creating Account…' : 'Create Account';
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    alert.style.display = 'none';
+
+    const agreed = document.getElementById('agree-terms').checked;
+    if (!agreed) {
+      showAlert('You must agree to the Terms of Service and Privacy Policy.', false);
+      return;
+    }
+
+    const payload = {
+      first_name:       document.getElementById('reg-first-name').value.trim(),
+      last_name:        document.getElementById('reg-last-name').value.trim(),
+      email:            document.getElementById('reg-email').value.trim(),
+      student_id:       document.getElementById('reg-student-id').value.trim(),
+      department:       document.getElementById('reg-department').value,
+      password:         document.getElementById('reg-password').value,
+      confirm_password: document.getElementById('reg-confirm-password').value,
+    };
+
+    setLoading(true);
+
+    try {
+      const res  = await fetch('php_actions/register_action.php', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        showAlert(data.message, true);
+        setTimeout(() => { window.location.href = data.redirect; }, 1200);
+      } else {
+        showAlert(data.message, false);
+        setLoading(false);
+      }
+    } catch (err) {
+      showAlert('Network error. Please check your connection and try again.', false);
+      setLoading(false);
+    }
+  });
+})();
+</script>
 </body>
 </html>
