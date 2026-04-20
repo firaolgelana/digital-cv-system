@@ -20,15 +20,14 @@ function getDB(): PDO {
              . ';charset=' . DB_CHARSET;
 
         $options = [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,   // Throw exceptions on errors
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,         // Return associative arrays
-            PDO::ATTR_EMULATE_PREPARES   => false,                     // Use native prepared statements
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
         ];
 
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
-            // In production, log this instead of echoing
             http_response_code(500);
             die(json_encode([
                 'success' => false,
@@ -39,16 +38,3 @@ function getDB(): PDO {
 
     return $pdo;
 }
-$host     = 'localhost';
-$db_name  = 'digital_cv_db';
-$username = 'root';
-$password = ''; 
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-?>
