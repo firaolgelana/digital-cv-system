@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supervisor Dashboard — DigiCV</title>
+  <meta name="description" content="Review and approve student CVs as a project supervisor." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    .review-card {
+      background: var(--surface-card);
+      border: 1px solid var(--surface-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-xl);
+      transition: all var(--transition-base);
+      backdrop-filter: blur(16px);
+    }
+    .review-card:hover {
+      border-color: rgba(99,102,241,0.25);
+      box-shadow: var(--shadow-md);
+    }
+    .review-card__header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .review-card__student {
+      flex: 1;
+    }
+    .review-card__name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .review-card__meta {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+    .review-card__details {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+    .review-card__detail {
+      text-align: center;
+      padding: var(--space-md);
+      background: var(--surface-elevated);
+      border-radius: var(--radius-md);
+    }
+    .review-card__detail-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .review-card__detail-value {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 2px;
+    }
+    .review-card__actions {
+      display: flex;
+      gap: var(--space-sm);
+    }
+    .comment-box {
+      display: none;
+      margin-top: var(--space-lg);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--surface-border);
+    }
+    .comment-box.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand__icon"><i class="fas fa-qrcode"></i></div>
+        <div>
+          <div class="sidebar-brand__text text-gradient">DigiCV</div>
+          <div class="sidebar-brand__sub">Digital CV System</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Supervisor</div>
+        <a href="supervisor-dashboard.html" class="sidebar-link active">
+          <span class="sidebar-link__icon"><i class="fas fa-house"></i></span> Dashboard
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-inbox"></i></span> Pending Reviews
+          <span class="sidebar-link__badge">4</span>
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-circle-check"></i></span> Approved CVs
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-circle-xmark"></i></span> Rejected CVs
+        </a>
+
+        <div class="sidebar-section-title">Account</div>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span> Profile Settings
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span> Notifications
+          <span class="sidebar-link__badge">4</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar avatar--accent">DA</div>
+          <div class="sidebar-user__info">
+            <div class="sidebar-user__name">Mr. Daniel Tsegaye</div>
+            <div class="sidebar-user__role">Project Supervisor</div>
+          </div>
+          <a href="index.html" title="Sign out" style="color: var(--text-muted);"><i class="fas fa-right-from-bracket"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></button>
+        <h2 class="top-bar__title">Supervisor Dashboard</h2>
+        <div class="top-bar__actions">
+          <div class="search-box" style="width:240px;">
+            <span class="search-icon"><i class="fas fa-search"></i></span>
+            <input type="text" class="form-input" placeholder="Search students…" />
+          </div>
+          <button class="btn btn-ghost btn-icon notification-btn">
+            <i class="fas fa-bell"></i>
+            <span class="notification-dot"></span>
+          </button>
+          <div class="avatar avatar--sm avatar--accent">DT</div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div class="page-header animate-fade-in">
+          <h1 class="page-header__title">Welcome, Mr. Daniel 👋</h1>
+          <p class="page-header__sub">Review and approve student CV submissions.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-4 gap-lg" style="margin-bottom: var(--space-2xl);">
+          <div class="stat-card animate-fade-in delay-1">
+            <div class="stat-icon stat-icon--warning"><i class="fas fa-hourglass-half"></i></div>
+            <div class="stat-value">4</div>
+            <div class="stat-label">Pending Review</div>
+          </div>
+          <div class="stat-card animate-fade-in delay-2">
+            <div class="stat-icon stat-icon--accent"><i class="fas fa-circle-check"></i></div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">Approved</div>
+          </div>
+          <div class="stat-card animate-fade-in delay-3">
+            <div class="stat-icon stat-icon--danger"><i class="fas fa-circle-xmark"></i></div>
+            <div class="stat-value">3</div>
+            <div class="stat-label">Rejected</div>
+          </div>
+          <div class="stat-card animate-fade-in delay-4">
+            <div class="stat-icon stat-icon--primary"><i class="fas fa-users"></i></div>
+            <div class="stat-value">19</div>
+            <div class="stat-label">Total Students</div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+          <button class="tab-btn active" id="tab-pending">Pending Review (4)</button>
+          <button class="tab-btn" id="tab-approved">Approved (12)</button>
+          <button class="tab-btn" id="tab-rejected">Rejected (3)</button>
+          <button class="tab-btn" id="tab-all">All Submissions</button>
+        </div>
+
+        <!-- Pending Reviews -->
+        <div class="flex flex-col gap-lg" id="pending-list">
+          <!-- Student 1 -->
+          <div class="review-card animate-fade-in">
+            <div class="review-card__header">
+              <div class="avatar avatar--primary">FB</div>
+              <div class="review-card__student">
+                <div class="review-card__name">Firaol Gelana</div>
+                <div class="review-card__meta">Computer Science • UGR/30549/15 • Submitted 2 hours ago</div>
+              </div>
+              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
+            </div>
+            <div class="review-card__details">
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Completion</div>
+                <div class="review-card__detail-value" style="color: var(--success);">85%</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Sections</div>
+                <div class="review-card__detail-value">5 / 6</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Documents</div>
+                <div class="review-card__detail-value">2 files</div>
+              </div>
+            </div>
+            <div class="review-card__actions">
+              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
+              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm" onclick="this.closest('.review-card').querySelector('.comment-box').classList.toggle('visible')"><i class="fas fa-xmark"></i> Reject</button>
+              <button class="btn btn-outline btn-sm" onclick="this.closest('.review-card').querySelector('.comment-box').classList.toggle('visible')"><i class="fas fa-comment"></i> Comment</button>
+            </div>
+            <div class="comment-box">
+              <div class="form-group" style="margin-bottom: var(--space-md);">
+                <label class="form-label">Add Comment / Rejection Reason</label>
+                <textarea class="form-textarea" rows="3" placeholder="Provide feedback for the student…"></textarea>
+              </div>
+              <div class="flex gap-sm">
+                <button class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Send Feedback</button>
+                <button class="btn btn-ghost btn-sm" onclick="this.closest('.comment-box').classList.remove('visible')">Cancel</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student 2 -->
+          <div class="review-card animate-fade-in delay-1">
+            <div class="review-card__header">
+              <div class="avatar" style="background: rgba(245,158,11,.2); color: var(--warning);">MT</div>
+              <div class="review-card__student">
+                <div class="review-card__name">Meron Tadesse</div>
+                <div class="review-card__meta">Software Engineering • UGR/23456/14 • Submitted 5 hours ago</div>
+              </div>
+              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
+            </div>
+            <div class="review-card__details">
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Completion</div>
+                <div class="review-card__detail-value" style="color: var(--success);">100%</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Sections</div>
+                <div class="review-card__detail-value">6 / 6</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Documents</div>
+                <div class="review-card__detail-value">4 files</div>
+              </div>
+            </div>
+            <div class="review-card__actions">
+              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
+              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-xmark"></i> Reject</button>
+              <button class="btn btn-outline btn-sm"><i class="fas fa-comment"></i> Comment</button>
+            </div>
+          </div>
+
+          <!-- Student 3 -->
+          <div class="review-card animate-fade-in delay-2">
+            <div class="review-card__header">
+              <div class="avatar" style="background: rgba(139,92,246,.2); color: #a78bfa;">KH</div>
+              <div class="review-card__student">
+                <div class="review-card__name">Kidus Haile</div>
+                <div class="review-card__meta">Information Technology • UGR/34567/14 • Submitted 1 day ago</div>
+              </div>
+              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
+            </div>
+            <div class="review-card__details">
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Completion</div>
+                <div class="review-card__detail-value" style="color: var(--warning);">70%</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Sections</div>
+                <div class="review-card__detail-value">4 / 6</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Documents</div>
+                <div class="review-card__detail-value">1 file</div>
+              </div>
+            </div>
+            <div class="review-card__actions">
+              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
+              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-xmark"></i> Reject</button>
+              <button class="btn btn-outline btn-sm"><i class="fas fa-comment"></i> Comment</button>
+            </div>
+          </div>
+
+          <!-- Student 4 -->
+          <div class="review-card animate-fade-in delay-3">
+            <div class="review-card__header">
+              <div class="avatar" style="background: rgba(16,185,129,.2); color: var(--accent-400);">SG</div>
+              <div class="review-card__student">
+                <div class="review-card__name">Sara Girma</div>
+                <div class="review-card__meta">Computer Science • UGR/45678/14 • Submitted 2 days ago</div>
+              </div>
+              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
+            </div>
+            <div class="review-card__details">
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Completion</div>
+                <div class="review-card__detail-value" style="color: var(--success);">95%</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Sections</div>
+                <div class="review-card__detail-value">6 / 6</div>
+              </div>
+              <div class="review-card__detail">
+                <div class="review-card__detail-label">Documents</div>
+                <div class="review-card__detail-value">3 files</div>
+              </div>
+            </div>
+            <div class="review-card__actions">
+              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
+              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-sm"><i class="fas fa-xmark"></i> Reject</button>
+              <button class="btn btn-outline btn-sm"><i class="fas fa-comment"></i> Comment</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recently Approved Table -->
+        <div class="card" style="margin-top: var(--space-2xl);">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-circle-check" style="color: var(--success); margin-right: 8px;"></i>Recently Approved</h3>
+          </div>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Department</th>
+                  <th>Submitted</th>
+                  <th>Approved</th>
+                  <th>QR Code</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-sm">
+                      <div class="avatar avatar--sm avatar--accent">AW</div>
+                      <span>Almaz Worku</span>
+                    </div>
+                  </td>
+                  <td>Computer Science</td>
+                  <td>Apr 10, 2026</td>
+                  <td>Apr 12, 2026</td>
+                  <td><span class="badge badge--success"><i class="fas fa-check"></i> Generated</span></td>
+                  <td><a href="cv-preview.html" class="btn btn-ghost btn-sm">View</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-sm">
+                      <div class="avatar avatar--sm avatar--primary">DK</div>
+                      <span>Dawit Kebede</span>
+                    </div>
+                  </td>
+                  <td>Software Engineering</td>
+                  <td>Apr 8, 2026</td>
+                  <td>Apr 11, 2026</td>
+                  <td><span class="badge badge--success"><i class="fas fa-check"></i> Generated</span></td>
+                  <td><a href="cv-preview.html" class="btn btn-ghost btn-sm">View</a></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-sm">
+                      <div class="avatar avatar--sm" style="background: rgba(245,158,11,.2); color: var(--warning);">HM</div>
+                      <span>Hana Mulatu</span>
+                    </div>
+                  </td>
+                  <td>Information Technology</td>
+                  <td>Apr 7, 2026</td>
+                  <td>Apr 10, 2026</td>
+                  <td><span class="badge badge--success"><i class="fas fa-check"></i> Generated</span></td>
+                  <td><a href="cv-preview.html" class="btn btn-ghost btn-sm">View</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) menuToggle.style.display = 'flex';
+    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  </script>
+</body>
+</html>

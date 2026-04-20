@@ -1,0 +1,36 @@
+# --- Database & Secrets ---
+# Ignore the actual database connection file if it contains passwords
+# Recommended: create a db.sample.php and commit that instead
+includes/db.php
+
+# --- User Uploads (Dynamic Content) ---
+# We ignore the files inside, but keep the folders
+uploads/profiles/*
+uploads/documents/*
+uploads/qrcodes/*
+
+# Allow Git to track the folders but not the files inside
+!uploads/profiles/.gitkeep
+!uploads/documents/.gitkeep
+!uploads/qrcodes/.gitkeep
+
+# --- Dependency Managers ---
+vendor/
+
+# --- Logs and Temp files ---
+*.log
+error_log
+.htaccess.bak
+temp/
+*.tmp
+
+# --- OS Specific files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDEs and Editors ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace

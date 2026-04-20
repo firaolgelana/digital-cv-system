@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create CV — DigiCV</title>
+  <meta name="description" content="Build your professional digital CV step by step with DigiCV." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-brand__icon"><i class="fas fa-qrcode"></i></div>
+        <div>
+          <div class="sidebar-brand__text text-gradient">DigiCV</div>
+          <div class="sidebar-brand__sub">Digital CV System</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-title">Main</div>
+        <a href="student-dashboard.html" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-house"></i></span> Dashboard
+        </a>
+        <a href="create-cv.html" class="sidebar-link active">
+          <span class="sidebar-link__icon"><i class="fas fa-file-pen"></i></span> Create CV
+        </a>
+        <a href="cv-preview.html" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-eye"></i></span> View CV
+        </a>
+        <a href="qr-code.html" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-qrcode"></i></span> QR Code
+        </a>
+        <div class="sidebar-section-title">Account</div>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span> Profile Settings
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span> Notifications
+        </a>
+        <a href="#" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-cloud-arrow-up"></i></span> Documents
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <div class="avatar avatar--primary">FB</div>
+          <div class="sidebar-user__info">
+            <div class="sidebar-user__name">Firaol Gelana</div>
+            <div class="sidebar-user__role">Graduate Student</div>
+          </div>
+          <a href="index.html" title="Sign out" style="color: var(--text-muted);"><i class="fas fa-right-from-bracket"></i></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></button>
+        <h2 class="top-bar__title">Create CV</h2>
+        <div class="top-bar__actions">
+          <button class="btn btn-secondary btn-sm"><i class="fas fa-floppy-disk"></i> Save Draft</button>
+          <button class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Submit for Review</button>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Stepper -->
+        <div class="stepper animate-fade-in">
+          <div class="stepper-step completed">
+            <div class="stepper-step__number"><i class="fas fa-check" style="font-size: 0.75rem;"></i></div>
+            <span class="stepper-step__label">Personal Info</span>
+          </div>
+          <div class="stepper-line completed"></div>
+          <div class="stepper-step completed">
+            <div class="stepper-step__number"><i class="fas fa-check" style="font-size: 0.75rem;"></i></div>
+            <span class="stepper-step__label">Education</span>
+          </div>
+          <div class="stepper-line completed"></div>
+          <div class="stepper-step active">
+            <div class="stepper-step__number">3</div>
+            <span class="stepper-step__label">Experience</span>
+          </div>
+          <div class="stepper-line"></div>
+          <div class="stepper-step">
+            <div class="stepper-step__number">4</div>
+            <span class="stepper-step__label">Skills</span>
+          </div>
+          <div class="stepper-line"></div>
+          <div class="stepper-step">
+            <div class="stepper-step__number">5</div>
+            <span class="stepper-step__label">Documents</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Personal Information -->
+        <div class="card animate-fade-in" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-user" style="color: var(--primary-400); margin-right: 8px;"></i>Personal Information</h3>
+            <span class="badge badge--success"><i class="fas fa-check"></i> Completed</span>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cv-firstname">First Name</label>
+              <input type="text" class="form-input" id="cv-firstname" value="Firaol" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cv-lastname">Last Name</label>
+              <input type="text" class="form-input" id="cv-lastname" value="Gelana" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cv-email">Email</label>
+              <input type="email" class="form-input" id="cv-email" value="firaol.gelana@astu.edu.et" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cv-phone">Phone</label>
+              <input type="tel" class="form-input" id="cv-phone" value="+251 9...." />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cv-address">Address</label>
+              <input type="text" class="form-input" id="cv-address" value="Addis Ababa, Ethiopia" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cv-linkedin">LinkedIn</label>
+              <input type="url" class="form-input" id="cv-linkedin" placeholder="linkedin.com/in/firaol" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cv-summary">Professional Summary</label>
+            <textarea class="form-textarea" id="cv-summary" rows="4">Dedicated and detail-oriented Computer Science graduate with strong skills in full-stack web development, machine learning, and data analysis. Passionate about building technology solutions that make a difference.</textarea>
+          </div>
+        </div>
+
+        <!-- Section 2: Education -->
+        <div class="card animate-fade-in delay-1" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-graduation-cap" style="color: var(--accent-400); margin-right: 8px;"></i>Education</h3>
+            <span class="badge badge--success"><i class="fas fa-check"></i> Completed</span>
+          </div>
+
+          <!-- Education Entry -->
+          <div style="background: var(--surface-elevated); padding: var(--space-lg); border-radius: var(--radius-md); margin-bottom: var(--space-lg); border: 1px solid var(--surface-border);">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-md);">
+              <span style="font-weight: 600; font-size: 0.9rem;">Entry #1</span>
+              <button class="btn btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Degree</label>
+                <input type="text" class="form-input" value="BSc in Computer Science" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Institution</label>
+                <input type="text" class="form-input" value="Addis Ababa University" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Start Date</label>
+                <input type="month" class="form-input" value="2021-09" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">End Date</label>
+                <input type="month" class="form-input" value="2025-07" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">GPA / Grade</label>
+              <input type="text" class="form-input" value="3.75 / 4.0" />
+            </div>
+          </div>
+
+          <button class="btn btn-outline btn-sm"><i class="fas fa-plus"></i> Add Education</button>
+        </div>
+
+        <!-- Section 3: Experience -->
+        <div class="card animate-fade-in delay-2" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-briefcase" style="color: var(--warning); margin-right: 8px;"></i>Work Experience</h3>
+            <span class="badge badge--pending"><i class="fas fa-pen"></i> In Progress</span>
+          </div>
+
+          <div style="background: var(--surface-elevated); padding: var(--space-lg); border-radius: var(--radius-md); margin-bottom: var(--space-lg); border: 1px solid var(--surface-border);">
+            <div class="flex justify-between items-center" style="margin-bottom: var(--space-md);">
+              <span style="font-weight: 600; font-size: 0.9rem;">Entry #1</span>
+              <button class="btn btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Job Title</label>
+                <input type="text" class="form-input" value="Full-Stack Developer Intern" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Company</label>
+                <input type="text" class="form-input" value="Tech Innovations PLC" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Start Date</label>
+                <input type="month" class="form-input" value="2024-06" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">End Date</label>
+                <input type="month" class="form-input" value="2024-09" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Description</label>
+              <textarea class="form-textarea" rows="3">Developed RESTful APIs using Node.js and Express. Built responsive front-end with React. Collaborated with the design team on UI/UX improvements.</textarea>
+            </div>
+          </div>
+
+          <button class="btn btn-outline btn-sm"><i class="fas fa-plus"></i> Add Experience</button>
+        </div>
+
+        <!-- Section 4: Skills -->
+        <div class="card animate-fade-in delay-3" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-lightbulb" style="color: var(--primary-300); margin-right: 8px;"></i>Skills</h3>
+            <span class="badge badge--draft"><i class="fas fa-pen"></i> Draft</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Technical Skills</label>
+            <div class="cv-skills-list" style="margin-bottom: var(--space-md);">
+              <span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">JavaScript <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">Python <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">React <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">Node.js <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">PostgreSQL <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">Git <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+            </div>
+            <input type="text" class="form-input" placeholder="Type a skill and press Enter…" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Soft Skills</label>
+            <div class="cv-skills-list" style="margin-bottom: var(--space-md);">
+              <span class="cv-skill-tag" style="background: rgba(16,185,129,.15); color: var(--accent-400);">Team Leadership <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(16,185,129,.15); color: var(--accent-400);">Communication <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+              <span class="cv-skill-tag" style="background: rgba(16,185,129,.15); color: var(--accent-400);">Problem Solving <i class="fas fa-xmark" style="margin-left:4px; cursor:pointer; opacity:.6;"></i></span>
+            </div>
+            <input type="text" class="form-input" placeholder="Type a soft skill and press Enter…" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Languages</label>
+            <div class="form-row">
+              <div>
+                <input type="text" class="form-input" value="Amharic" style="margin-bottom:8px;" />
+                <select class="form-select">
+                  <option>Native</option>
+                  <option>Fluent</option>
+                  <option>Intermediate</option>
+                  <option>Basic</option>
+                </select>
+              </div>
+              <div>
+                <input type="text" class="form-input" value="English" style="margin-bottom:8px;" />
+                <select class="form-select">
+                  <option>Native</option>
+                  <option selected>Fluent</option>
+                  <option>Intermediate</option>
+                  <option>Basic</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Documents Upload -->
+        <div class="card animate-fade-in delay-4" style="margin-bottom: var(--space-xl);">
+          <div class="card-header">
+            <h3 class="card-title"><i class="fas fa-paperclip" style="color: var(--info); margin-right: 8px;"></i>Certificates & Documents</h3>
+            <span class="badge badge--draft"><i class="fas fa-pen"></i> Incomplete</span>
+          </div>
+
+          <div class="file-upload" style="margin-bottom: var(--space-lg);">
+            <div class="file-upload__icon"><i class="fas fa-cloud-arrow-up"></i></div>
+            <div class="file-upload__text">
+              <strong>Click to upload</strong> or drag and drop<br />
+              <span style="font-size: 0.82rem; color: var(--text-muted);">PDF, JPG, PNG (max 5MB each)</span>
+            </div>
+          </div>
+
+          <!-- Uploaded files mock -->
+          <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+            <div class="flex items-center gap-md" style="padding: var(--space-md); background: var(--surface-elevated); border-radius: var(--radius-md);">
+              <i class="fas fa-file-pdf" style="color: var(--danger); font-size: 1.2rem;"></i>
+              <div style="flex:1;">
+                <div style="font-size: 0.88rem; font-weight: 500;">Degree_Certificate.pdf</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">2.3 MB</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+            <div class="flex items-center gap-md" style="padding: var(--space-md); background: var(--surface-elevated); border-radius: var(--radius-md);">
+              <i class="fas fa-file-image" style="color: var(--info); font-size: 1.2rem;"></i>
+              <div style="flex:1;">
+                <div style="font-size: 0.88rem; font-weight: 500;">AWS_Certificate.png</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">1.1 MB</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" style="color: var(--danger);"><i class="fas fa-trash"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-between items-center" style="margin-top: var(--space-xl);">
+          <button class="btn btn-secondary"><i class="fas fa-floppy-disk"></i> Save as Draft</button>
+          <div class="flex gap-md">
+            <a href="cv-preview.html" class="btn btn-outline"><i class="fas fa-eye"></i> Preview CV</a>
+            <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit for Approval</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    if (window.innerWidth <= 768) menuToggle.style.display = 'flex';
+    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  </script>
+</body>
+</html>
