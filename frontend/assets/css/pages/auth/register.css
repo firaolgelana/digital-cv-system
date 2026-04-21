@@ -3,7 +3,7 @@
 .auth-panel.hero {
   background:
     linear-gradient(120deg, rgba(9, 34, 52, 0.76), rgba(15, 118, 110, 0.52)),
-    url("../../../images/resume6.jpg") center/cover no-repeat;
+    url("../../../../images/resume6.jpg") center/cover no-repeat;
   color: #fff;
 }
 
@@ -23,6 +23,11 @@
   border-color: rgba(255, 255, 255, 0.22);
   color: #f4f8fb;
   backdrop-filter: blur(4px);
+}
+
+.auth-hero-overlay.compact {
+  max-width: 420px;
+  gap: 8px;
 }
 
 .auth-panel:not(.hero) {
