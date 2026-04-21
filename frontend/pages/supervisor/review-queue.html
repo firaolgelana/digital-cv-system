@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supervisor Review Queue</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <div class="brand">
+            <span class="brand-mark">CV</span> Supervisor Review
+          </div>
+          <a class="btn" href="../auth/login.html">Logout</a>
+        </div>
+      </header>
+      <main class="main">
+        <div class="container section-stack">
+          <section class="card">
+            <h1 class="card-title">Submitted CV Queue</h1>
+            <div class="section-stack" style="margin-top: 12px">
+              <article class="list-card">
+                <div class="list-head">
+                  <strong>Student A</strong
+                  ><span class="badge pending">Pending</span>
+                </div>
+                <div class="meta">Computer Science | Apr 21, 2026</div>
+              </article>
+              <article class="list-card">
+                <div class="list-head">
+                  <strong>Student B</strong
+                  ><span class="badge pending">Pending</span>
+                </div>
+                <div class="meta">Software Engineering | Apr 20, 2026</div>
+              </article>
+            </div>
+          </section>
+          <section class="split">
+            <div class="card">
+              <h2 class="card-title">CV Preview</h2>
+              <div style="max-height: 620px; overflow: auto">
+                <article
+                  class="a4-sheet"
+                  style="border: none; box-shadow: none; padding: 0"
+                >
+                  <h1 class="a4-name">Student A</h1>
+                  <p class="a4-headline">Junior Developer</p>
+                  <section class="a4-section">
+                    <h3>Education</h3>
+                    <p>BSc CS</p>
+                  </section>
+                </article>
+              </div>
+            </div>
+            <aside class="card sticky-panel">
+              <h2 class="card-title">Decision Panel</h2>
+              <div class="section-stack">
+                <button class="btn btn-primary">Approve</button
+                ><button class="btn btn-danger">Reject</button>
+                <div>
+                  <label class="label">Request changes</label
+                  ><textarea class="textarea"></textarea>
+                </div>
+                <button class="btn">Send feedback</button>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

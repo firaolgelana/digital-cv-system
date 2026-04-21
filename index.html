@@ -3,120 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DigiCV Login</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>DigiCV Frontend Entry</title>
+    <meta
+      http-equiv="refresh"
+      content="0; url=frontend/pages/auth/login.html"
+    />
   </head>
   <body>
-    <div class="auth-wrap page">
-      <div class="card auth-card">
-        <div class="auth-meta">
-          <div class="brand">
-            <span class="brand-mark">CV</span> DigiCV Platform
-          </div>
-          <h1 class="auth-title">Sign in</h1>
-          <p class="auth-sub">Digital CV System with role-based access.</p>
-        </div>
-
-        <div id="login-alert" class="activity-item" style="display: none"></div>
-
-        <form id="login-form" class="form-grid">
-          <div>
-            <label class="label" for="login-role">Role</label>
-            <select class="select" id="login-role" required>
-              <option value="student">Graduate Student</option>
-              <option value="supervisor">Project Supervisor</option>
-              <option value="examiner">Examiner</option>
-              <option value="recruiter">Recruiter</option>
-              <option value="admin">System Manager</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="label" for="login-email">Email</label>
-            <input
-              class="input"
-              id="login-email"
-              type="email"
-              placeholder="name@university.edu"
-              required
-            />
-          </div>
-
-          <div>
-            <label class="label" for="login-password">Password</label>
-            <input
-              class="input"
-              id="login-password"
-              type="password"
-              placeholder="Enter password"
-              required
-            />
-          </div>
-
-          <div class="btn-row">
-            <button class="btn btn-primary" type="submit" id="login-btn">
-              Sign in
-            </button>
-            <a class="btn" href="register.html">Create account</a>
-          </div>
-        </form>
-
-        <p class="footer-note">
-          Authentication and role redirects are wired to existing PHP endpoints.
-        </p>
-      </div>
-    </div>
-
-    <script>
-      (function () {
-        const form = document.getElementById("login-form");
-        const alertBox = document.getElementById("login-alert");
-        const btn = document.getElementById("login-btn");
-
-        function showAlert(message, ok) {
-          alertBox.style.display = "block";
-          alertBox.textContent = message;
-          alertBox.style.background = ok ? "#ecf9f2" : "#fdf1f1";
-          alertBox.style.borderColor = ok ? "#b6e3ce" : "#efc2c2";
-          alertBox.style.color = ok ? "#1f8a5b" : "#b13a3a";
-        }
-
-        form.addEventListener("submit", async function (e) {
-          e.preventDefault();
-          btn.disabled = true;
-          btn.textContent = "Signing in...";
-          alertBox.style.display = "none";
-
-          const payload = {
-            role: document.getElementById("login-role").value,
-            email: document.getElementById("login-email").value.trim(),
-            password: document.getElementById("login-password").value,
-          };
-
-          try {
-            const res = await fetch("php_actions/login_action.php", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-            const data = await res.json();
-            if (data.success) {
-              showAlert(data.message, true);
-              setTimeout(() => {
-                window.location.href = data.redirect;
-              }, 700);
-            } else {
-              showAlert(data.message, false);
-              btn.disabled = false;
-              btn.textContent = "Sign in";
-            }
-          } catch (err) {
-            showAlert("Network error. Please try again.", false);
-            btn.disabled = false;
-            btn.textContent = "Sign in";
-          }
-        });
-      })();
-    </script>
+    <p>
+      Redirecting to
+      <a href="frontend/pages/auth/login.html">frontend login</a>...
+    </p>
   </body>
 </html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Builder</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <div class="brand"><span class="brand-mark">CV</span> CV Builder</div>
+          <div class="btn-row">
+            <span class="badge approved">Auto-save on</span>
+            <a class="btn" href="./home.html">Back</a>
+          </div>
+        </div>
+      </header>
+      <main class="main">
+        <div class="container section-stack">
+          <section class="card fade-in">
+            <h1 class="card-title">Step-by-step CV Wizard</h1>
+            <p class="card-subtitle">
+              Editing: Software Engineer CV - Version 3
+            </p>
+            <div class="step-track">
+              <div class="step-row">
+                <div class="step-chip active">1. Personal</div>
+                <div class="step-chip">2. Education</div>
+                <div class="step-chip">3. Experience</div>
+                <div class="step-chip">4. Skills</div>
+                <div class="step-chip">5. Documents</div>
+                <div class="step-chip">6. Preview</div>
+                <div class="step-chip">7. Submit</div>
+              </div>
+              <div class="progress">
+                <div class="progress-fill" style="width: 32%"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="split">
+            <div class="section-stack">
+              <div class="card">
+                <h2 class="card-title">Personal Information</h2>
+                <div class="form-grid two">
+                  <div>
+                    <label class="label">Full name</label>
+                    <input class="input" placeholder="e.g., Hana Bekele" />
+                  </div>
+                  <div>
+                    <label class="label">Email</label>
+                    <input
+                      class="input"
+                      type="email"
+                      placeholder="hana.bekele@university.edu"
+                    />
+                  </div>
+                  <div>
+                    <label class="label">Phone</label>
+                    <input class="input" placeholder="+251 9xx xxx xxx" />
+                  </div>
+                  <div>
+                    <label class="label">Address</label>
+                    <input class="input" placeholder="Addis Ababa, Ethiopia" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <h2 class="card-title">Education</h2>
+                <div class="form-grid two">
+                  <div>
+                    <label class="label">Institution</label>
+                    <input class="input" placeholder="Addis Ababa University" />
+                  </div>
+                  <div>
+                    <label class="label">Degree</label>
+                    <input
+                      class="input"
+                      placeholder="BSc in Computer Science"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <h2 class="card-title">Experience</h2>
+                <textarea
+                  class="textarea"
+                  placeholder="Describe your role, company, and measurable outcomes."
+                ></textarea>
+              </div>
+
+              <div class="card">
+                <h2 class="card-title">Skills</h2>
+                <input
+                  class="input"
+                  placeholder="JavaScript, PHP, SQL, React, Data Analysis"
+                />
+              </div>
+
+              <div class="card">
+                <h2 class="card-title">Documents Upload</h2>
+                <input class="input" type="file" />
+                <p class="footer-note">Supported formats: PDF, PNG, JPG</p>
+              </div>
+            </div>
+
+            <aside class="card sticky-panel">
+              <h3 class="card-title">Smart Assistant</h3>
+              <p class="muted">
+                Unique feature: real-time CV quality hints before submission.
+              </p>
+              <div class="cv-strength" style="margin-top: 10px">
+                <strong style="font-size: 22px">82% strength</strong>
+                <p class="muted">
+                  Add quantified achievements in experience for +8% boost.
+                </p>
+                <div class="strength-bar">
+                  <div class="strength-fill" style="width: 82%"></div>
+                </div>
+              </div>
+              <div class="activity-list" style="margin-top: 10px">
+                <div class="activity-item">Missing portfolio link</div>
+                <div class="activity-item">Add one more project item</div>
+              </div>
+              <div class="btn-row" style="margin-top: 12px">
+                <button class="btn">Save Draft</button>
+                <a class="btn" href="./preview.html">Preview</a>
+                <button class="btn btn-primary">Submit</button>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

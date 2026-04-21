@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigiCV Register</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="auth-wrap page">
+      <div class="card auth-card" style="width: min(640px, 100%)">
+        <div class="auth-meta">
+          <div class="brand">
+            <span class="brand-mark">CV</span> DigiCV Platform
+          </div>
+          <h1 class="auth-title">Create account</h1>
+          <p class="auth-sub">
+            Student onboarding form (frontend structure only).
+          </p>
+        </div>
+        <form class="form-grid" id="register-form">
+          <div class="form-grid two">
+            <div>
+              <label class="label">First name</label
+              ><input class="input" required />
+            </div>
+            <div>
+              <label class="label">Last name</label
+              ><input class="input" required />
+            </div>
+          </div>
+          <div class="form-grid two">
+            <div>
+              <label class="label">University email</label
+              ><input class="input" type="email" required />
+            </div>
+            <div>
+              <label class="label">Student ID</label
+              ><input class="input" required />
+            </div>
+          </div>
+          <div>
+            <label class="label">Department</label
+            ><select class="select">
+              <option>Computer Science</option>
+              <option>Software Engineering</option>
+              <option>Information Technology</option>
+            </select>
+          </div>
+          <div class="form-grid two">
+            <div>
+              <label class="label">Password</label
+              ><input class="input" type="password" required />
+            </div>
+            <div>
+              <label class="label">Confirm password</label
+              ><input class="input" type="password" required />
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" type="submit">
+              Create account
+            </button>
+            <a class="btn" href="./login.html">Back to login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="../../assets/js/app.js"></script>
+    <script>
+      document
+        .getElementById("register-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          window.DigiCVApp.registerMock();
+        });
+    </script>
+  </body>
+</html>

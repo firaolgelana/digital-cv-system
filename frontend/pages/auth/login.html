@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DigiCV Login</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body>
+    <div class="auth-wrap page">
+      <div class="card auth-card fade-in">
+        <section class="auth-panel hero">
+          <div class="brand">
+            <span class="brand-mark">CV</span> DigiCV Platform
+          </div>
+          <h1 class="auth-title" style="margin-top: 18px">
+            Build once. Share anywhere.
+          </h1>
+          <p class="auth-sub" style="margin-top: 10px">
+            Professional digital CV management for students, supervisors,
+            examiners, recruiters, and admins.
+          </p>
+          <div class="hero-bullets">
+            <div class="hero-bullet">
+              Role-based workflow from draft to approval.
+            </div>
+            <div class="hero-bullet">Secure QR-based recruiter access.</div>
+            <div class="hero-bullet">
+              Multi-CV version management for each student.
+            </div>
+          </div>
+        </section>
+        <section class="auth-panel">
+          <div class="auth-meta">
+            <h2 class="auth-title" style="font-size: 28px">Sign in</h2>
+            <p class="auth-sub">Use your role and continue your workflow.</p>
+          </div>
+          <form class="form-grid auth-form-wrap" id="login-form">
+            <div>
+              <label class="label" for="role">Role</label>
+              <select class="select" id="role" required>
+                <option value="student">Graduate Student</option>
+                <option value="supervisor">Project Supervisor</option>
+                <option value="examiner">Examiner</option>
+                <option value="recruiter">Recruiter</option>
+                <option value="admin">System Manager</option>
+              </select>
+            </div>
+            <div>
+              <label class="label" for="email">Email</label>
+              <input
+                class="input"
+                id="email"
+                type="email"
+                placeholder="name@university.edu"
+                required
+              />
+            </div>
+            <div>
+              <label class="label" for="password">Password</label>
+              <input
+                class="input"
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" id="login-btn" type="submit">
+                Sign in
+              </button>
+              <a class="btn" href="./register.html">Create account</a>
+            </div>
+            <p class="footer-note">
+              Frontend-only mode. Backend logic will be connected later.
+            </p>
+          </form>
+        </section>
+      </div>
+    </div>
+    <script src="../../assets/js/app.js"></script>
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const loginButton = document.getElementById("login-btn");
+          window.DigiCVApp.setButtonLoading(loginButton, true, "Signing in");
+          const role = document.getElementById("role").value;
+          setTimeout(function () {
+            window.DigiCVApp.toast("Login successful");
+            window.DigiCVApp.loginMock(role);
+          }, 450);
+        });
+    </script>
+  </body>
+</html>
