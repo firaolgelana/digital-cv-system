@@ -1,0 +1,9 @@
+@import url("../../base.css");
+
+.auth-panel.hero {
+  background: linear-gradient(180deg, #f4faf8 0%, #edf7f4 100%);
+}
+
+.auth-card {
+  width: min(1040px, 100%);
+}
