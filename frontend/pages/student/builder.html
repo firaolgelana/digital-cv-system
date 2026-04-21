@@ -78,11 +78,17 @@
                     <div class="form-grid two">
                       <div>
                         <label class="label">Institution</label>
-                        <input class="input" placeholder="Addis Ababa University" />
+                        <input
+                          class="input"
+                          placeholder="Addis Ababa University"
+                        />
                       </div>
                       <div>
                         <label class="label">Degree</label>
-                        <input class="input" placeholder="BSc in Computer Science" />
+                        <input
+                          class="input"
+                          placeholder="BSc in Computer Science"
+                        />
                       </div>
                       <div>
                         <label class="label">Start Year</label>
@@ -96,7 +102,9 @@
                   </div>
                 </div>
                 <div class="btn-row" style="margin-top: 10px">
-                  <button class="btn" id="add-education-btn" type="button">+ Add Another Education</button>
+                  <button class="btn" id="add-education-btn" type="button">
+                    + Add Another Education
+                  </button>
                 </div>
               </div>
 
@@ -121,23 +129,41 @@
                 <div class="form-grid two">
                   <div>
                     <label class="label">Certificate Name</label>
-                    <input class="input" id="cert-name" placeholder="Google Data Analytics Certificate" />
+                    <input
+                      class="input"
+                      id="cert-name"
+                      placeholder="Google Data Analytics Certificate"
+                    />
                   </div>
                   <div>
                     <label class="label">Certificate Link</label>
-                    <input class="input" id="cert-link" type="url" placeholder="https://drive.google.com/... or any valid URL" />
+                    <input
+                      class="input"
+                      id="cert-link"
+                      type="url"
+                      placeholder="https://drive.google.com/... or any valid URL"
+                    />
                   </div>
                 </div>
                 <div class="btn-row" style="margin-top: 10px">
-                  <button class="btn" id="add-cert-btn" type="button">Add Certificate Link</button>
+                  <button class="btn" id="add-cert-btn" type="button">
+                    Add Certificate Link
+                  </button>
                 </div>
                 <div id="cert-list" class="link-list">
                   <div class="link-chip">
-                    <a href="#" style="color: inherit">AWS Cloud Practitioner - drive link</a>
-                    <button class="btn" style="padding: 6px 10px" type="button">Remove</button>
+                    <a href="#" style="color: inherit"
+                      >AWS Cloud Practitioner - drive link</a
+                    >
+                    <button class="btn" style="padding: 6px 10px" type="button">
+                      Remove
+                    </button>
                   </div>
                 </div>
-                <p class="footer-note">Use public or accessible links (Google Drive, Dropbox, OneDrive, portfolio URLs).</p>
+                <p class="footer-note">
+                  Use public or accessible links (Google Drive, Dropbox,
+                  OneDrive, portfolio URLs).
+                </p>
               </div>
             </div>
 
@@ -203,7 +229,7 @@
             '<div><label class="label">Degree</label><input class="input" placeholder="Degree name" /></div>' +
             '<div><label class="label">Start Year</label><input class="input" placeholder="YYYY" /></div>' +
             '<div><label class="label">End Year</label><input class="input" placeholder="YYYY" /></div>' +
-            '</div>';
+            "</div>";
           educationList.appendChild(item);
           const removeBtn = item.querySelector("button");
           attachRemoveEducation(removeBtn);
@@ -224,7 +250,11 @@
           const chip = document.createElement("div");
           chip.className = "link-chip";
           chip.innerHTML =
-            '<a href="' + link + '" target="_blank" rel="noopener" style="color: inherit">' + name + '</a>' +
+            '<a href="' +
+            link +
+            '" target="_blank" rel="noopener" style="color: inherit">' +
+            name +
+            "</a>" +
             '<button class="btn" style="padding: 6px 10px" type="button">Remove</button>';
           certList.appendChild(chip);
           certNameInput.value = "";
