@@ -1,16 +1,10 @@
 <?php
-// ============================================================
-//  Database Configuration
-// ============================================================
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'digital_cv_db');
 define('DB_USER', 'root');
 define('DB_PASS', 'root');
 define('DB_CHARSET', 'utf8mb4');
 
-// ============================================================
-//  PDO Connection (singleton pattern)
-// ============================================================
 function getDB(): PDO {
     static $pdo = null;
 
