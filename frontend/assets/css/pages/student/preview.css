@@ -1,93 +1,163 @@
 @import url("../../base.css");
 
-.a4-sheet {
-  max-width: 1040px;
-}
-
-.world-resume {
-  display: grid;
-  grid-template-columns: 0.9fr 1.4fr;
+.cv-preview.modern-variant {
+  max-width: 980px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #d7e0ea;
+  border-radius: 14px;
   overflow: hidden;
-  border-radius: 16px;
-  box-shadow: 0 20px 36px rgba(11, 21, 35, 0.14);
+  box-shadow: 0 18px 34px rgba(13, 21, 38, 0.12);
 }
 
-.resume-left {
-  background: linear-gradient(180deg, #12344e 0%, #0f766e 92%);
-  color: #eef8f7;
-  padding: 28px 22px;
+.cv-preview__header {
+  background: linear-gradient(135deg, #12344e 0%, #1f4f75 52%, #2a5f6b 100%);
+  color: #f2f8fc;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
-.resume-avatar {
-  width: 88px;
-  height: 88px;
+.cv-preview__avatar {
+  width: 86px;
+  height: 86px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   display: grid;
   place-items: center;
+  font-size: 30px;
   font-weight: 800;
-  font-size: 28px;
+  flex-shrink: 0;
 }
 
-.resume-left-title {
-  margin-top: 14px;
-  font-size: 24px;
-  line-height: 1.15;
+.cv-preview__name {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.08;
 }
 
-.resume-left-role {
-  margin-top: 4px;
-  color: #d6ece8;
-  font-size: 14px;
+.cv-preview__title {
+  margin-top: 6px;
+  font-weight: 700;
+  color: #d7e8f3;
 }
 
-.resume-block {
-  margin-top: 22px;
-}
-
-.resume-block h4 {
-  margin: 0 0 8px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #d7eeea;
-}
-
-.resume-block p {
-  margin: 4px 0;
+.cv-preview__contact {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
   font-size: 13px;
-  color: #f4fbfa;
+  color: #e6f1f8;
 }
 
-.resume-left .tag {
-  background: rgba(255, 255, 255, 0.15);
-  color: #f2fcfb;
-  border-color: rgba(255, 255, 255, 0.35);
+.cv-preview__contact i {
+  margin-right: 5px;
 }
 
-.resume-right {
-  padding: 28px 30px 34px;
+.cv-preview__body {
+  padding: 28px;
   background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
 }
 
-.resume-header {
-  border-bottom: 1px solid #d7e0ea;
-  padding-bottom: 12px;
+.cv-section {
+  margin-bottom: 22px;
 }
 
-.resume-right .a4-name {
-  font-size: 34px;
-  margin: 0;
+.cv-section__title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #264861;
+  border-bottom: 1px solid #d6e0ea;
+  padding-bottom: 8px;
 }
 
-.resume-right .timeline-item {
-  background: #f7fafc;
-  border-color: #dce5ef;
+.cv-section__title i {
+  margin-right: 8px;
+  color: #2f6a8b;
 }
 
-@media (max-width: 980px) {
-  .world-resume {
+.cv-section__item {
+  padding: 10px 12px;
+  border: 1px solid #d8e2ec;
+  border-radius: 10px;
+  background: #f8fbfe;
+}
+
+.cv-section__item-title {
+  font-weight: 800;
+  color: #21384c;
+}
+
+.cv-section__item-subtitle {
+  margin-top: 3px;
+  font-size: 13px;
+  color: #4d6478;
+}
+
+.cv-section__item-date {
+  margin-top: 3px;
+  font-size: 12px;
+  color: #627a8f;
+}
+
+.cv-section__item-desc {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #334a5d;
+}
+
+.cv-skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cv-skill-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid #b9d3e6;
+  background: #ebf4fb;
+  color: #1e4f74;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cv-skill-tag.soft {
+  border-color: #b9ded7;
+  background: #eaf8f4;
+  color: #1d6758;
+}
+
+.cv-inline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 860px) {
+  .cv-preview__header {
+    padding: 22px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cv-preview__name {
+    font-size: 28px;
+  }
+
+  .cv-preview__body {
+    padding: 18px;
+  }
+
+  .cv-inline-grid {
     grid-template-columns: 1fr;
   }
 }
