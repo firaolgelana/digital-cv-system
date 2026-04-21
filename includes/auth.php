@@ -1,7 +1,4 @@
 <?php
-// ============================================================
-//  Auth Guard — include at the top of every protected page
-// ============================================================
 require_once __DIR__ . '/functions.php';
 
 startSession();
@@ -21,7 +18,7 @@ function requireAuth(array|string $allowedRoles = []): void {
     if (!empty($allowedRoles)) {
         $allowed = (array) $allowedRoles;
         if (!in_array($_SESSION['role'], $allowed, true)) {
-            // Authenticated but wrong role — send to their own dashboard
+            
             header('Location: ' . dashboardForRole($_SESSION['role']));
             exit;
         }
