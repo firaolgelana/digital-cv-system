@@ -1,5 +1,93 @@
 @import url("../../base.css");
 
 .a4-sheet {
-  max-width: 900px;
+  max-width: 1040px;
+}
+
+.world-resume {
+  display: grid;
+  grid-template-columns: 0.9fr 1.4fr;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 20px 36px rgba(11, 21, 35, 0.14);
+}
+
+.resume-left {
+  background: linear-gradient(180deg, #12344e 0%, #0f766e 92%);
+  color: #eef8f7;
+  padding: 28px 22px;
+}
+
+.resume-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.resume-left-title {
+  margin-top: 14px;
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.resume-left-role {
+  margin-top: 4px;
+  color: #d6ece8;
+  font-size: 14px;
+}
+
+.resume-block {
+  margin-top: 22px;
+}
+
+.resume-block h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #d7eeea;
+}
+
+.resume-block p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #f4fbfa;
+}
+
+.resume-left .tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: #f2fcfb;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.resume-right {
+  padding: 28px 30px 34px;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+}
+
+.resume-header {
+  border-bottom: 1px solid #d7e0ea;
+  padding-bottom: 12px;
+}
+
+.resume-right .a4-name {
+  font-size: 34px;
+  margin: 0;
+}
+
+.resume-right .timeline-item {
+  background: #f7fafc;
+  border-color: #dce5ef;
+}
+
+@media (max-width: 980px) {
+  .world-resume {
+    grid-template-columns: 1fr;
+  }
 }

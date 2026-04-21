@@ -1,9 +1,30 @@
 @import url("../../base.css");
 
 .auth-panel.hero {
-  background: linear-gradient(180deg, #f4faf8 0%, #edf7f4 100%);
+  background:
+    linear-gradient(120deg, rgba(9, 34, 52, 0.76), rgba(15, 118, 110, 0.52)),
+    url("../../../images/resume6.jpg") center/cover no-repeat;
+  color: #fff;
 }
 
 .auth-card {
   width: min(1040px, 100%);
+}
+
+.auth-hero-overlay {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-bullet {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #f4f8fb;
+  backdrop-filter: blur(4px);
+}
+
+.auth-panel:not(.hero) {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
 }
