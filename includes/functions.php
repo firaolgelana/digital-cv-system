@@ -59,9 +59,9 @@ function dashboardForRole(string $role): string {
     return match ($role) {
         'student'    => '../student-dashboard.php',
         'supervisor' => '../supervisor-dashboard.html',
-        'examiner'   => '../supervisor-dashboard.html',
+        'examiner'   => '../examiner-dashboard.html',
         'recruiter'  => '../recruiter-view.html',
-        'admin'      => '../admin-dashboard.php',
+        'admin'      => '../admin-dashboard.html',
         default      => '../index.html',
     };
 }

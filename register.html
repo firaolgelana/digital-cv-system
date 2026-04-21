@@ -3,225 +3,103 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Register — DigiCV</title>
-    <meta
-      name="description"
-      content="Create your DigiCV account to start building and sharing your professional digital CV."
-    />
+    <title>DigiCV Register</title>
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
   </head>
   <body>
-    <div class="bg-glow bg-glow--primary"></div>
-    <div class="bg-glow bg-glow--accent"></div>
+    <div class="auth-wrap page">
+      <div class="card auth-card" style="width: min(620px, 100%)">
+        <div class="auth-meta">
+          <div class="brand">
+            <span class="brand-mark">CV</span> DigiCV Platform
+          </div>
+          <h1 class="auth-title">Create account</h1>
+          <p class="auth-sub">Student onboarding for Digital CV workflow.</p>
+        </div>
 
-    <div class="auth-page">
-      <!-- Left — Register Form -->
-      <div class="auth-left">
-        <div class="auth-card animate-fade-in">
-          <div class="auth-card__logo">
-            <div class="auth-card__logo-icon">
-              <i class="fas fa-qrcode"></i>
+        <div id="reg-alert" class="activity-item" style="display: none"></div>
+
+        <form id="register-form" class="form-grid">
+          <div class="form-grid two">
+            <div>
+              <label class="label" for="reg-first-name">First name</label>
+              <input class="input" id="reg-first-name" type="text" required />
             </div>
-            <span class="auth-card__logo-text text-gradient">DigiCV</span>
+            <div>
+              <label class="label" for="reg-last-name">Last name</label>
+              <input class="input" id="reg-last-name" type="text" required />
+            </div>
           </div>
 
-          <h1 class="auth-card__title">Create Account</h1>
-          <p class="auth-card__subtitle">
-            Join DigiCV and start building your digital CV today
-          </p>
-
-          <!-- Alert message -->
-          <div
-            id="reg-alert"
-            role="alert"
-            style="
-              display: none;
-              padding: 0.75rem 1rem;
-              border-radius: 10px;
-              font-size: 0.875rem;
-              margin-bottom: 1rem;
-              font-weight: 500;
-            "
-          ></div>
-
-          <form id="register-form" autocomplete="off">
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label" for="reg-first-name"
-                  >First Name</label
-                >
-                <input
-                  type="text"
-                  class="form-input"
-                  id="reg-first-name"
-                  name="first_name"
-                  placeholder="First Name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="reg-last-name">Last Name</label>
-                <input
-                  type="text"
-                  class="form-input"
-                  id="reg-last-name"
-                  name="last_name"
-                  placeholder="Last Name"
-                  required
-                />
-              </div>
+          <div class="form-grid two">
+            <div>
+              <label class="label" for="reg-email">University email</label>
+              <input class="input" id="reg-email" type="email" required />
             </div>
+            <div>
+              <label class="label" for="reg-student-id">Student ID</label>
+              <input class="input" id="reg-student-id" type="text" required />
+            </div>
+          </div>
 
-            <div class="form-group">
-              <label class="form-label" for="reg-email">University Email</label>
+          <div>
+            <label class="label" for="reg-department">Department</label>
+            <select class="select" id="reg-department" required>
+              <option value="">Select department</option>
+              <option>Computer Science</option>
+              <option>Software Engineering</option>
+              <option>Information Technology</option>
+              <option>Information Systems</option>
+            </select>
+          </div>
+
+          <div class="form-grid two">
+            <div>
+              <label class="label" for="reg-password">Password</label>
+              <input class="input" id="reg-password" type="password" required />
+            </div>
+            <div>
+              <label class="label" for="reg-confirm-password"
+                >Confirm password</label
+              >
               <input
-                type="email"
-                class="form-input"
-                id="reg-email"
-                name="email"
-                placeholder="firstname.lastname@university.edu"
+                class="input"
+                id="reg-confirm-password"
+                type="password"
                 required
               />
             </div>
+          </div>
 
-            <div class="form-group">
-              <label class="form-label" for="reg-student-id">Student ID</label>
-              <input
-                type="text"
-                class="form-input"
-                id="reg-student-id"
-                name="student_id"
-                placeholder="UGR/12345/14"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="reg-department">Department</label>
-              <select class="form-select" id="reg-department">
-                <option value="">Select department</option>
-                <option>Computer Science</option>
-                <option>Software Engineering</option>
-                <option>Information Technology</option>
-                <option>Information Systems</option>
-                <option>Electrical Engineering</option>
-                <option>Mechanical Engineering</option>
-                <option>Civil Engineering</option>
-              </select>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label" for="reg-password">Password</label>
-                <input
-                  type="password"
-                  class="form-input"
-                  id="reg-password"
-                  name="password"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="reg-confirm-password"
-                  >Confirm Password</label
-                >
-                <input
-                  type="password"
-                  class="form-input"
-                  id="reg-confirm-password"
-                  name="confirm_password"
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
-
-            <label class="form-check" style="margin-bottom: var(--space-xl)">
-              <input type="checkbox" id="agree-terms" />
-              <span style="font-size: 0.88rem; color: var(--text-secondary)">
-                I agree to the <a href="#">Terms of Service</a> and
-                <a href="#">Privacy Policy</a>
-              </span>
-            </label>
-
-            <button
-              type="submit"
-              class="btn btn-primary btn-lg"
-              style="width: 100%"
-              id="reg-submit-btn"
-            >
-              <i class="fas fa-user-plus"></i>
-              <span id="reg-btn-text">Create Account</span>
+          <div class="btn-row">
+            <button id="reg-submit-btn" class="btn btn-primary" type="submit">
+              Create account
             </button>
-          </form>
-
-          <div class="auth-footer">
-            Already have an account? <a href="index.html">Sign in</a>
+            <a class="btn" href="index.html">Back to sign in</a>
           </div>
-        </div>
-      </div>
-
-      <!-- Right — Promo -->
-      <div class="auth-right">
-        <div class="auth-promo animate-fade-in delay-2">
-          <div class="auth-promo__illustration animate-float">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <h2 class="auth-promo__title">Start Your Professional Journey</h2>
-          <p class="auth-promo__desc">
-            Build a stunning digital CV, get it reviewed by your academic
-            supervisor, and share it instantly with top companies through a
-            simple QR code scan.
-          </p>
-        </div>
+        </form>
       </div>
     </div>
+
     <script>
       (function () {
         const form = document.getElementById("register-form");
-        const alert = document.getElementById("reg-alert");
-        const submitBtn = document.getElementById("reg-submit-btn");
-        const btnText = document.getElementById("reg-btn-text");
+        const alertBox = document.getElementById("reg-alert");
+        const btn = document.getElementById("reg-submit-btn");
 
-        function showAlert(message, isSuccess) {
-          alert.textContent = message;
-          alert.style.display = "block";
-          if (isSuccess) {
-            alert.style.background = "rgba(34,197,94,0.15)";
-            alert.style.border = "1px solid rgba(34,197,94,0.4)";
-            alert.style.color = "#4ade80";
-          } else {
-            alert.style.background = "rgba(239,68,68,0.15)";
-            alert.style.border = "1px solid rgba(239,68,68,0.4)";
-            alert.style.color = "#f87171";
-          }
-          alert.scrollIntoView({ behavior: "smooth", block: "nearest" });
-        }
-
-        function setLoading(loading) {
-          submitBtn.disabled = loading;
-          btnText.textContent = loading
-            ? "Creating Account…"
-            : "Create Account";
+        function showAlert(message, ok) {
+          alertBox.style.display = "block";
+          alertBox.textContent = message;
+          alertBox.style.background = ok ? "#ecf9f2" : "#fdf1f1";
+          alertBox.style.borderColor = ok ? "#b6e3ce" : "#efc2c2";
+          alertBox.style.color = ok ? "#1f8a5b" : "#b13a3a";
         }
 
         form.addEventListener("submit", async function (e) {
           e.preventDefault();
-          alert.style.display = "none";
-
-          const agreed = document.getElementById("agree-terms").checked;
-          if (!agreed) {
-            showAlert(
-              "You must agree to the Terms of Service and Privacy Policy.",
-              false,
-            );
-            return;
-          }
+          btn.disabled = true;
+          btn.textContent = "Creating...";
+          alertBox.style.display = "none";
 
           const payload = {
             first_name: document.getElementById("reg-first-name").value.trim(),
@@ -234,8 +112,6 @@
               .value,
           };
 
-          setLoading(true);
-
           try {
             const res = await fetch("php_actions/register_action.php", {
               method: "POST",
@@ -243,22 +119,20 @@
               body: JSON.stringify(payload),
             });
             const data = await res.json();
-
             if (data.success) {
               showAlert(data.message, true);
               setTimeout(() => {
                 window.location.href = data.redirect;
-              }, 1200);
+              }, 800);
             } else {
               showAlert(data.message, false);
-              setLoading(false);
+              btn.disabled = false;
+              btn.textContent = "Create account";
             }
           } catch (err) {
-            showAlert(
-              "Network error. Please check your connection and try again.",
-              false,
-            );
-            setLoading(false);
+            showAlert("Network error. Please try again.", false);
+            btn.disabled = false;
+            btn.textContent = "Create account";
           }
         });
       })();

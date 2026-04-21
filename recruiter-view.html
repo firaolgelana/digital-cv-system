@@ -3,396 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View CV — DigiCV</title>
-    <meta
-      name="description"
-      content="View a verified student CV accessed via QR code scan."
-    />
+    <title>Recruiter QR Access</title>
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
-    <style>
-      .recruiter-page {
-        min-height: 100vh;
-        background: var(--surface-bg);
-      }
-      .recruiter-nav {
-        background: var(--surface-glass);
-        backdrop-filter: blur(20px);
-        border-bottom: 1px solid var(--surface-border);
-        padding: var(--space-md) 0;
-        position: sticky;
-        top: 0;
-        z-index: 50;
-      }
-      .recruiter-nav .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .recruiter-nav__brand {
-        display: flex;
-        align-items: center;
-        gap: var(--space-md);
-      }
-      .recruiter-nav__brand-icon {
-        width: 36px;
-        height: 36px;
-        background: var(--gradient-primary);
-        border-radius: var(--radius-sm);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-size: 1rem;
-      }
-      .recruiter-nav__brand-text {
-        font-family: var(--font-heading);
-        font-weight: 700;
-      }
-      .recruiter-info-bar {
-        background: var(--surface-card);
-        border: 1px solid var(--surface-border);
-        border-radius: var(--radius-lg);
-        padding: var(--space-lg) var(--space-xl);
-        margin-bottom: var(--space-xl);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: var(--space-md);
-      }
-    </style>
   </head>
   <body>
-    <div class="recruiter-page">
-      <!-- Nav Bar -->
-      <nav class="recruiter-nav">
-        <div class="container">
-          <div class="recruiter-nav__brand">
-            <div class="recruiter-nav__brand-icon">
-              <i class="fas fa-qrcode"></i>
-            </div>
-            <span class="recruiter-nav__brand-text text-gradient">DigiCV</span>
+    <div class="page">
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <div class="brand">
+            <span class="brand-mark">CV</span> Recruiter Access
           </div>
-          <div class="flex items-center gap-md">
-            <span class="verified-badge">
-              <i class="fas fa-shield-check"></i> Verified CV
-            </span>
-            <button class="btn btn-primary btn-sm">
-              <i class="fas fa-file-pdf"></i> Download PDF
-            </button>
-          </div>
+          <a class="btn" href="index.html">Exit</a>
         </div>
-      </nav>
+      </header>
 
-      <div
-        class="container"
-        style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl)"
-      >
-        <!-- Info Bar -->
-        <div class="recruiter-info-bar animate-fade-in">
-          <div class="flex items-center gap-md">
-            <i
-              class="fas fa-circle-check"
-              style="color: var(--success); font-size: 1.2rem"
-            ></i>
-            <div>
-              <div style="font-weight: 600; font-size: 0.95rem">
-                This CV has been verified and approved
-              </div>
-              <div style="font-size: 0.82rem; color: var(--text-secondary)">
-                Approved by <strong>Supervisor Name</strong> on April 12, 2026
-                &nbsp;•&nbsp; Addis Ababa University
-              </div>
-            </div>
-          </div>
-          <div class="flex gap-sm">
-            <button class="btn btn-secondary btn-sm">
-              <i class="fas fa-bookmark"></i> Save
-            </button>
-            <button class="btn btn-outline btn-sm">
-              <i class="fas fa-share-nodes"></i> Share
-            </button>
-          </div>
-        </div>
+      <main class="main">
+        <div class="container section-stack">
+          <section class="card center-box">
+            <h1 class="card-title">Scan Candidate QR</h1>
+            <p class="card-subtitle">
+              Point your camera at the student's QR code to open the verified
+              CV.
+            </p>
+            <div class="scanner" style="margin-top: 16px">Camera Scan Area</div>
+          </section>
 
-        <!-- CV Document -->
-        <div class="cv-preview animate-fade-in delay-1">
-          <!-- Header -->
-          <div class="cv-preview__header">
-            <div class="cv-preview__avatar">FB</div>
-            <div>
-              <h1 class="cv-preview__name">First Name Last Name</h1>
-              <div class="cv-preview__title">
-                Computer Science Graduate | Full-Stack Developer
-              </div>
-              <div class="cv-preview__contact">
-                <span
-                  ><i class="fas fa-envelope" style="margin-right: 4px"></i
-                  >firstname.lastname@example.com</span
-                >
-                <span
-                  ><i class="fas fa-phone" style="margin-right: 4px"></i>+251
-                  912 345 678</span
-                >
-                <span
-                  ><i class="fas fa-location-dot" style="margin-right: 4px"></i
-                  >Addis Ababa, Ethiopia</span
-                >
-                <span
-                  ><i class="fab fa-linkedin-in" style="margin-right: 4px"></i
-                  >linkedin.com/in/first-lastname</span
-                >
-              </div>
-            </div>
-          </div>
-
-          <!-- Body -->
-          <div class="cv-preview__body">
-            <!-- Summary -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-user" style="margin-right: 8px"></i
-                >Professional Summary
-              </h2>
-              <p class="cv-section__item-desc">
-                Dedicated and detail-oriented Computer Science graduate with
-                strong skills in full-stack web development, machine learning,
-                and data analysis. Passionate about building technology
-                solutions that make a difference. Proven track record of
-                delivering quality projects on time. Seeking opportunities to
-                contribute to innovative teams and grow as a software engineer.
-              </p>
-            </div>
-
-            <!-- Education -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-graduation-cap" style="margin-right: 8px"></i
-                >Education
-              </h2>
-              <div class="cv-section__item">
-                <div class="cv-section__item-title">
-                  BSc in Computer Science
-                </div>
-                <div class="cv-section__item-subtitle">
-                  Addis Ababa University
-                </div>
-                <div class="cv-section__item-date">
-                  September 2021 — July 2025 &nbsp;|&nbsp; GPA: 3.75 / 4.0
-                </div>
-                <div class="cv-section__item-desc">
-                  Relevant coursework: Data Structures & Algorithms, Software
-                  Engineering, Database Systems, Machine Learning, Web
-                  Development, Computer Networks.
-                </div>
-              </div>
-            </div>
-
-            <!-- Experience -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-briefcase" style="margin-right: 8px"></i>Work
-                Experience
-              </h2>
-              <div class="cv-section__item">
-                <div class="cv-section__item-title">
-                  Full-Stack Developer Intern
-                </div>
-                <div class="cv-section__item-subtitle">
-                  Tech Innovations PLC — Addis Ababa
-                </div>
-                <div class="cv-section__item-date">
-                  June 2024 — September 2024
-                </div>
-                <div class="cv-section__item-desc">
-                  • Developed RESTful APIs using Node.js and Express for
-                  internal tools<br />
-                  • Built responsive front-end interfaces with React and CSS
-                  modules<br />
-                  • Collaborated with the design team to improve UI/UX of client
-                  portal<br />
-                  • Reduced page load time by 35% through performance
-                  optimization
-                </div>
-              </div>
-              <div class="cv-section__item" style="margin-top: var(--space-lg)">
-                <div class="cv-section__item-title">
-                  Teaching Assistant — Programming Fundamentals
-                </div>
-                <div class="cv-section__item-subtitle">
-                  Addis Ababa University, CS Department
-                </div>
-                <div class="cv-section__item-date">
-                  October 2023 — June 2024
-                </div>
-                <div class="cv-section__item-desc">
-                  • Assisted 120+ students with Java programming concepts<br />
-                  • Designed and graded weekly lab assignments<br />
-                  • Conducted office hours and review sessions
-                </div>
-              </div>
-            </div>
-
-            <!-- Projects -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-diagram-project" style="margin-right: 8px"></i
-                >Projects
-              </h2>
-              <div class="cv-section__item">
-                <div class="cv-section__item-title">E-Commerce Platform</div>
-                <div class="cv-section__item-date">2024</div>
-                <div class="cv-section__item-desc">
-                  Built a full-stack e-commerce platform with Next.js, Supabase,
-                  and Stripe. Features include user authentication, product
-                  search, cart management, and secure payments.
-                </div>
-              </div>
-              <div class="cv-section__item" style="margin-top: var(--space-md)">
-                <div class="cv-section__item-title">
-                  Biodiversity Prediction Model
-                </div>
-                <div class="cv-section__item-date">2024</div>
-                <div class="cv-section__item-desc">
-                  Developed an ensemble machine learning model (XGBoost,
-                  LightGBM, RF) to predict frog species presence in southeastern
-                  Australia using TerraClimate satellite data.
-                </div>
-              </div>
-            </div>
-
-            <!-- Skills -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-lightbulb" style="margin-right: 8px"></i>Skills
-              </h2>
-              <div style="margin-bottom: var(--space-md)">
-                <div
-                  style="
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                    color: var(--gray-700);
-                    margin-bottom: 8px;
-                  "
-                >
-                  Technical Skills
-                </div>
-                <div class="cv-skills-list">
-                  <span class="cv-skill-tag">JavaScript</span>
-                  <span class="cv-skill-tag">TypeScript</span>
-                  <span class="cv-skill-tag">Python</span>
-                  <span class="cv-skill-tag">Java</span>
-                  <span class="cv-skill-tag">React</span>
-                  <span class="cv-skill-tag">Next.js</span>
-                  <span class="cv-skill-tag">Node.js</span>
-                  <span class="cv-skill-tag">PostgreSQL</span>
-                  <span class="cv-skill-tag">Git</span>
-                  <span class="cv-skill-tag">Docker</span>
-                </div>
-              </div>
+          <section class="card">
+            <h2 class="card-title">CV Result</h2>
+            <p class="card-subtitle">Profile shown after successful scan.</p>
+            <div class="section-stack" style="margin-top: 16px">
               <div>
-                <div
-                  style="
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                    color: var(--gray-700);
-                    margin-bottom: 8px;
-                  "
-                >
-                  Soft Skills
-                </div>
-                <div class="cv-skills-list">
-                  <span
-                    class="cv-skill-tag"
-                    style="background: #ecfdf5; color: #065f46"
-                    >Team Leadership</span
-                  >
-                  <span
-                    class="cv-skill-tag"
-                    style="background: #ecfdf5; color: #065f46"
-                    >Communication</span
-                  >
-                  <span
-                    class="cv-skill-tag"
-                    style="background: #ecfdf5; color: #065f46"
-                    >Problem Solving</span
-                  >
-                  <span
-                    class="cv-skill-tag"
-                    style="background: #ecfdf5; color: #065f46"
-                    >Agile / Scrum</span
-                  >
-                </div>
+                <h3 style="font-size: 24px">First Name Last Name</h3>
+                <p class="muted">Software Engineer | Addis Ababa University</p>
               </div>
-            </div>
 
-            <!-- Languages -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-language" style="margin-right: 8px"></i
-                >Languages
-              </h2>
-              <div class="flex gap-lg">
-                <div>
-                  <div class="cv-section__item-title">Amharic</div>
-                  <div class="cv-section__item-subtitle">Native</div>
-                </div>
-                <div>
-                  <div class="cv-section__item-title">English</div>
-                  <div class="cv-section__item-subtitle">Fluent</div>
-                </div>
-                <div>
-                  <div class="cv-section__item-title">Afaan Oromoo</div>
-                  <div class="cv-section__item-subtitle">Native</div>
-                </div>
+              <div>
+                <h4 style="font-size: 15px; margin-bottom: 8px">Education</h4>
+                <p>BSc Computer Science (2021-2025)</p>
               </div>
-            </div>
 
-            <!-- Certificates -->
-            <div class="cv-section">
-              <h2 class="cv-section__title">
-                <i class="fas fa-certificate" style="margin-right: 8px"></i
-                >Certifications
-              </h2>
-              <div class="cv-section__item">
-                <div class="cv-section__item-title">
-                  AWS Certified Cloud Practitioner
-                </div>
-                <div class="cv-section__item-date">Issued: March 2024</div>
+              <div>
+                <h4 style="font-size: 15px; margin-bottom: 8px">
+                  Work Experience
+                </h4>
+                <p>Full-Stack Intern - Tech Innovations (2024)</p>
               </div>
-              <div class="cv-section__item" style="margin-top: var(--space-sm)">
-                <div class="cv-section__item-title">
-                  Meta Front-End Developer Professional Certificate
+
+              <div>
+                <h4 style="font-size: 15px; margin-bottom: 8px">Skills</h4>
+                <div class="tag-list">
+                  <span class="tag">JavaScript</span><span class="tag">PHP</span
+                  ><span class="tag">SQL</span>
                 </div>
-                <div class="cv-section__item-date">Issued: January 2024</div>
+              </div>
+
+              <div class="btn-row">
+                <button class="btn btn-primary">Download CV</button>
               </div>
             </div>
-          </div>
+          </section>
         </div>
-
-        <!-- Footer -->
-        <div
-          class="text-center"
-          style="
-            margin-top: var(--space-2xl);
-            color: var(--text-muted);
-            font-size: 0.82rem;
-          "
-        >
-          <p>
-            This CV was generated and verified through
-            <strong class="text-gradient">DigiCV</strong> — Digital CV System
-            with QR Code Integration
-          </p>
-          <p style="margin-top: var(--space-xs)">
-            © 2026 DigiCV. All rights reserved.
-          </p>
-        </div>
-      </div>
+      </main>
     </div>
   </body>
 </html>

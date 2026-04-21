@@ -3,410 +3,78 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CV Preview — DigiCV</title>
-    <meta
-      name="description"
-      content="Preview your professional digital CV before submitting for approval."
-    />
+    <title>CV Preview</title>
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    />
   </head>
   <body>
-    <div class="app-layout">
-      <!-- Sidebar -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-brand">
-          <div class="sidebar-brand__icon"><i class="fas fa-qrcode"></i></div>
-          <div>
-            <div class="sidebar-brand__text text-gradient">DigiCV</div>
-            <div class="sidebar-brand__sub">Digital CV System</div>
+    <div class="page">
+      <header class="topbar">
+        <div class="container topbar-inner">
+          <div class="brand"><span class="brand-mark">CV</span> CV Preview</div>
+          <div class="btn-row">
+            <a class="btn" href="create-cv.html">Edit</a>
+            <button class="btn">Download PDF</button>
+            <button class="btn btn-primary">Submit</button>
           </div>
         </div>
-        <nav class="sidebar-nav">
-          <div class="sidebar-section-title">Main</div>
-          <a href="student-dashboard.php" class="sidebar-link">
-            <span class="sidebar-link__icon"><i class="fas fa-house"></i></span>
-            Dashboard
-          </a>
-          <a href="create-cv.html" class="sidebar-link">
-            <span class="sidebar-link__icon"
-              ><i class="fas fa-file-pen"></i
-            ></span>
-            Create CV
-          </a>
-          <a href="cv-preview.html" class="sidebar-link active">
-            <span class="sidebar-link__icon"><i class="fas fa-eye"></i></span>
-            View CV
-          </a>
-          <a href="qr-code.html" class="sidebar-link">
-            <span class="sidebar-link__icon"
-              ><i class="fas fa-qrcode"></i
-            ></span>
-            QR Code
-          </a>
-          <div class="sidebar-section-title">Account</div>
-          <a href="#" class="sidebar-link">
-            <span class="sidebar-link__icon"
-              ><i class="fas fa-user-gear"></i
-            ></span>
-            Profile Settings
-          </a>
-          <a href="#" class="sidebar-link">
-            <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span>
-            Notifications
-          </a>
-          <a href="#" class="sidebar-link">
-            <span class="sidebar-link__icon"
-              ><i class="fas fa-cloud-arrow-up"></i
-            ></span>
-            Documents
-          </a>
-        </nav>
-        <div class="sidebar-footer">
-          <div class="sidebar-user">
-            <div class="avatar avatar--primary">FB</div>
-            <div class="sidebar-user__info">
-              <div class="sidebar-user__name">First Name Last Name</div>
-              <div class="sidebar-user__role">Graduate Student</div>
-            </div>
-            <a
-              href="index.html"
-              title="Sign out"
-              style="color: var(--text-muted)"
-              ><i class="fas fa-right-from-bracket"></i
-            ></a>
-          </div>
-        </div>
-      </aside>
+      </header>
 
-      <!-- Main -->
-      <main class="main-content">
-        <header class="top-bar">
-          <button
-            class="btn btn-ghost btn-icon"
-            id="menu-toggle"
-            style="display: none"
-          >
-            <i class="fas fa-bars"></i>
-          </button>
-          <h2 class="top-bar__title">CV Preview</h2>
-          <div class="top-bar__actions">
-            <a href="create-cv.html" class="btn btn-secondary btn-sm"
-              ><i class="fas fa-pen"></i> Edit</a
-            >
-            <button class="btn btn-outline btn-sm">
-              <i class="fas fa-file-pdf"></i> Download PDF
-            </button>
-            <button class="btn btn-primary btn-sm">
-              <i class="fas fa-paper-plane"></i> Submit
-            </button>
-          </div>
-        </header>
-
-        <div class="page-content">
-          <div
-            style="
-              margin-bottom: var(--space-lg);
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-            "
-            class="animate-fade-in"
-          >
+      <main class="main">
+        <div class="container">
+          <article class="a4-sheet">
             <div>
-              <span
-                class="badge badge--pending"
-                style="font-size: 0.8rem; padding: 5px 14px"
-              >
-                <i class="fas fa-hourglass-half"></i> Pending Approval
-              </span>
-            </div>
-            <span style="font-size: 0.82rem; color: var(--text-muted)"
-              >Last updated: April 14, 2026</span
-            >
-          </div>
-
-          <!-- CV Document -->
-          <div class="cv-preview animate-fade-in delay-1">
-            <!-- Header -->
-            <div class="cv-preview__header">
-              <div class="cv-preview__avatar">FB</div>
-              <div>
-                <h1 class="cv-preview__name">First Name Last Name</h1>
-                <div class="cv-preview__title">
-                  Computer Science Graduate | Full-Stack Developer
-                </div>
-                <div class="cv-preview__contact">
-                  <span
-                    ><i class="fas fa-envelope" style="margin-right: 4px"></i
-                    >firstname.lastname@example.com</span
-                  >
-                  <span
-                    ><i class="fas fa-phone" style="margin-right: 4px"></i>+251
-                    912 345 678</span
-                  >
-                  <span
-                    ><i
-                      class="fas fa-location-dot"
-                      style="margin-right: 4px"
-                    ></i
-                    >Addis Ababa, Ethiopia</span
-                  >
-                </div>
-              </div>
+              <h1 class="a4-name">First Name Last Name</h1>
+              <p class="a4-headline">
+                Computer Science Graduate | Full-Stack Developer
+              </p>
+              <p class="muted">
+                student@university.edu | +251 900 000 000 | Addis Ababa,
+                Ethiopia
+              </p>
             </div>
 
-            <!-- Body -->
-            <div class="cv-preview__body">
-              <!-- Summary -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i class="fas fa-user" style="margin-right: 8px"></i
-                  >Professional Summary
-                </h2>
-                <p class="cv-section__item-desc">
-                  Dedicated and detail-oriented Computer Science graduate with
-                  strong skills in full-stack web development, machine learning,
-                  and data analysis. Passionate about building technology
-                  solutions that make a difference. Proven track record of
-                  delivering quality projects on time. Seeking opportunities to
-                  contribute to innovative teams and grow as a software
-                  engineer.
-                </p>
-              </div>
+            <section class="a4-section">
+              <h3>Summary</h3>
+              <p>
+                Graduate focused on full-stack development and practical
+                software engineering. Interested in scalable systems, structured
+                teamwork, and reliable product delivery.
+              </p>
+            </section>
 
-              <!-- Education -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i class="fas fa-graduation-cap" style="margin-right: 8px"></i
-                  >Education
-                </h2>
-                <div class="cv-section__item">
-                  <div class="cv-section__item-title">
-                    BSc in Computer Science
-                  </div>
-                  <div class="cv-section__item-subtitle">
-                    Addis Ababa University
-                  </div>
-                  <div class="cv-section__item-date">
-                    September 2021 — July 2025 &nbsp;|&nbsp; GPA: 3.75 / 4.0
-                  </div>
-                  <div class="cv-section__item-desc">
-                    Relevant coursework: Data Structures & Algorithms, Software
-                    Engineering, Database Systems, Machine Learning, Web
-                    Development, Computer Networks.
-                  </div>
-                </div>
-              </div>
+            <section class="a4-section">
+              <h3>Education</h3>
+              <p>
+                <strong>BSc in Computer Science</strong> - Addis Ababa
+                University (2021-2025)
+              </p>
+            </section>
 
-              <!-- Experience -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i class="fas fa-briefcase" style="margin-right: 8px"></i>Work
-                  Experience
-                </h2>
-                <div class="cv-section__item">
-                  <div class="cv-section__item-title">
-                    Full-Stack Developer Intern
-                  </div>
-                  <div class="cv-section__item-subtitle">
-                    Tech Innovations PLC — Addis Ababa
-                  </div>
-                  <div class="cv-section__item-date">
-                    June 2024 — September 2024
-                  </div>
-                  <div class="cv-section__item-desc">
-                    • Developed RESTful APIs using Node.js and Express for
-                    internal tools<br />
-                    • Built responsive front-end interfaces with React and CSS
-                    modules<br />
-                    • Collaborated with the design team to improve UI/UX of
-                    client portal<br />
-                    • Reduced page load time by 35% through performance
-                    optimization
-                  </div>
-                </div>
-                <div
-                  class="cv-section__item"
-                  style="margin-top: var(--space-lg)"
-                >
-                  <div class="cv-section__item-title">
-                    Teaching Assistant — Programming Fundamentals
-                  </div>
-                  <div class="cv-section__item-subtitle">
-                    Addis Ababa University, CS Department
-                  </div>
-                  <div class="cv-section__item-date">
-                    October 2023 — June 2024
-                  </div>
-                  <div class="cv-section__item-desc">
-                    • Assisted 120+ students with Java programming concepts<br />
-                    • Designed and graded weekly lab assignments<br />
-                    • Conducted office hours and review sessions
-                  </div>
-                </div>
-              </div>
+            <section class="a4-section">
+              <h3>Experience</h3>
+              <p>
+                <strong>Full-Stack Developer Intern</strong> - Tech Innovations
+                (2024)
+              </p>
+              <p>
+                Developed internal APIs, improved front-end screens, and reduced
+                onboarding friction for new users.
+              </p>
+            </section>
 
-              <!-- Projects -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i
-                    class="fas fa-diagram-project"
-                    style="margin-right: 8px"
-                  ></i
-                  >Projects
-                </h2>
-                <div class="cv-section__item">
-                  <div class="cv-section__item-title">E-Commerce Platform</div>
-                  <div class="cv-section__item-date">2024</div>
-                  <div class="cv-section__item-desc">
-                    Built a full-stack e-commerce platform with Next.js,
-                    Supabase, and Stripe. Features include user authentication,
-                    product search, cart management, and secure payments.
-                  </div>
-                </div>
-                <div
-                  class="cv-section__item"
-                  style="margin-top: var(--space-md)"
-                >
-                  <div class="cv-section__item-title">
-                    Biodiversity Prediction Model
-                  </div>
-                  <div class="cv-section__item-date">2024</div>
-                  <div class="cv-section__item-desc">
-                    Developed an ensemble machine learning model (XGBoost,
-                    LightGBM, RF) to predict frog species presence in
-                    southeastern Australia using TerraClimate satellite data.
-                  </div>
-                </div>
+            <section class="a4-section">
+              <h3>Skills</h3>
+              <div class="tag-list">
+                <span class="tag">JavaScript</span>
+                <span class="tag">PHP</span>
+                <span class="tag">SQL</span>
+                <span class="tag">REST API</span>
+                <span class="tag">Git</span>
               </div>
-
-              <!-- Skills -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i class="fas fa-lightbulb" style="margin-right: 8px"></i
-                  >Skills
-                </h2>
-                <div style="margin-bottom: var(--space-md)">
-                  <div
-                    style="
-                      font-weight: 600;
-                      font-size: 0.9rem;
-                      color: var(--gray-700);
-                      margin-bottom: 8px;
-                    "
-                  >
-                    Technical Skills
-                  </div>
-                  <div class="cv-skills-list">
-                    <span class="cv-skill-tag">JavaScript</span>
-                    <span class="cv-skill-tag">TypeScript</span>
-                    <span class="cv-skill-tag">Python</span>
-                    <span class="cv-skill-tag">Java</span>
-                    <span class="cv-skill-tag">React</span>
-                    <span class="cv-skill-tag">Next.js</span>
-                    <span class="cv-skill-tag">Node.js</span>
-                    <span class="cv-skill-tag">PostgreSQL</span>
-                    <span class="cv-skill-tag">Git</span>
-                    <span class="cv-skill-tag">Docker</span>
-                  </div>
-                </div>
-                <div>
-                  <div
-                    style="
-                      font-weight: 600;
-                      font-size: 0.9rem;
-                      color: var(--gray-700);
-                      margin-bottom: 8px;
-                    "
-                  >
-                    Soft Skills
-                  </div>
-                  <div class="cv-skills-list">
-                    <span
-                      class="cv-skill-tag"
-                      style="background: #ecfdf5; color: #065f46"
-                      >Team Leadership</span
-                    >
-                    <span
-                      class="cv-skill-tag"
-                      style="background: #ecfdf5; color: #065f46"
-                      >Communication</span
-                    >
-                    <span
-                      class="cv-skill-tag"
-                      style="background: #ecfdf5; color: #065f46"
-                      >Problem Solving</span
-                    >
-                    <span
-                      class="cv-skill-tag"
-                      style="background: #ecfdf5; color: #065f46"
-                      >Agile / Scrum</span
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <!-- Languages -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i class="fas fa-language" style="margin-right: 8px"></i
-                  >Languages
-                </h2>
-                <div class="flex gap-lg">
-                  <div>
-                    <div class="cv-section__item-title">Amharic</div>
-                    <div class="cv-section__item-subtitle">Native</div>
-                  </div>
-                  <div>
-                    <div class="cv-section__item-title">English</div>
-                    <div class="cv-section__item-subtitle">Fluent</div>
-                  </div>
-                  <div>
-                    <div class="cv-section__item-title">Afaan Oromoo</div>
-                    <div class="cv-section__item-subtitle">Native</div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Certificates -->
-              <div class="cv-section">
-                <h2 class="cv-section__title">
-                  <i class="fas fa-certificate" style="margin-right: 8px"></i
-                  >Certifications
-                </h2>
-                <div class="cv-section__item">
-                  <div class="cv-section__item-title">
-                    AWS Certified Cloud Practitioner
-                  </div>
-                  <div class="cv-section__item-date">Issued: March 2024</div>
-                </div>
-                <div
-                  class="cv-section__item"
-                  style="margin-top: var(--space-sm)"
-                >
-                  <div class="cv-section__item-title">
-                    Meta Front-End Developer Professional Certificate
-                  </div>
-                  <div class="cv-section__item-date">Issued: January 2024</div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </section>
+          </article>
         </div>
       </main>
     </div>
-
-    <script>
-      const menuToggle = document.getElementById("menu-toggle");
-      const sidebar = document.getElementById("sidebar");
-      if (window.innerWidth <= 768) menuToggle.style.display = "flex";
-      menuToggle.addEventListener("click", () =>
-        sidebar.classList.toggle("open"),
-      );
-    </script>
   </body>
 </html>
