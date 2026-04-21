@@ -57,11 +57,22 @@ function verifyPassword(string $plain, string $hash): bool {
  */
 function dashboardForRole(string $role): string {
     return match ($role) {
-        'student'    => '../student-dashboard.html',
+        'student'    => '../student-dashboard.php',
         'supervisor' => '../supervisor-dashboard.html',
         'examiner'   => '../supervisor-dashboard.html',
         'recruiter'  => '../recruiter-view.html',
         'admin'      => '../admin-dashboard.php',
         default      => '../index.html',
     };
+}
+
+/**
+ * Require login to access the page.
+ */
+function requireLogin(): void {
+    startSession();
+    if (empty($_SESSION['user_id'])) {
+        header('Location: index.html');
+        exit;
+    }
 }

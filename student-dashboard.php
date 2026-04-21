@@ -1,3 +1,18 @@
+<?php
+require_once __DIR__ . '/includes/functions.php';
+requireLogin();
+
+if ($_SESSION['role'] !== 'student') {
+    header('Location: index.html');
+    exit;
+}
+
+$fullName = $_SESSION['full_name'] ?? 'Student User';
+$email = $_SESSION['email'] ?? '';
+$parts = explode(' ', trim($fullName));
+$firstName = $parts[0] ?: 'Student';
+$initials = strtoupper(substr($firstName, 0, 1) . (isset($parts[1]) ? substr($parts[1], 0, 1) : ''));
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +37,7 @@
 
       <nav class="sidebar-nav">
         <div class="sidebar-section-title">Main</div>
-        <a href="student-dashboard.html" class="sidebar-link active">
+        <a href="student-dashboard.php" class="sidebar-link active">
           <span class="sidebar-link__icon"><i class="fas fa-house"></i></span>
           Dashboard
         </a>
@@ -58,12 +73,12 @@
 
       <div class="sidebar-footer">
         <div class="sidebar-user">
-          <div class="avatar avatar--primary">FG</div>
+          <div class="avatar avatar--primary"><?= htmlspecialchars($initials) ?></div>
           <div class="sidebar-user__info">
-            <div class="sidebar-user__name">Firaol Gelana</div>
-            <div class="sidebar-user__role">Undergraduate Student</div>
+            <div class="sidebar-user__name"><?= htmlspecialchars($fullName) ?></div>
+            <div class="sidebar-user__role"><?= htmlspecialchars($email) ?></div>
           </div>
-          <a href="index.html" title="Sign out" style="color: var(--text-muted); font-size: 1rem;">
+          <a href="php_actions/logout.php" title="Sign out" style="color: var(--text-muted); font-size: 1rem;">
             <i class="fas fa-right-from-bracket"></i>
           </a>
         </div>
@@ -87,14 +102,14 @@
             <i class="fas fa-bell"></i>
             <span class="notification-dot"></span>
           </button>
-          <div class="avatar avatar--sm avatar--primary">FG</div>
+          <div class="avatar avatar--sm avatar--primary"><?= htmlspecialchars($initials) ?></div>
         </div>
       </header>
 
       <div class="page-content">
         <!-- Page Header -->
         <div class="page-header animate-fade-in">
-          <h1 class="page-header__title">Good morning, Firaol 👋</h1>
+          <h1 class="page-header__title">Good morning, <?= htmlspecialchars($firstName) ?> 👋</h1>
           <p class="page-header__sub">Here's an overview of your CV progress and activity.</p>
         </div>
 
