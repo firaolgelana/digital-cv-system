@@ -278,11 +278,11 @@ $initials = initials($user['full_name']);
     <form id="create-user-form" autocomplete="off">
       <div class="form-group">
         <label class="form-label">Full Name</label>
-        <input type="text" class="form-input" id="cu-name" placeholder="Dr. Abebe Tadesse" required/>
+        <input type="text" class="form-input" id="cu-name" placeholder="Full Name" required/>
       </div>
       <div class="form-group">
         <label class="form-label">Email Address</label>
-        <input type="email" class="form-input" id="cu-email" placeholder="abebe@university.edu" required/>
+        <input type="email" class="form-input" id="cu-email" placeholder="user@university.edu" required/>
       </div>
       <div class="form-row">
         <div class="form-group">

@@ -98,7 +98,7 @@ try {
     $_SESSION['role']      = 'student';
 
     jsonResponse(true, 'Account created successfully! Redirecting…', [
-        'redirect' => '../student-dashboard.php',
+        'redirect' => '/cv/student-dashboard.php',
     ]);
 
 } catch (PDOException $e) {
