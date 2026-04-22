@@ -39,9 +39,14 @@
             </div>
           </div>
 
+          <!-- Section 1: Personal -->
           <section class="card tight" id="sec-personal">
             <h2 class="card-title"><i class="fas fa-user" style="color:var(--primary-500);margin-right:8px"></i> Personal Information</h2>
             <div class="form-grid two" style="margin-top:16px">
+              <div style="grid-column: 1 / -1">
+                <label class="label">CV Internal Title <span class="muted">(e.g. Swe CV)</span></label>
+                <input class="input form-input" id="inp-cv-title" placeholder="Software Engineer Target" />
+              </div>
               <div>
                 <label class="label">Full name</label>
                 <input class="input form-input" id="inp-name" placeholder="First Name Last Name" />
@@ -58,7 +63,17 @@
                 <label class="label">Address / Location</label>
                 <input class="input form-input" id="inp-address" placeholder="Addis Ababa, Ethiopia" />
               </div>
-              <div style="grid-column: 1 / -1">
+              
+              <!-- Social Medias Array -->
+              <div style="grid-column: 1 / -1; margin-top: 8px;">
+                 <label class="label">Social & Professional Links</label>
+                 <div id="social-wrapper" class="section-stack gap-sm">
+                    <!-- JS Injected Socials -->
+                 </div>
+                 <button class="btn btn-ghost btn-sm" id="add-social-btn" style="margin-top:8px; border:1px dashed var(--border)"><i class="fas fa-plus"></i> Add Link (X, LinkedIn)</button>
+              </div>
+
+              <div style="grid-column: 1 / -1; margin-top:8px;">
                 <label class="label">Target Headline</label>
                 <input class="input form-input" id="inp-headline" placeholder="Junior Software Engineer" />
               </div>
@@ -70,6 +85,7 @@
             <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('sec-education').scrollIntoView({behavior:'smooth'})">Next Step <i class="fas fa-arrow-down"></i></button>
           </section>
 
+          <!-- Section 2: Education -->
           <section class="card tight" id="sec-education">
             <h2 class="card-title"><i class="fas fa-graduation-cap" style="color:var(--primary-500);margin-right:8px"></i> Education</h2>
             <div id="education-wrapper" class="section-stack" style="margin-top:16px">
@@ -79,6 +95,7 @@
             <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('sec-experience').scrollIntoView({behavior:'smooth'})">Next Step <i class="fas fa-arrow-down"></i></button>
           </section>
 
+          <!-- Section 3: Experience -->
           <section class="card tight" id="sec-experience">
             <h2 class="card-title"><i class="fas fa-briefcase" style="color:var(--primary-500);margin-right:8px"></i> Experience</h2>
             <div id="experience-wrapper" class="section-stack" style="margin-top:16px">
@@ -88,6 +105,7 @@
             <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('sec-skills').scrollIntoView({behavior:'smooth'})">Next Step <i class="fas fa-arrow-down"></i></button>
           </section>
 
+          <!-- Section 4: Skills -->
           <section class="card tight" id="sec-skills">
             <h2 class="card-title"><i class="fas fa-star" style="color:var(--primary-500);margin-right:8px"></i> Skills & Links</h2>
             <div class="form-grid" style="margin-top:16px">
@@ -112,7 +130,7 @@
         <aside class="section-stack delay-2">
           <div class="card tight" style="padding:0;background:var(--surface-alt);position:sticky;top:90px" id="preview">
             <div style="padding:16px 24px;border-bottom:1px solid var(--surface-border);display:flex;justify-content:space-between;align-items:center">
-              <strong>Live A4 Preview</strong>
+              <strong>Live A4 Preview <span id="prev-cv-title" class="muted" style="font-weight:400;margin-left:8px"></span></strong>
               <span class="badge approved"><i class="fas fa-sync fa-spin"></i> Syncing</span>
             </div>
             
@@ -120,7 +138,9 @@
               <article class="a4-sheet" style="font-size:0.9rem;border:none">
                 <h1 class="a4-name" id="prev-name" style="font-size:24px">First Name Last Name</h1>
                 <p class="a4-headline" id="prev-headline" style="font-size:16px">Target Headline</p>
-                <div class="muted" id="prev-meta" style="font-size:12px;margin-top:4px">student@university.edu | +251 900 000 000 | Addis Ababa</div>
+                <div class="muted" id="prev-meta" style="font-size:12px;margin-top:4px;color:var(--gray-700)">student@university.edu | +251 900 000 000 | Addis Ababa</div>
+                <!-- Social links projected here -->
+                <div id="prev-socials" style="font-size:12px;margin-top:4px;display:flex;gap:12px;flex-wrap:wrap"></div>
                 
                 <section class="a4-section" style="margin-top:16px">
                   <h3 style="margin-bottom:8px">Summary</h3>
@@ -170,7 +190,6 @@
             let chip = document.getElementById(targetId);
             if(chip) chip.classList.add('active');
             
-            // Map progress
             let pMap = { 'sec-personal': 25, 'sec-education': 50, 'sec-experience': 75, 'sec-skills': 100 };
             document.getElementById('progress-bar').style.width = pMap[entry.target.id] + '%';
           }
@@ -179,13 +198,12 @@
       
       document.querySelectorAll('section[id^="sec-"]').forEach(sec => observer.observe(sec));
 
-      // 3. Two-Way Data Binding (Simple Native Bindings)
+      // 3. Simple Native Bindings
       function bindInput(inputId, previewId, isMeta = false) {
         document.getElementById(inputId).addEventListener('input', (e) => {
            if(!isMeta) {
                document.getElementById(previewId).innerText = e.target.value.trim() || e.target.placeholder;
            } else {
-               // Combine metadata dynamically
                let em = document.getElementById('inp-email').value.trim() || 'student@university.edu';
                let ph = document.getElementById('inp-phone').value.trim() || '+251 900 000 000';
                let ad = document.getElementById('inp-address').value.trim() || 'Addis Ababa';
@@ -194,6 +212,7 @@
         });
       }
       
+      bindInput('inp-cv-title', 'prev-cv-title');
       bindInput('inp-name', 'prev-name');
       bindInput('inp-headline', 'prev-headline');
       bindInput('inp-summary', 'prev-summary');
@@ -207,62 +226,121 @@
          document.getElementById('prev-skills').innerHTML = skills.map(s => `<span class="tag">${s}</span>`).join('');
       });
 
-      // 4. Dynamic Multiple Array Handlers (Education & Experience)
+      // 4. Dynamic Array Handlers With Decoupled Forms to Prevent Focus Loss
+      let socs = [];
       let edus = [];
       let exps = [];
 
-      function renderEducation() {
+      // Render Forms ONLY when arrays mutate (Add/Remove)
+      function renderSocialForm() {
          let html = '';
-         let prevHtml = '';
+         socs.forEach((soc, i) => {
+            html += `
+            <div style="display:flex;gap:8px" class="dynamic-soc-item">
+              <input class="input form-input" placeholder="Platform (e.g. X)" value="${soc.name}" data-idx="${i}" data-field="name" style="width:35%" />
+              <input class="input form-input" placeholder="Link (e.g. https://x.com/...)" value="${soc.link}" data-idx="${i}" data-field="link" style="flex:1" />
+              <button class="btn btn-ghost" style="color:var(--danger)" onclick="remSoc(${i})"><i class="fas fa-times"></i></button>
+            </div>`;
+         });
+         document.getElementById('social-wrapper').innerHTML = html;
+         renderSocialPreview();
+      }
+
+      function renderEducationForm() {
+         let html = '';
          edus.forEach((edu, i) => {
             html += `
-            <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px">
+            <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px" class="dynamic-edu-item">
                <div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong>Entry #${i+1}</strong> <button class="btn btn-ghost btn-sm" style="color:var(--danger)" onclick="remEdu(${i})"><i class="fas fa-trash"></i></button></div>
                <div class="form-grid two">
-                 <div><label class="label">Institution</label><input class="input form-input" placeholder="Institution" value="${edu.inst}" oninput="updEdu(${i}, 'inst', this.value)" /></div>
-                 <div><label class="label">Degree</label><input class="input form-input" placeholder="Degree" value="${edu.deg}" oninput="updEdu(${i}, 'deg', this.value)" /></div>
-                 <div><label class="label">Start</label><input class="input form-input" placeholder="Start" value="${edu.start}" oninput="updEdu(${i}, 'start', this.value)" /></div>
-                 <div><label class="label">End</label><input class="input form-input" placeholder="End" value="${edu.end}" oninput="updEdu(${i}, 'end', this.value)" /></div>
+                 <div><label class="label">Institution</label><input class="input form-input" placeholder="Institution" value="${edu.inst}" data-idx="${i}" data-field="inst" /></div>
+                 <div><label class="label">Degree</label><input class="input form-input" placeholder="Degree" value="${edu.deg}" data-idx="${i}" data-field="deg" /></div>
+                 <div><label class="label">Start</label><input class="input form-input" placeholder="Start" value="${edu.start}" data-idx="${i}" data-field="start" /></div>
+                 <div><label class="label">End</label><input class="input form-input" placeholder="End" value="${edu.end}" data-idx="${i}" data-field="end" /></div>
                </div>
             </div>`;
-            prevHtml += `<p style="color:var(--gray-800);margin-bottom:8px"><strong>${edu.inst || 'Institution'}</strong> — ${edu.deg || 'Degree'} <br><span class="muted">${edu.start || 'Start'} - ${edu.end || 'End'}</span></p>`;
          });
          document.getElementById('education-wrapper').innerHTML = html;
-         document.getElementById('prev-education-list').innerHTML = prevHtml || '<p style="color:var(--gray-800)">Institution Name, Degree (Start-End)</p>';
+         renderEducationPreview();
       }
 
-      function renderExperience() {
+      function renderExperienceForm() {
          let html = '';
-         let prevHtml = '';
          exps.forEach((exp, i) => {
             html += `
-            <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px">
+            <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px" class="dynamic-exp-item">
                <div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong>Entry #${i+1}</strong> <button class="btn btn-ghost btn-sm" style="color:var(--danger)" onclick="remExp(${i})"><i class="fas fa-trash"></i></button></div>
                <div class="form-grid two">
-                 <div style="grid-column:1/-1"><label class="label">Role & Company</label><input class="input form-input" placeholder="Role, Company" value="${exp.role}" oninput="updExp(${i}, 'role', this.value)" /></div>
-                 <div><label class="label">Start</label><input class="input form-input" placeholder="Month YYYY" value="${exp.start}" oninput="updExp(${i}, 'start', this.value)" /></div>
-                 <div><label class="label">End</label><input class="input form-input" placeholder="Month YYYY or Present" value="${exp.end}" oninput="updExp(${i}, 'end', this.value)" /></div>
-                 <div style="grid-column:1/-1"><label class="label">Description</label><textarea class="textarea form-input" placeholder="Describe scope and achievements..." oninput="updExp(${i}, 'desc', this.value)">${exp.desc}</textarea></div>
+                 <div style="grid-column:1/-1"><label class="label">Role & Company</label><input class="input form-input" placeholder="Role, Company" value="${exp.role}" data-idx="${i}" data-field="role" /></div>
+                 <div><label class="label">Start</label><input class="input form-input" placeholder="Month YYYY" value="${exp.start}" data-idx="${i}" data-field="start" /></div>
+                 <div><label class="label">End</label><input class="input form-input" placeholder="Month YYYY or Present" value="${exp.end}" data-idx="${i}" data-field="end" /></div>
+                 <div style="grid-column:1/-1"><label class="label">Description</label><textarea class="textarea form-input" placeholder="Describe scope and achievements..." data-idx="${i}" data-field="desc">${exp.desc}</textarea></div>
                </div>
             </div>`;
-            prevHtml += `<p style="color:var(--gray-800);margin-bottom:12px"><strong>${exp.role || 'Role, Company'}</strong> <span class="muted">(${exp.start || 'Start'} - ${exp.end || 'End'})</span><br><span style="font-size:0.85em">${exp.desc || 'Experience description goes here. Updates natively.'}</span></p>`;
          });
          document.getElementById('experience-wrapper').innerHTML = html;
-         document.getElementById('prev-experience-list').innerHTML = prevHtml || '<p style="color:var(--gray-800)"><strong>Role, Company</strong><br>Experience description goes here.</p>';
+         renderExperiencePreview();
       }
 
-      window.updEdu = (i, field, val) => { edus[i][field] = val; renderEducation(); };
-      window.remEdu = (i) => { edus.splice(i, 1); renderEducation(); };
-      
-      window.updExp = (i, field, val) => { exps[i][field] = val; renderExperience(); };
-      window.remExp = (i) => { exps.splice(i, 1); renderExperience(); };
+      // Render Preview independently to avoid focus loss
+      function renderSocialPreview() {
+         let html = socs.map(s => {
+             let nm = s.name || 'Link';
+             let ln = s.link || '#';
+             return `<a href="${ln}" style="color:var(--primary-600);text-decoration:none"><strong>${nm}</strong></a>`;
+         }).join(' | ');
+         document.getElementById('prev-socials').innerHTML = html;
+      }
 
-      document.getElementById('add-education-btn').addEventListener('click', () => { edus.push({inst:'', deg:'', start:'', end:''}); renderEducation(); });
-      document.getElementById('add-experience-btn').addEventListener('click', () => { exps.push({role:'', start:'', end:'', desc:''}); renderExperience(); });
+      function renderEducationPreview() {
+         let html = edus.map((edu) => {
+            return `<p style="color:var(--gray-800);margin-bottom:8px"><strong>${edu.inst || 'Institution'}</strong> — ${edu.deg || 'Degree'} <br><span class="muted" style="color:var(--gray-600)">${edu.start || 'Start'} - ${edu.end || 'End'}</span></p>`;
+         }).join('');
+         document.getElementById('prev-education-list').innerHTML = html || '<p style="color:var(--gray-800)">Institution Name, Degree (Start-End)</p>';
+      }
 
-      // Pre-fill with one empty structure naturally
-      edus.push({inst:'', deg:'', start:'', end:''}); renderEducation();
-      exps.push({role:'', start:'', end:'', desc:''}); renderExperience();
+      function renderExperiencePreview() {
+         let html = exps.map((exp) => {
+            return `<p style="color:var(--gray-800);margin-bottom:12px"><strong>${exp.role || 'Role, Company'}</strong> <span class="muted" style="color:var(--gray-600)">(${exp.start || 'Start'} - ${exp.end || 'End'})</span><br><span style="font-size:0.85em;color:var(--gray-800)">${exp.desc || 'Experience description goes here.'}</span></p>`;
+         }).join('');
+         document.getElementById('prev-experience-list').innerHTML = html || '<p style="color:var(--gray-800)"><strong>Role, Company</strong><br>Experience description goes here.</p>';
+      }
+
+      // Event Delegation for inputs (saves array state without redrawing form)
+      document.getElementById('social-wrapper').addEventListener('input', (e) => {
+          let idx = e.target.getAttribute('data-idx');
+          let fld = e.target.getAttribute('data-field');
+          socs[idx][fld] = e.target.value;
+          renderSocialPreview();
+      });
+
+      document.getElementById('education-wrapper').addEventListener('input', (e) => {
+          let idx = e.target.getAttribute('data-idx');
+          let fld = e.target.getAttribute('data-field');
+          edus[idx][fld] = e.target.value;
+          renderEducationPreview();
+      });
+
+      document.getElementById('experience-wrapper').addEventListener('input', (e) => {
+          let idx = e.target.getAttribute('data-idx');
+          let fld = e.target.getAttribute('data-field');
+          exps[idx][fld] = e.target.value;
+          renderExperiencePreview();
+      });
+
+      // Array Operators
+      window.remSoc = (i) => { socs.splice(i, 1); renderSocialForm(); };
+      window.remEdu = (i) => { edus.splice(i, 1); renderEducationForm(); };
+      window.remExp = (i) => { exps.splice(i, 1);; renderExperienceForm(); };
+
+      document.getElementById('add-social-btn').addEventListener('click', () => { socs.push({name:'', link:''}); renderSocialForm(); });
+      document.getElementById('add-education-btn').addEventListener('click', () => { edus.push({inst:'', deg:'', start:'', end:''}); renderEducationForm(); });
+      document.getElementById('add-experience-btn').addEventListener('click', () => { exps.push({role:'', start:'', end:'', desc:''}); renderExperienceForm(); });
+
+      // Init
+      socs.push({name:'', link:''}); renderSocialForm();
+      edus.push({inst:'', deg:'', start:'', end:''}); renderEducationForm();
+      exps.push({role:'', start:'', end:'', desc:''}); renderExperienceForm();
 
     </script>
   </body>
