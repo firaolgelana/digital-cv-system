@@ -8,160 +8,143 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   </head>
   <body>
-    <!-- Top Navbar -->
     <header class="top-navbar">
       <div class="brand-area">
         <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
         <span class="text-gradient">DigiCV Builder</span>
       </div>
-      <nav class="nav-links">
-        <a href="student-dashboard.php"><i class="fas fa-arrow-left"></i> Back Home</a>
-        <span class="muted" style="margin-left:24px"><i class="fas fa-save"></i> Auto-save: synced 1 min ago</span>
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="student-dashboard.php" class="active"><i class="fas fa-arrow-left"></i> Back Home</a>
+        <a href="#preview" style="color:var(--warning)"><i class="fas fa-eye"></i> Jump to Preview</a>
       </nav>
-      <div class="nav-user">
-        <div class="avatar avatar--sm avatar--primary">S</div>
-      </div>
     </header>
 
-    <main class="page-container">
-      <div class="page-header animate-fade-in">
-        <h1>Create / Edit Target CV</h1>
-        <p>Complete each step and submit for review. Live preview is available.</p>
-      </div>
-
+    <main class="page-container" style="padding-top:32px">
       <div class="layout-split">
         
         <!-- Left Column: Form Builder -->
-        <div class="section-stack delay-1">
-          <div class="card tight">
+        <div class="section-stack delay-1" id="form-container">
+          <div class="card tight" style="position:sticky;top:90px;z-index:50">
             <div class="step-track" style="margin:0">
-              <div class="step-row" style="grid-template-columns: repeat(4, 1fr); overflow-x: auto;">
-                <div class="step-chip active">1. Personal</div>
-                <div class="step-chip">2. Education</div>
-                <div class="step-chip">3. Experience</div>
-                <div class="step-chip">4. Complete</div>
+              <div class="step-row" style="grid-template-columns: repeat(4, 1fr);">
+                <div class="step-chip active" id="chip-personal">1. Personal</div>
+                <div class="step-chip" id="chip-education">2. Ed.</div>
+                <div class="step-chip" id="chip-experience">3. Exp.</div>
+                <div class="step-chip" id="chip-skills">4. Complete</div>
               </div>
               <div class="progress">
-                <div class="progress-fill" style="width: 25%"></div>
+                <div class="progress-fill" id="progress-bar" style="width: 25%; transition: width 0.3s"></div>
               </div>
             </div>
           </div>
 
-          <section class="card tight">
+          <section class="card tight" id="sec-personal">
             <h2 class="card-title"><i class="fas fa-user" style="color:var(--primary-500);margin-right:8px"></i> Personal Information</h2>
             <div class="form-grid two" style="margin-top:16px">
               <div>
                 <label class="label">Full name</label>
-                <input class="input form-input" placeholder="First Name Last Name" />
+                <input class="input form-input" id="inp-name" placeholder="First Name Last Name" />
               </div>
               <div>
                 <label class="label">Email</label>
-                <input class="input form-input" type="email" placeholder="student@university.edu" />
+                <input class="input form-input" id="inp-email" type="email" placeholder="student@university.edu" />
               </div>
               <div>
                 <label class="label">Phone</label>
-                <input class="input form-input" placeholder="+251 900 000 000" />
+                <input class="input form-input" id="inp-phone" placeholder="+251 900 000 000" />
               </div>
               <div>
-                <label class="label">Address</label>
-                <input class="input form-input" placeholder="Addis Ababa, Ethiopia" />
+                <label class="label">Address / Location</label>
+                <input class="input form-input" id="inp-address" placeholder="Addis Ababa, Ethiopia" />
               </div>
               <div style="grid-column: 1 / -1">
                 <label class="label">Target Headline</label>
-                <input class="input form-input" placeholder="e.g. Junior Software Engineer" />
+                <input class="input form-input" id="inp-headline" placeholder="Junior Software Engineer" />
               </div>
-            </div>
-          </section>
-
-          <section class="card tight">
-            <h2 class="card-title"><i class="fas fa-graduation-cap" style="color:var(--primary-500);margin-right:8px"></i> Education</h2>
-            <div class="form-grid two" style="margin-top:16px">
               <div style="grid-column: 1 / -1">
-                <label class="label">Institution</label>
-                <input class="input form-input" placeholder="Addis Ababa University" />
-              </div>
-              <div>
-                <label class="label">Degree</label>
-                <input class="input form-input" placeholder="BSc Computer Science" />
-              </div>
-              <div class="form-grid two">
-                <div>
-                  <label class="label">Start year</label>
-                  <input class="input form-input" placeholder="2021" />
-                </div>
-                <div>
-                  <label class="label">End year</label>
-                  <input class="input form-input" placeholder="2025" />
-                </div>
+                <label class="label">Summary (Objective)</label>
+                <textarea class="textarea form-input" id="inp-summary" placeholder="Write a short summary about your goals and traits..."></textarea>
               </div>
             </div>
+            <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('sec-education').scrollIntoView({behavior:'smooth'})">Next Step <i class="fas fa-arrow-down"></i></button>
           </section>
 
-          <section class="card tight">
+          <section class="card tight" id="sec-education">
+            <h2 class="card-title"><i class="fas fa-graduation-cap" style="color:var(--primary-500);margin-right:8px"></i> Education</h2>
+            <div id="education-wrapper" class="section-stack" style="margin-top:16px">
+              <!-- JS Injected Edus will go here -->
+            </div>
+            <button class="btn btn-ghost" id="add-education-btn" style="margin-top:16px;width:100%;border:1px dashed var(--border)"><i class="fas fa-plus"></i> Add Education</button>
+            <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('sec-experience').scrollIntoView({behavior:'smooth'})">Next Step <i class="fas fa-arrow-down"></i></button>
+          </section>
+
+          <section class="card tight" id="sec-experience">
             <h2 class="card-title"><i class="fas fa-briefcase" style="color:var(--primary-500);margin-right:8px"></i> Experience</h2>
-            <div class="form-grid" style="margin-top:16px">
-              <div>
-                <label class="label">Role and company</label>
-                <input class="input form-input" placeholder="Full-Stack Intern, Tech Innovations" />
-              </div>
-              <div>
-                <label class="label">Description</label>
-                <textarea class="textarea form-input" placeholder="Built APIs, improved frontend usability, and collaborated on student hiring platform modules."></textarea>
-              </div>
+            <div id="experience-wrapper" class="section-stack" style="margin-top:16px">
+               <!-- JS Injected Exps will go here -->
             </div>
+            <button class="btn btn-ghost" id="add-experience-btn" style="margin-top:16px;width:100%;border:1px dashed var(--border)"><i class="fas fa-plus"></i> Add Experience</button>
+            <button class="btn btn-primary" style="margin-top:16px" onclick="document.getElementById('sec-skills').scrollIntoView({behavior:'smooth'})">Next Step <i class="fas fa-arrow-down"></i></button>
           </section>
 
-          <section class="card tight">
-            <h2 class="card-title"><i class="fas fa-star" style="color:var(--primary-500);margin-right:8px"></i> Skills & Documents</h2>
+          <section class="card tight" id="sec-skills">
+            <h2 class="card-title"><i class="fas fa-star" style="color:var(--primary-500);margin-right:8px"></i> Skills & Links</h2>
             <div class="form-grid" style="margin-top:16px">
               <div>
                 <label class="label">Core skills (comma separated)</label>
-                <input class="input form-input" placeholder="JavaScript, PHP, SQL, REST API, Git" />
+                <input class="input form-input" id="inp-skills" placeholder="JavaScript, PHP, System Design, Git" />
               </div>
               <div>
-                <label class="label">Upload certificates / portfolio</label>
-                <input class="input form-input" type="file" />
-                <p class="muted" style="margin-top:4px">Accepted: PDF, PNG, JPG. Max 5 MB each.</p>
+                <label class="label">Primary Portfolio/Drive Link</label>
+                <input class="input form-input" id="inp-link" type="url" placeholder="https://drive.google.com/..." />
+                <p class="muted" style="margin-top:4px">Used by supervisors and recruiters to analyze your certificates natively.</p>
               </div>
+            </div>
+            <div style="margin-top:24px; border-top:1px solid var(--border); padding-top:24px">
+              <button class="btn btn-primary btn-lg" style="width:100%"><i class="fas fa-paper-plane"></i> Finalize & Submit for Review</button>
             </div>
           </section>
 
-          <div class="card tight">
-            <div class="btn-row">
-              <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit for Review</button>
-              <button class="btn"><i class="fas fa-download"></i> Save Draft</button>
-            </div>
-          </div>
         </div>
 
         <!-- Right Column: Live A4 Preview -->
         <aside class="section-stack delay-2">
-          <div class="card tight" style="padding:0;background:var(--surface-alt);position:sticky;top:90px">
+          <div class="card tight" style="padding:0;background:var(--surface-alt);position:sticky;top:90px" id="preview">
             <div style="padding:16px 24px;border-bottom:1px solid var(--surface-border);display:flex;justify-content:space-between;align-items:center">
               <strong>Live A4 Preview</strong>
-              <button class="btn btn-ghost btn-icon"><i class="fas fa-expand"></i></button>
+              <span class="badge approved"><i class="fas fa-sync fa-spin"></i> Syncing</span>
             </div>
             
-            <div style="padding:24px;height:700px;overflow-y:auto;background:rgba(0,0,0,0.2)">
-              <!-- Scaled down A4 Document -->
+            <div style="padding:24px;height:750px;overflow-y:auto;background:rgba(0,0,0,0.2)">
               <article class="a4-sheet" style="font-size:0.9rem;border:none">
-                <h1 class="a4-name" style="font-size:24px">First Name Last Name</h1>
-                <p class="a4-headline" style="font-size:16px">Target Headline</p>
+                <h1 class="a4-name" id="prev-name" style="font-size:24px">First Name Last Name</h1>
+                <p class="a4-headline" id="prev-headline" style="font-size:16px">Target Headline</p>
+                <div class="muted" id="prev-meta" style="font-size:12px;margin-top:4px">student@university.edu | +251 900 000 000 | Addis Ababa</div>
                 
                 <section class="a4-section" style="margin-top:16px">
+                  <h3 style="margin-bottom:8px">Summary</h3>
+                  <p style="color:var(--gray-800); line-height:1.4" id="prev-summary">Write a short summary about your goals and traits...</p>
+                </section>
+
+                <section class="a4-section" style="margin-top:16px">
                   <h3 style="margin-bottom:8px">Education</h3>
-                  <p style="color:var(--gray-800)">Institution Name, Degree (Start-End)</p>
+                  <div id="prev-education-list">
+                     <!-- Injected dynamically -->
+                  </div>
                 </section>
                 
                 <section class="a4-section" style="margin-top:16px">
                   <h3 style="margin-bottom:8px">Experience</h3>
-                  <p style="color:var(--gray-800)"><strong>Role, Company</strong><br>Experience description goes here. This section updates in real-time as you fill the form.</p>
+                  <div id="prev-experience-list">
+                     <!-- Injected dynamically -->
+                  </div>
                 </section>
                 
                 <section class="a4-section" style="margin-top:16px">
                   <h3 style="margin-bottom:8px">Skills</h3>
-                  <div class="tag-list">
-                    <span class="tag">Skill 1</span><span class="tag">Skill 2</span>
+                  <div class="tag-list" id="prev-skills">
+                    <span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">System Design</span><span class="tag">Git</span>
                   </div>
                 </section>
               </article>
@@ -171,5 +154,116 @@
 
       </div>
     </main>
+
+    <script>
+      // 1. Mobile Menu Nav Toggle
+      document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+        document.getElementById('main-nav').classList.toggle('mobile-open');
+      });
+
+      // 2. Progressive Tracker highlighting utilizing IntersectionObserver
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            document.querySelectorAll('.step-chip').forEach(c => c.classList.remove('active'));
+            let targetId = entry.target.id.replace('sec-', 'chip-');
+            let chip = document.getElementById(targetId);
+            if(chip) chip.classList.add('active');
+            
+            // Map progress
+            let pMap = { 'sec-personal': 25, 'sec-education': 50, 'sec-experience': 75, 'sec-skills': 100 };
+            document.getElementById('progress-bar').style.width = pMap[entry.target.id] + '%';
+          }
+        });
+      }, { threshold: 0.5 });
+      
+      document.querySelectorAll('section[id^="sec-"]').forEach(sec => observer.observe(sec));
+
+      // 3. Two-Way Data Binding (Simple Native Bindings)
+      function bindInput(inputId, previewId, isMeta = false) {
+        document.getElementById(inputId).addEventListener('input', (e) => {
+           if(!isMeta) {
+               document.getElementById(previewId).innerText = e.target.value.trim() || e.target.placeholder;
+           } else {
+               // Combine metadata dynamically
+               let em = document.getElementById('inp-email').value.trim() || 'student@university.edu';
+               let ph = document.getElementById('inp-phone').value.trim() || '+251 900 000 000';
+               let ad = document.getElementById('inp-address').value.trim() || 'Addis Ababa';
+               document.getElementById('prev-meta').innerText = `${em} | ${ph} | ${ad}`;
+           }
+        });
+      }
+      
+      bindInput('inp-name', 'prev-name');
+      bindInput('inp-headline', 'prev-headline');
+      bindInput('inp-summary', 'prev-summary');
+      bindInput('inp-email', 'prev-meta', true);
+      bindInput('inp-phone', 'prev-meta', true);
+      bindInput('inp-address', 'prev-meta', true);
+
+      document.getElementById('inp-skills').addEventListener('input', (e) => {
+         let val = e.target.value || e.target.placeholder;
+         let skills = val.split(',').map(s => s.trim()).filter(s => s);
+         document.getElementById('prev-skills').innerHTML = skills.map(s => `<span class="tag">${s}</span>`).join('');
+      });
+
+      // 4. Dynamic Multiple Array Handlers (Education & Experience)
+      let edus = [];
+      let exps = [];
+
+      function renderEducation() {
+         let html = '';
+         let prevHtml = '';
+         edus.forEach((edu, i) => {
+            html += `
+            <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px">
+               <div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong>Entry #${i+1}</strong> <button class="btn btn-ghost btn-sm" style="color:var(--danger)" onclick="remEdu(${i})"><i class="fas fa-trash"></i></button></div>
+               <div class="form-grid two">
+                 <div><label class="label">Institution</label><input class="input form-input" placeholder="Institution" value="${edu.inst}" oninput="updEdu(${i}, 'inst', this.value)" /></div>
+                 <div><label class="label">Degree</label><input class="input form-input" placeholder="Degree" value="${edu.deg}" oninput="updEdu(${i}, 'deg', this.value)" /></div>
+                 <div><label class="label">Start</label><input class="input form-input" placeholder="Start" value="${edu.start}" oninput="updEdu(${i}, 'start', this.value)" /></div>
+                 <div><label class="label">End</label><input class="input form-input" placeholder="End" value="${edu.end}" oninput="updEdu(${i}, 'end', this.value)" /></div>
+               </div>
+            </div>`;
+            prevHtml += `<p style="color:var(--gray-800);margin-bottom:8px"><strong>${edu.inst || 'Institution'}</strong> — ${edu.deg || 'Degree'} <br><span class="muted">${edu.start || 'Start'} - ${edu.end || 'End'}</span></p>`;
+         });
+         document.getElementById('education-wrapper').innerHTML = html;
+         document.getElementById('prev-education-list').innerHTML = prevHtml || '<p style="color:var(--gray-800)">Institution Name, Degree (Start-End)</p>';
+      }
+
+      function renderExperience() {
+         let html = '';
+         let prevHtml = '';
+         exps.forEach((exp, i) => {
+            html += `
+            <div style="padding:12px; border:1px solid var(--border); border-radius:var(--radius-sm); margin-bottom:8px">
+               <div style="display:flex;justify-content:space-between;margin-bottom:8px"><strong>Entry #${i+1}</strong> <button class="btn btn-ghost btn-sm" style="color:var(--danger)" onclick="remExp(${i})"><i class="fas fa-trash"></i></button></div>
+               <div class="form-grid two">
+                 <div style="grid-column:1/-1"><label class="label">Role & Company</label><input class="input form-input" placeholder="Role, Company" value="${exp.role}" oninput="updExp(${i}, 'role', this.value)" /></div>
+                 <div><label class="label">Start</label><input class="input form-input" placeholder="Month YYYY" value="${exp.start}" oninput="updExp(${i}, 'start', this.value)" /></div>
+                 <div><label class="label">End</label><input class="input form-input" placeholder="Month YYYY or Present" value="${exp.end}" oninput="updExp(${i}, 'end', this.value)" /></div>
+                 <div style="grid-column:1/-1"><label class="label">Description</label><textarea class="textarea form-input" placeholder="Describe scope and achievements..." oninput="updExp(${i}, 'desc', this.value)">${exp.desc}</textarea></div>
+               </div>
+            </div>`;
+            prevHtml += `<p style="color:var(--gray-800);margin-bottom:12px"><strong>${exp.role || 'Role, Company'}</strong> <span class="muted">(${exp.start || 'Start'} - ${exp.end || 'End'})</span><br><span style="font-size:0.85em">${exp.desc || 'Experience description goes here. Updates natively.'}</span></p>`;
+         });
+         document.getElementById('experience-wrapper').innerHTML = html;
+         document.getElementById('prev-experience-list').innerHTML = prevHtml || '<p style="color:var(--gray-800)"><strong>Role, Company</strong><br>Experience description goes here.</p>';
+      }
+
+      window.updEdu = (i, field, val) => { edus[i][field] = val; renderEducation(); };
+      window.remEdu = (i) => { edus.splice(i, 1); renderEducation(); };
+      
+      window.updExp = (i, field, val) => { exps[i][field] = val; renderExperience(); };
+      window.remExp = (i) => { exps.splice(i, 1); renderExperience(); };
+
+      document.getElementById('add-education-btn').addEventListener('click', () => { edus.push({inst:'', deg:'', start:'', end:''}); renderEducation(); });
+      document.getElementById('add-experience-btn').addEventListener('click', () => { exps.push({role:'', start:'', end:'', desc:''}); renderExperience(); });
+
+      // Pre-fill with one empty structure naturally
+      edus.push({inst:'', deg:'', start:'', end:''}); renderEducation();
+      exps.push({role:'', start:'', end:'', desc:''}); renderExperience();
+
+    </script>
   </body>
 </html>

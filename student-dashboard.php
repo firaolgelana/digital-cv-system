@@ -27,6 +27,7 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
       <div class="brand-icon"><i class="fas fa-file-alt"></i></div>
       <span class="text-gradient">DigiCV Core</span>
     </div>
+    <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
     <nav class="nav-links">
       <a href="student-dashboard.php" class="active">My Resumes</a>
       <a href="qr-code.html">QR Center</a>
@@ -134,5 +135,11 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
       </section>
     </div>
   </main>
+  <script>
+      // Mobile Menu Nav Toggle
+      document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+        document.querySelector('.nav-links').classList.toggle('mobile-open');
+      });
+  </script>
 </body>
 </html>
