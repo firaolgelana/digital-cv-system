@@ -31,6 +31,7 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
     <nav class="nav-links">
       <a href="student-dashboard.php" class="active">My Resumes</a>
       <a href="qr-code.html">QR Center</a>
+      <a href="php_actions/logout.php" class="mobile-only"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>
     <div class="nav-user">
       <div class="avatar avatar--sm avatar--primary"><?= $initials ?></div>
