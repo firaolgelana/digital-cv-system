@@ -3,98 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Examiner CV Library</title>
+    <title>Examiner CV Library — DigiCV</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   </head>
   <body>
-    <div class="page">
-      <header class="topbar">
-        <div class="container topbar-inner">
-          <div class="brand">
-            <span class="brand-mark">CV</span> Examiner Library
-          </div>
-          <a class="btn" href="index.html">Sign out</a>
-        </div>
-      </header>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-glasses"></i></div>
+        <span class="text-gradient">Examiner Portal</span>
+      </div>
+      <nav class="nav-links">
+        <a href="examiner-dashboard.html" class="active">CV Library</a>
+      </nav>
+      <div class="nav-user">
+        <div class="avatar avatar--sm avatar--primary">EX</div>
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </header>
 
-      <main class="main">
-        <div class="container section-stack">
-          <section class="card">
-            <h1 class="card-title">Approved CV Library</h1>
-            <p class="card-subtitle">
-              Filter by department, year, and skills before evaluating CV
-              quality.
-            </p>
-            <div class="form-grid two" style="margin-top: 16px">
-              <select class="select">
+    <main class="page-container">
+      <div class="page-header animate-fade-in">
+        <h1>Approved CV Library</h1>
+        <p>Filter students, evaluate academic quality, and verify skills.</p>
+      </div>
+
+      <div class="layout-split delay-1">
+        <!-- Left Filter Panel -->
+        <aside class="section-stack">
+          <div class="card tight" style="position:sticky;top:90px">
+            <h2 class="card-title">Filters</h2>
+            <div class="form-group" style="margin-top:16px">
+              <label class="label">Search Student</label>
+              <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input class="form-input" placeholder="Name or Student ID..." />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="label">Department</label>
+              <select class="form-select">
                 <option>All Departments</option>
                 <option>Computer Science</option>
                 <option>Software Engineering</option>
               </select>
-              <select class="select">
-                <option>All Graduation Years</option>
+            </div>
+            <div class="form-group">
+              <label class="label">Graduation Year</label>
+              <select class="form-select">
+                <option>All Years</option>
                 <option>2024</option>
                 <option>2025</option>
                 <option>2026</option>
               </select>
             </div>
-            <div style="margin-top: 8px">
-              <input
-                class="searchbar"
-                placeholder="Filter by skill (e.g. Java, React, Data Analysis)..."
-              />
+            <div class="form-group">
+              <label class="label">Required Skill</label>
+              <input class="form-input" placeholder="e.g. Java, Data Analysis" />
             </div>
-          </section>
+            <button class="btn btn-primary" style="width:100%"><i class="fas fa-filter"></i> Apply Filters</button>
+          </div>
+        </aside>
 
-          <section class="grid-3">
+        <!-- Right Content Block -->
+        <section class="section-stack">
+          
+          <div class="grid-2">
             <article class="card tight">
               <h3 class="card-title">Student Name A</h3>
-              <p class="meta">Computer Science | 2025</p>
-              <div class="tag-list" style="margin: 8px 0">
-                <span class="tag">JavaScript</span
-                ><span class="tag">Node.js</span>
+              <p class="muted">Computer Science | 2025</p>
+              <div class="tag-list" style="margin: 12px 0">
+                <span class="tag">JavaScript</span><span class="tag">Node.js</span>
               </div>
-              <div class="btn-row">
-                <button class="btn">Open CV</button
-                ><button class="btn">Evaluation Notes</button>
+              <div class="btn-row" style="margin-top:16px">
+                <button class="btn btn-primary"><i class="fas fa-external-link-alt"></i> View CV</button>
+                <button class="btn"><i class="fas fa-clipboard-list"></i> Eval</button>
               </div>
             </article>
+
             <article class="card tight">
               <h3 class="card-title">Student Name B</h3>
-              <p class="meta">Software Engineering | 2025</p>
-              <div class="tag-list" style="margin: 8px 0">
+              <p class="muted">Software Engineering | 2025</p>
+              <div class="tag-list" style="margin: 12px 0">
                 <span class="tag">Java</span><span class="tag">SQL</span>
               </div>
-              <div class="btn-row">
-                <button class="btn">Open CV</button
-                ><button class="btn">Evaluation Notes</button>
+              <div class="btn-row" style="margin-top:16px">
+                <button class="btn"><i class="fas fa-external-link-alt"></i> View CV</button>
+                <button class="btn"><i class="fas fa-clipboard-list"></i> Eval</button>
               </div>
             </article>
+
             <article class="card tight">
               <h3 class="card-title">Student Name C</h3>
-              <p class="meta">Information Technology | 2024</p>
-              <div class="tag-list" style="margin: 8px 0">
+              <p class="muted">Information Technology | 2024</p>
+              <div class="tag-list" style="margin: 12px 0">
                 <span class="tag">Python</span><span class="tag">Django</span>
               </div>
-              <div class="btn-row">
-                <button class="btn">Open CV</button
-                ><button class="btn">Evaluation Notes</button>
+              <div class="btn-row" style="margin-top:16px">
+                <button class="btn"><i class="fas fa-external-link-alt"></i> View CV</button>
+                <button class="btn"><i class="fas fa-clipboard-list"></i> Eval</button>
               </div>
             </article>
-          </section>
+          </div>
 
-          <section class="card">
-            <h2 class="card-title">Evaluation Notes</h2>
-            <textarea
-              class="textarea"
-              placeholder="Optional academic evaluation notes for selected CV..."
-            ></textarea>
-            <div class="btn-row" style="margin-top: 8px">
-              <button class="btn btn-primary">Save Notes</button>
+          <div class="card" style="margin-top:16px">
+            <h2 class="card-title">Evaluation Notes (Student Name A)</h2>
+            <p class="card-subtitle" style="margin-bottom:16px">Write your academic evaluation records safely.</p>
+            <textarea class="textarea" placeholder="Evaluator assessment criteria matched..."></textarea>
+            <div class="btn-row" style="margin-top: 16px">
+              <button class="btn btn-primary"><i class="fas fa-save"></i> Save Notes</button>
             </div>
-          </section>
-        </div>
-      </main>
-    </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
   </body>
 </html>

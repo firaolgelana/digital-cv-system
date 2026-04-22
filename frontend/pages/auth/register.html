@@ -3,109 +3,116 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DigiCV Register</title>
+    <title>Create Account — DigiCV</title>
+    <link rel="stylesheet" href="../../../../styles.css" />
     <link rel="stylesheet" href="../../assets/css/pages/auth/register.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   </head>
   <body>
-    <div class="auth-wrap page">
-      <div class="card auth-card fade-in">
-        <section class="auth-panel hero">
-          <div class="auth-hero-overlay compact">
-            <div class="brand">
-              <span class="brand-mark">CV</span> DigiCV Platform
+    <div class="auth-page">
+      <div class="auth-card animate-fade-in">
+        
+        <section class="auth-panel hero" style="flex:0.8">
+          <div class="auth-hero-content">
+            <div class="brand-area" style="color:#fff;margin-bottom:auto">
+              <div class="brand-icon"><i class="fas fa-user-graduate"></i></div>
+              <span style="font-weight:700">DigiCV Core</span>
             </div>
-            <h1 class="auth-title" style="margin-top: 18px">
-              Start Your Professional Journey
-            </h1>
-            <p class="auth-sub" style="margin-top: 10px; color: #dfe9ee">
-              Create your profile and publish verified CV versions.
-            </p>
+            
+            <div style="margin-top:100px;">
+              <h1 class="auth-title">Start your<br><span>journey today.</span></h1>
+              <p class="auth-sub" style="color:var(--text);opacity:0.9">Securely build and publish cryptographic CV versions directly to recruiters.</p>
+            </div>
           </div>
         </section>
-        <section class="auth-panel">
-          <div class="auth-meta">
-            <h2 class="auth-title" style="font-size: 28px">Create account</h2>
-            <p class="auth-sub">
-              Set up your student profile to start building CV versions.
-            </p>
+
+        <section class="auth-panel" style="flex:1.5">
+          <div class="auth-meta" style="margin-bottom:24px">
+            <h2 class="auth-title" style="font-size: 2rem">Register</h2>
+            <p class="auth-sub">Set up your student profile to start building secure CV versions.</p>
           </div>
-          <form class="form-grid" id="register-form">
-            <div class="form-grid two">
-              <div>
-                <label class="label">First name</label
-                ><input class="input" placeholder="First name" required />
+
+          <form class="section-stack" id="register-form" style="gap:12px">
+            
+            <div class="form-row" style="margin:0;gap:16px">
+              <div class="form-group" style="margin:0">
+                <label class="label">First name</label>
+                <input class="input" placeholder="First name" required />
               </div>
-              <div>
-                <label class="label">Last name</label
-                ><input class="input" placeholder="Last name" required />
-              </div>
-            </div>
-            <div class="form-grid two">
-              <div>
-                <label class="label">University email</label
-                ><input
-                  class="input"
-                  type="email"
-                  placeholder="name@university.edu"
-                  required
-                />
-              </div>
-              <div>
-                <label class="label">Student ID</label
-                ><input class="input" placeholder="UGR/12345/14" required />
+              <div class="form-group" style="margin:0">
+                <label class="label">Last name</label>
+                <input class="input" placeholder="Last name" required />
               </div>
             </div>
-            <div>
-              <label class="label">Department</label
-              ><select class="select">
+
+            <div class="form-row" style="margin:0;gap:16px">
+              <div class="form-group" style="margin:0">
+                <label class="label">University email</label>
+                <input class="input" type="email" placeholder="name@university.edu" required />
+              </div>
+              <div class="form-group" style="margin:0">
+                <label class="label">Student ID</label>
+                <input class="input" placeholder="UGR/12345/14" required />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin:0">
+              <label class="label">Department</label>
+              <select class="select">
                 <option>Computer Science</option>
                 <option>Software Engineering</option>
                 <option>Information Technology</option>
               </select>
             </div>
-            <div class="form-grid two">
-              <div>
-                <label class="label">Password</label
-                ><input
-                  class="input"
-                  type="password"
-                  placeholder="Create password"
-                  required
-                />
+
+            <div class="form-row" style="margin:0;gap:16px">
+              <div class="form-group" style="margin:0">
+                <label class="label">Password</label>
+                <input class="input" id="password" type="password" placeholder="Create password" required minlength="6" />
               </div>
-              <div>
-                <label class="label">Confirm password</label
-                ><input
-                  class="input"
-                  type="password"
-                  placeholder="Confirm password"
-                  required
-                />
+              <div class="form-group" style="margin:0">
+                <label class="label">Confirm password</label>
+                <input class="input" id="confirm-password" type="password" placeholder="Confirm password" required />
+                <div class="error-msg" id="pass-error">Passwords do not match.</div>
               </div>
             </div>
-            <div class="btn-row">
-              <button class="btn btn-primary" id="register-btn" type="submit">
-                Create account
-              </button>
-              <a class="btn" href="./login.html">Back to login</a>
-            </div>
+
+            <button class="btn btn-primary btn-lg" id="register-btn" type="submit" style="width:100%;margin-top:8px">
+              Create Account <i class="fas fa-check" style="margin-left:4px"></i>
+            </button>
+            
+            <p style="text-align:center;font-size:0.9rem;color:var(--text-muted);margin-top:8px">
+              Already have an account? <a href="login.html" style="font-weight:600">Sign in</a>
+            </p>
           </form>
         </section>
+
       </div>
     </div>
-    <script src="../../assets/js/app.js"></script>
+
     <script>
-      document
-        .getElementById("register-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const registerButton = document.getElementById("register-btn");
-          window.DigiCVApp.setButtonLoading(registerButton, true, "Creating");
-          setTimeout(function () {
-            window.DigiCVApp.toast("Account created");
-            window.DigiCVApp.registerMock();
-          }, 500);
-        });
+      document.getElementById("register-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        
+        // Exact validation for match
+        const pwd = document.getElementById("password").value;
+        const cpwd = document.getElementById("confirm-password").value;
+        
+        if(pwd !== cpwd) {
+           document.getElementById("pass-error").style.display = "block";
+           return;
+        }
+        document.getElementById("pass-error").style.display = "none";
+
+        const btn = document.getElementById("register-btn");
+        btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Registering...';
+        btn.disabled = true;
+
+        setTimeout(function () {
+          alert('Registration successful! Redirecting to login.');
+          window.location.href = 'login.html';
+        }, 800);
+      });
     </script>
   </body>
 </html>
