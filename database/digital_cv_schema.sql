@@ -176,13 +176,12 @@ CREATE TABLE IF NOT EXISTS cv_documents (
 
 -- ============================================================
 --  TABLE 10: qr_codes
---  QR codes generated upon CV approval
+--  QR access tokens generated upon CV approval
 -- ============================================================
 CREATE TABLE IF NOT EXISTS qr_codes (
     id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
     cv_id        INT UNSIGNED NOT NULL UNIQUE,            -- one QR per approved CV
     token        VARCHAR(64)  NOT NULL UNIQUE,            -- secure random token in URL
-    qr_image     VARCHAR(255)          DEFAULT NULL,      -- path to stored QR image file
     access_count INT UNSIGNED NOT NULL DEFAULT 0,
     expires_at   DATETIME              DEFAULT NULL,      -- optional expiry
     generated_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
