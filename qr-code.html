@@ -3,39 +3,114 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>QR Code</title>
+    <title>Dynamic QR Generation — DigiCV</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <!-- Load qrious library strictly to dynamically generate reliable QR codes natively without backend interference -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
   </head>
   <body>
-    <div class="page">
-      <header class="topbar">
-        <div class="container topbar-inner">
-          <div class="brand">
-            <span class="brand-mark">CV</span> CV QR Access
-          </div>
-          <a class="btn" href="student-dashboard.php">Back Home</a>
-        </div>
-      </header>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-qrcode"></i></div>
+        <span class="text-gradient">Dynamic QR Center</span>
+      </div>
+      <nav class="nav-links">
+        <a href="student-dashboard.php"><i class="fas fa-arrow-left"></i> Back to Resumes</a>
+      </nav>
+    </header>
 
-      <main class="main">
-        <div class="container">
-          <div class="card center-box">
-            <h1 class="card-title">Your CV QR Code</h1>
-            <p class="card-subtitle">
-              Status: <span class="badge approved">Active</span>
-            </p>
-            <div style="margin: 20px 0"><div class="qr-box">QR</div></div>
-            <div class="btn-row" style="justify-content: center">
-              <button class="btn btn-primary">Download QR</button>
-              <button class="btn">Copy Link</button>
-              <button class="btn">Share</button>
-            </div>
-            <p class="footer-note">
-              Public URL: https://digicv.app/cv/token-xyz-123
-            </p>
-          </div>
+    <main class="page-container">
+      <div class="page-header animate-fade-in">
+        <h1>Your CV QR Access Matrices</h1>
+        <p>Each QR code holds a unique cryptographic token corresponding to a distinct, approved CV.</p>
+      </div>
+
+      <div class="layout-split">
+        <div class="section-stack delay-1">
+           <div class="card tight">
+              <h2 class="card-title">Select Subject CV</h2>
+              <div class="form-group" style="margin-top:16px">
+                 <select class="form-select" id="cv-selector">
+                   <option value="swe">Software Engineer CV</option>
+                   <option value="ds">Data Science & ML Resume</option>
+                   <option value="acad">General Academic CV</option>
+                 </select>
+              </div>
+              <p class="muted">Warning: Pending or incomplete resumes will display a warning flag when scanned by recruiter portals.</p>
+           </div>
         </div>
-      </main>
-    </div>
+
+        <section class="section-stack delay-2">
+          <div class="card center-box" style="padding-top:40px;padding-bottom:40px">
+            <h1 class="card-title" id="qr-target-title">Software Engineer CV</h1>
+            <p class="card-subtitle">
+              Scan Configuration Status: <span class="badge approved" id="qr-target-status">Active Public</span>
+            </p>
+            <div style="margin: 32px 0; display:flex; justify-content:center;">
+              <!-- Dynamic QR render context -->
+              <div style="padding:16px; background:#fff; border-radius:12px; box-shadow:0 0 20px rgba(16,185,129,0.2)">
+                <canvas id="qr-canvas"></canvas>
+              </div>
+            </div>
+            
+            <div class="form-group" style="margin-bottom:24px;text-align:left">
+               <label class="label">Public Encrypted URL</label>
+               <input class="input form-input" id="qr-url-mock" readonly style="color:var(--primary-400);background:var(--surface)" />
+            </div>
+
+            <div class="btn-row" style="justify-content: center">
+              <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-download"></i> Download Matrix</button>
+              <button class="btn"><i class="fas fa-copy"></i> Copy Link</button>
+              <button class="btn"><i class="fas fa-share-alt"></i> Share to Recruiter</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      // Multi-CV logic handling natively via URL parameters and qrious.js dynamic rendering.
+      const resumes = {
+          'swe': { title: 'Software Engineer CV', status: 'Active Public', url: 'https://digicv.app/cv/VERIFIED-SWE-0x12aBc9' },
+          'ds': { title: 'Data Science & ML Resume', status: 'In Review (Restricted)', url: 'https://digicv.app/cv/PENDING-DS-0x44kLp1' },
+          'acad': { title: 'General Academic CV', status: 'Draft Mode', url: 'https://digicv.app/cv/DRAFT-ACAD-0x00fTr4' }
+      };
+
+      const qr = new QRious({
+          element: document.getElementById('qr-canvas'),
+          size: 240,
+          background: 'white',
+          foreground: '#0f172a',
+          level: 'H'
+      });
+
+      function renderQR(id) {
+          const cv = resumes[id] || resumes['swe'];
+          document.getElementById('qr-target-title').innerText = cv.title;
+          
+          let statusBadge = document.getElementById('qr-target-status');
+          statusBadge.innerText = cv.status;
+          statusBadge.className = 'badge ' + (cv.status.includes('Active') ? 'approved' : cv.status.includes('Draft') ? 'draft' : 'pending');
+          
+          const targetUrl = cv.url;
+          document.getElementById('qr-url-mock').value = targetUrl;
+          
+          // Generate actual QR 
+          qr.value = targetUrl;
+      }
+
+      // Initial render based on param
+      const urlParams = new URLSearchParams(window.location.search);
+      const cvParam = urlParams.get('cv') || 'swe';
+      document.getElementById('cv-selector').value = cvParam;
+      renderQR(cvParam);
+
+      // Listener for direct transitions
+      document.getElementById('cv-selector').addEventListener('change', (e) => {
+          renderQR(e.target.value);
+      });
+    </script>
   </body>
 </html>

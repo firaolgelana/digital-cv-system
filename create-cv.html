@@ -3,146 +3,173 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CV Builder</title>
+    <title>CV Builder — DigiCV</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
   </head>
   <body>
-    <div class="page">
-      <header class="topbar">
-        <div class="container topbar-inner">
-          <div class="brand">
-            <span class="brand-mark">CV</span> DigiCV CV Builder
-          </div>
-          <div class="nav-actions">
-            <span class="muted">Auto-save: synced 1 min ago</span>
-            <a class="btn" href="student-dashboard.php">Back Home</a>
-          </div>
-        </div>
-      </header>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">DigiCV Builder</span>
+      </div>
+      <nav class="nav-links">
+        <a href="student-dashboard.php"><i class="fas fa-arrow-left"></i> Back Home</a>
+        <span class="muted" style="margin-left:24px"><i class="fas fa-save"></i> Auto-save: synced 1 min ago</span>
+      </nav>
+      <div class="nav-user">
+        <div class="avatar avatar--sm avatar--primary">S</div>
+      </div>
+    </header>
 
-      <main class="main">
-        <div class="container section-stack">
-          <div class="card">
-            <h1 class="card-title">Create / Edit CV</h1>
-            <p class="card-subtitle">
-              Complete each step and submit for review.
-            </p>
-            <div class="step-track">
-              <div class="step-row">
+    <main class="page-container">
+      <div class="page-header animate-fade-in">
+        <h1>Create / Edit Target CV</h1>
+        <p>Complete each step and submit for review. Live preview is available.</p>
+      </div>
+
+      <div class="layout-split">
+        
+        <!-- Left Column: Form Builder -->
+        <div class="section-stack delay-1">
+          <div class="card tight">
+            <div class="step-track" style="margin:0">
+              <div class="step-row" style="grid-template-columns: repeat(4, 1fr); overflow-x: auto;">
                 <div class="step-chip active">1. Personal</div>
                 <div class="step-chip">2. Education</div>
                 <div class="step-chip">3. Experience</div>
-                <div class="step-chip">4. Skills</div>
-                <div class="step-chip">5. Documents</div>
-                <div class="step-chip">6. Preview</div>
-                <div class="step-chip">7. Submit</div>
+                <div class="step-chip">4. Complete</div>
               </div>
               <div class="progress">
-                <div class="progress-fill" style="width: 34%"></div>
+                <div class="progress-fill" style="width: 25%"></div>
               </div>
             </div>
           </div>
 
-          <section class="card">
-            <h2 class="card-title">Personal Information</h2>
-            <div class="form-grid two">
+          <section class="card tight">
+            <h2 class="card-title"><i class="fas fa-user" style="color:var(--primary-500);margin-right:8px"></i> Personal Information</h2>
+            <div class="form-grid two" style="margin-top:16px">
               <div>
-                <label class="label">Full name</label
-                ><input class="input" value="First Name Last Name" />
+                <label class="label">Full name</label>
+                <input class="input form-input" placeholder="First Name Last Name" />
               </div>
               <div>
-                <label class="label">Email</label
-                ><input class="input" value="student@university.edu" />
+                <label class="label">Email</label>
+                <input class="input form-input" type="email" placeholder="student@university.edu" />
               </div>
               <div>
-                <label class="label">Phone</label
-                ><input class="input" value="+251 900 000 000" />
+                <label class="label">Phone</label>
+                <input class="input form-input" placeholder="+251 900 000 000" />
               </div>
               <div>
-                <label class="label">Address</label
-                ><input class="input" value="Addis Ababa, Ethiopia" />
+                <label class="label">Address</label>
+                <input class="input form-input" placeholder="Addis Ababa, Ethiopia" />
+              </div>
+              <div style="grid-column: 1 / -1">
+                <label class="label">Target Headline</label>
+                <input class="input form-input" placeholder="e.g. Junior Software Engineer" />
               </div>
             </div>
           </section>
 
-          <section class="card">
-            <h2 class="card-title">Education</h2>
-            <div class="form-grid two">
-              <div>
-                <label class="label">Institution</label
-                ><input class="input" value="Addis Ababa University" />
+          <section class="card tight">
+            <h2 class="card-title"><i class="fas fa-graduation-cap" style="color:var(--primary-500);margin-right:8px"></i> Education</h2>
+            <div class="form-grid two" style="margin-top:16px">
+              <div style="grid-column: 1 / -1">
+                <label class="label">Institution</label>
+                <input class="input form-input" placeholder="Addis Ababa University" />
               </div>
               <div>
-                <label class="label">Degree</label
-                ><input class="input" value="BSc Computer Science" />
+                <label class="label">Degree</label>
+                <input class="input form-input" placeholder="BSc Computer Science" />
               </div>
-              <div>
-                <label class="label">Start year</label
-                ><input class="input" value="2021" />
-              </div>
-              <div>
-                <label class="label">End year</label
-                ><input class="input" value="2025" />
+              <div class="form-grid two">
+                <div>
+                  <label class="label">Start year</label>
+                  <input class="input form-input" placeholder="2021" />
+                </div>
+                <div>
+                  <label class="label">End year</label>
+                  <input class="input form-input" placeholder="2025" />
+                </div>
               </div>
             </div>
           </section>
 
-          <section class="card">
-            <h2 class="card-title">Experience</h2>
-            <div class="form-grid">
+          <section class="card tight">
+            <h2 class="card-title"><i class="fas fa-briefcase" style="color:var(--primary-500);margin-right:8px"></i> Experience</h2>
+            <div class="form-grid" style="margin-top:16px">
               <div>
-                <label class="label">Role and company</label
-                ><input
-                  class="input"
-                  value="Full-Stack Intern, Tech Innovations"
-                />
+                <label class="label">Role and company</label>
+                <input class="input form-input" placeholder="Full-Stack Intern, Tech Innovations" />
               </div>
               <div>
-                <label class="label">Description</label
-                ><textarea class="textarea">
-Built APIs, improved frontend usability, and collaborated on student hiring platform modules.</textarea
-                >
+                <label class="label">Description</label>
+                <textarea class="textarea form-input" placeholder="Built APIs, improved frontend usability, and collaborated on student hiring platform modules."></textarea>
               </div>
             </div>
           </section>
 
-          <section class="card">
-            <h2 class="card-title">Skills</h2>
-            <div class="form-grid">
+          <section class="card tight">
+            <h2 class="card-title"><i class="fas fa-star" style="color:var(--primary-500);margin-right:8px"></i> Skills & Documents</h2>
+            <div class="form-grid" style="margin-top:16px">
               <div>
-                <label class="label">Core skills</label
-                ><input
-                  class="input"
-                  value="JavaScript, PHP, SQL, REST API, Git"
-                />
+                <label class="label">Core skills (comma separated)</label>
+                <input class="input form-input" placeholder="JavaScript, PHP, SQL, REST API, Git" />
               </div>
-              <div class="tag-list">
-                <span class="tag">JavaScript</span><span class="tag">PHP</span
-                ><span class="tag">SQL</span><span class="tag">Git</span>
-              </div>
-            </div>
-          </section>
-
-          <section class="card">
-            <h2 class="card-title">Documents Upload</h2>
-            <div class="form-grid">
               <div>
-                <label class="label">Upload certificates / portfolio</label
-                ><input class="input" type="file" />
+                <label class="label">Upload certificates / portfolio</label>
+                <input class="input form-input" type="file" />
+                <p class="muted" style="margin-top:4px">Accepted: PDF, PNG, JPG. Max 5 MB each.</p>
               </div>
-              <p class="muted">Accepted: PDF, PNG, JPG. Max 5 MB each.</p>
             </div>
           </section>
 
           <div class="card tight">
             <div class="btn-row">
-              <button class="btn">Save Draft</button>
-              <a class="btn" href="cv-preview.html">Open Preview</a>
-              <button class="btn btn-primary">Submit for Review</button>
+              <button class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit for Review</button>
+              <button class="btn"><i class="fas fa-download"></i> Save Draft</button>
             </div>
           </div>
         </div>
-      </main>
-    </div>
+
+        <!-- Right Column: Live A4 Preview -->
+        <aside class="section-stack delay-2">
+          <div class="card tight" style="padding:0;background:var(--surface-alt);position:sticky;top:90px">
+            <div style="padding:16px 24px;border-bottom:1px solid var(--surface-border);display:flex;justify-content:space-between;align-items:center">
+              <strong>Live A4 Preview</strong>
+              <button class="btn btn-ghost btn-icon"><i class="fas fa-expand"></i></button>
+            </div>
+            
+            <div style="padding:24px;height:700px;overflow-y:auto;background:rgba(0,0,0,0.2)">
+              <!-- Scaled down A4 Document -->
+              <article class="a4-sheet" style="font-size:0.9rem;border:none">
+                <h1 class="a4-name" style="font-size:24px">First Name Last Name</h1>
+                <p class="a4-headline" style="font-size:16px">Target Headline</p>
+                
+                <section class="a4-section" style="margin-top:16px">
+                  <h3 style="margin-bottom:8px">Education</h3>
+                  <p style="color:var(--gray-800)">Institution Name, Degree (Start-End)</p>
+                </section>
+                
+                <section class="a4-section" style="margin-top:16px">
+                  <h3 style="margin-bottom:8px">Experience</h3>
+                  <p style="color:var(--gray-800)"><strong>Role, Company</strong><br>Experience description goes here. This section updates in real-time as you fill the form.</p>
+                </section>
+                
+                <section class="a4-section" style="margin-top:16px">
+                  <h3 style="margin-bottom:8px">Skills</h3>
+                  <div class="tag-list">
+                    <span class="tag">Skill 1</span><span class="tag">Skill 2</span>
+                  </div>
+                </section>
+              </article>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </main>
   </body>
 </html>

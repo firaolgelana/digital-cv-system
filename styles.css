@@ -375,7 +375,7 @@ h1, h2, h3, h4, p {
 
 /* Original auth-panel hero overriding */
 .auth-panel.hero {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(16, 185, 129, 0.1)), url("assets/images/resume6.jpg") center/cover no-repeat;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(16, 185, 129, 0.1)), url("frontend/images/resume6.jpg") center/cover no-repeat;
   border-right: 1px solid var(--border);
 }
 
@@ -628,7 +628,8 @@ h1, h2, h3, h4, p {
   font-weight: 500;
 }
 
-.text-gradient { background: linear-gradient(90deg, var(--primary-400), var(--accent-400)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.text-gradient { background: linear-gradient(90deg, var(--primary-400), var(--accent-400)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+
 
 .nav-links a:hover, .nav-links a.active {
   color: var(--primary-400);
@@ -703,11 +704,23 @@ h1, h2, h3, h4, p {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .topbar-inner {
+  .top-navbar {
     height: auto;
-    padding: 12px 0;
+    padding: 12px 20px;
     flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
   }
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    gap: 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 8px;
+  }
+  .brand-area { margin-right: auto; }
+  .nav-user { margin-left: auto; }
 
   .auth-page .auth-card {
     flex-direction: column;

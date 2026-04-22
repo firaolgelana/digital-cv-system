@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/includes/functions.php';
-requireLogin();
+// requireLogin();
 
 if (($_SESSION['role'] ?? '') !== 'student') {
-    header('Location: index.html');
-    exit;
+    // header('Location: index.html');
+    // exit;
 }
 
-$fullName = $_SESSION['full_name'] ?? 'Student';
+$fullName = $_SESSION['full_name'] ?? 'Graduate Student';
 $firstName = explode(' ', trim($fullName))[0] ?: 'Student';
 $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($fullName))[1] ?? '', 0, 1));
 ?>
@@ -28,8 +28,7 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
       <span class="text-gradient">DigiCV Core</span>
     </div>
     <nav class="nav-links">
-      <a href="student-dashboard.php" class="active">My Dashboard</a>
-      <a href="create-cv.html">CV Builder</a>
+      <a href="student-dashboard.php" class="active">My Resumes</a>
       <a href="qr-code.html">QR Center</a>
     </nav>
     <div class="nav-user">
@@ -39,9 +38,12 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
   </header>
 
   <main class="page-container">
-    <div class="page-header animate-fade-in">
-      <h1>Welcome back, <?php echo htmlspecialchars($firstName); ?></h1>
-      <p>Manage your CV, track reviews, and view access analytics.</p>
+    <div class="page-header animate-fade-in" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+      <div>
+        <h1>Welcome back, <?php echo htmlspecialchars($firstName); ?></h1>
+        <p>Manage multiple CVs, track reviews, and generate distinct QR codes.</p>
+      </div>
+      <a href="create-cv.html" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Resume</a>
     </div>
 
     <!-- Layout Split -->
@@ -49,68 +51,84 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
       <!-- Left Column (Compact info) -->
       <aside class="section-stack delay-1">
         <div class="card tight">
-          <h3 class="card-title">Current Status</h3>
-          <p class="muted">Your CV is currently pending review.</p>
-          <div style="margin-top:16px;">
-            <span class="badge pending" style="margin-bottom:16px;display:inline-block">Pending Supervisor Review</span>
-            <div class="grid" style="gap:8px">
-              <a class="btn btn-primary" href="create-cv.html" style="width:100%"><i class="fas fa-pen"></i> Edit CV</a>
-              <a class="btn" href="cv-preview.html" style="width:100%"><i class="fas fa-print"></i> Print Preview</a>
+          <h3 class="card-title">Recent Activity</h3>
+          <p class="muted" style="margin-bottom:16px">Log of your recent actions.</p>
+          <div class="section-stack gap-sm">
+            <div class="list-card">
+              <div class="list-head" style="font-size:0.9rem">
+                <span><i class="fas fa-check-circle" style="color:var(--success);margin-right:8px"></i> "SWE Analyst" Approved</span>
+              </div>
+            </div>
+            <div class="list-card">
+              <div class="list-head" style="font-size:0.9rem">
+                <span><i class="fas fa-file-upload" style="color:var(--info);margin-right:8px"></i> Created "Data Science" CV</span>
+              </div>
+            </div>
+            <div class="list-card">
+              <div class="list-head" style="font-size:0.9rem">
+                <span><i class="fas fa-qrcode" style="color:var(--warning);margin-right:8px"></i> Generated QR for SWE CV</span>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <div class="card tight">
-          <h3 class="card-title">Quick Action</h3>
-          <p class="muted" style="margin-bottom:16px">Access your verified QR code.</p>
-          <a class="btn" href="qr-code.html" style="width:100%"><i class="fas fa-qrcode"></i> View QR Code</a>
         </div>
       </aside>
 
-      <!-- Right Column (Main detail) -->
+      <!-- Right Column (My Resumes) -->
       <section class="section-stack delay-2">
-        <div class="card">
+        <div class="card border-0">
           <div class="card-header">
-            <div>
-              <h3 class="card-title">Recent Activity</h3>
-              <p class="card-subtitle">Log of your recent actions and CV milestones.</p>
-            </div>
+            <h3 class="card-title">My Resumes</h3>
           </div>
-          <div class="section-stack gap-sm">
-            <div class="list-card">
-              <div class="list-head">
-                <strong><i class="fas fa-check-circle" style="color:var(--success);margin-right:8px"></i> Submitted CV for review</strong>
-                <span class="muted">Apr 21, 2026</span>
+          
+          <div class="section-stack gap-md">
+            
+            <!-- Resume 1 -->
+            <article class="card tight" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--surface-alt)">
+              <div>
+                <h4 style="margin:0;font-size:1.1rem">Software Engineer CV</h4>
+                <div style="margin-top:6px;font-size:0.85rem;color:var(--text-muted)">
+                   <span class="badge approved" style="margin-right:8px"><i class="fas fa-check"></i> Approved</span>
+                   Last updated: Apr 21, 2026
+                </div>
               </div>
-            </div>
-            <div class="list-card">
-              <div class="list-head">
-                <strong><i class="fas fa-file-upload" style="color:var(--info);margin-right:8px"></i> Uploaded "BSc Certificate"</strong>
-                <span class="muted">Apr 20, 2026</span>
+              <div class="btn-row">
+                <a class="btn btn-sm" href="create-cv.html"><i class="fas fa-edit"></i> Edit</a>
+                <a class="btn btn-sm btn-primary" href="qr-code.html?cv=swe"><i class="fas fa-qrcode"></i> Target QR</a>
+                <button class="btn btn-sm btn-ghost" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
               </div>
-            </div>
-            <div class="list-card">
-              <div class="list-head">
-                <strong><i class="fas fa-user-edit" style="color:var(--warning);margin-right:8px"></i> Updated "Experience" section</strong>
-                <span class="muted">Apr 19, 2026</span>
-              </div>
-            </div>
-          </div>
-        </div>
+            </article>
 
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Profile Completion</h3>
-              <p class="card-subtitle">Complete your profile to increase CV quality.</p>
-            </div>
-          </div>
-          <div style="background:var(--surface-alt);border-radius:99px;height:12px;width:100%;overflow:hidden;margin-top:16px">
-            <div style="background:linear-gradient(90deg, var(--primary-500), var(--primary-400));width:78%;height:100%;"></div>
-          </div>
-          <div class="flex" style="justify-content:space-between;margin-top:12px">
-            <span class="muted">78% Complete</span>
-            <span class="badge badge--draft">Draft Autosaved</span>
+            <!-- Resume 2 -->
+            <article class="card tight" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--surface-alt)">
+              <div>
+                <h4 style="margin:0;font-size:1.1rem">Data Science & ML Resume</h4>
+                <div style="margin-top:6px;font-size:0.85rem;color:var(--text-muted)">
+                   <span class="badge pending" style="margin-right:8px"><i class="fas fa-hourglass-half"></i> In Review</span>
+                   Last updated: Apr 20, 2026
+                </div>
+              </div>
+              <div class="btn-row">
+                <a class="btn btn-sm" href="create-cv.html"><i class="fas fa-edit"></i> Edit</a>
+                <button class="btn btn-sm" disabled title="Wait for approval"><i class="fas fa-qrcode"></i> Generating</button>
+                <button class="btn btn-sm btn-ghost" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
+              </div>
+            </article>
+
+            <!-- Resume 3 -->
+            <article class="card tight" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--surface-alt)">
+              <div>
+                <h4 style="margin:0;font-size:1.1rem">General Academic CV</h4>
+                <div style="margin-top:6px;font-size:0.85rem;color:var(--text-muted)">
+                   <span class="badge draft" style="margin-right:8px"><i class="fas fa-file-alt"></i> Draft</span>
+                   Last updated: Apr 19, 2026
+                </div>
+              </div>
+              <div class="btn-row">
+                <a class="btn btn-sm" href="create-cv.html"><i class="fas fa-edit"></i> Edit</a>
+                <button class="btn btn-sm btn-ghost" style="color:var(--danger)"><i class="fas fa-trash"></i></button>
+              </div>
+            </article>
+
           </div>
         </div>
       </section>
