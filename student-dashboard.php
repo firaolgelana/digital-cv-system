@@ -18,10 +18,11 @@
     <nav class="nav-links">
       <a href="student-dashboard.php" class="active">My Resumes</a>
       <a href="qr-code.html">QR Center</a>
+      <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
       <a href="php_actions/logout.php" class="mobile-only"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>
     <div class="nav-user">
-      <div class="avatar avatar--sm avatar--primary">ST</div>
+      <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">ST</div></a>
       <a class="btn btn-ghost btn-icon" href="php_actions/logout.php" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
     </div>
   </header>

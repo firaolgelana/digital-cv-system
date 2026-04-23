@@ -21,10 +21,11 @@
       <a href="admin-dashboard.php" class="active">Overview</a>
       <a href="#users-section">Users Matrix</a>
       <a href="#">System Logs</a>
+      <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
       <a href="index.html" class="mobile-only" style="color:var(--danger)"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>
     <div class="nav-user">
-      <div class="avatar avatar--sm avatar--primary">AD</div>
+      <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">AD</div></a>
       <a href="php_actions/logout.php" class="btn btn-ghost btn-icon" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
     </div>
   </header>
