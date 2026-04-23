@@ -1,16 +1,3 @@
-<?php
-require_once __DIR__ . '/includes/functions.php';
-// requireLogin();
-
-if (($_SESSION['role'] ?? '') !== 'student') {
-    // header('Location: index.html');
-    // exit;
-}
-
-$fullName = $_SESSION['full_name'] ?? 'Graduate Student';
-$firstName = explode(' ', trim($fullName))[0] ?: 'Student';
-$initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($fullName))[1] ?? '', 0, 1));
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,7 +21,7 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
       <a href="php_actions/logout.php" class="mobile-only"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </nav>
     <div class="nav-user">
-      <div class="avatar avatar--sm avatar--primary"><?= $initials ?></div>
+      <div class="avatar avatar--sm avatar--primary">ST</div>
       <a class="btn btn-ghost btn-icon" href="php_actions/logout.php" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
     </div>
   </header>
@@ -42,7 +29,7 @@ $initials = strtoupper(substr($firstName, 0, 1) . substr(explode(' ', trim($full
   <main class="page-container">
     <div class="page-header animate-fade-in" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
       <div>
-        <h1>Welcome back, <?php echo htmlspecialchars($firstName); ?></h1>
+        <h1>Welcome back, Graduate</h1>
         <p>Manage multiple CVs, track reviews, and generate distinct QR codes.</p>
       </div>
       <a href="create-cv.html" class="btn btn-primary"><i class="fas fa-plus"></i> Create New Resume</a>
