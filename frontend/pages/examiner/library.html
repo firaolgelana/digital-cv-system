@@ -8,14 +8,23 @@
   </head>
   <body>
     <div class="page">
-      <header class="topbar">
-        <div class="container topbar-inner">
-          <div class="brand">
-            <span class="brand-mark">CV</span> Examiner Library
-          </div>
-          <a class="btn" href="../auth/login.html">Logout</a>
-        </div>
-      </header>
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">DigiCV</span>
+      </div>
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+      </nav>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">US</div></a>
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </header>
       <main class="main">
         <div class="container section-stack">
           <section class="card">
@@ -56,5 +65,15 @@
         </div>
       </main>
     </div>
+  
+    <script>
+      // Mobile Menu Toggle
+      if(document.getElementById('mobile-menu-toggle') && !window.mobileMenuInitialized){
+        document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+          document.getElementById('main-nav').classList.toggle('mobile-open');
+        });
+        window.mobileMenuInitialized = true;
+      }
+    </script>
   </body>
 </html>

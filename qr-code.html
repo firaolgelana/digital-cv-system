@@ -13,12 +13,15 @@
     <!-- Top Navbar -->
     <header class="top-navbar">
       <div class="brand-area">
-        <div class="brand-icon"><i class="fas fa-qrcode"></i></div>
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
         <span class="text-gradient">Dynamic QR Center</span>
       </div>
-      <nav class="nav-links">
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
         <a href="student-dashboard.php"><i class="fas fa-arrow-left"></i> Back to Resumes</a>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
         <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
       </nav>
       <div class="nav-user">
         <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">ST</div></a>
@@ -116,6 +119,16 @@
       document.getElementById('cv-selector').addEventListener('change', (e) => {
           renderQR(e.target.value);
       });
+    </script>
+  
+    <script>
+      // Mobile Menu Toggle
+      if(document.getElementById('mobile-menu-toggle') && !window.mobileMenuInitialized){
+        document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+          document.getElementById('main-nav').classList.toggle('mobile-open');
+        });
+        window.mobileMenuInitialized = true;
+      }
     </script>
   </body>
 </html>

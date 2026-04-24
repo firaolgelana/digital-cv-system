@@ -9,23 +9,23 @@
 </head>
 <body>
   <!-- Top Navbar -->
-  <header class="top-navbar">
-    <div class="brand-area">
-      <div class="brand-icon"><i class="fas fa-file-alt"></i></div>
-      <span class="text-gradient">DigiCV Core</span>
-    </div>
-    <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
-    <nav class="nav-links">
-      <a href="student-dashboard.php" class="active">My Resumes</a>
-      <a href="qr-code.html">QR Center</a>
-      <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
-      <a href="php_actions/logout.php" class="mobile-only"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </nav>
-    <div class="nav-user">
-      <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">ST</div></a>
-      <a class="btn btn-ghost btn-icon" href="php_actions/logout.php" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
-    </div>
-  </header>
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">DigiCV Core</span>
+      </div>
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+      </nav>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">ST</div></a>
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </header>
 
   <main class="page-container">
     <div class="page-header animate-fade-in" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">

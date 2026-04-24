@@ -11,18 +11,18 @@
     <!-- Top Navbar -->
     <header class="top-navbar">
       <div class="brand-area">
-        <div class="brand-icon"><i class="fas fa-id-card"></i></div>
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
         <span class="text-gradient">Account Settings</span>
       </div>
       <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
       <nav class="nav-links" id="main-nav">
-        <!-- Generic backlink -->
         <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Return to Dashboard</a>
-        <a href="profile.html" class="active">My Profile</a>
-        <a href="index.html" class="mobile-only" style="color:var(--danger)"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
       </nav>
       <div class="nav-user">
-        <div class="avatar avatar--sm avatar--accent">US</div>
+        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">US</div></a>
         <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
       </div>
     </header>

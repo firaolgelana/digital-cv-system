@@ -11,24 +11,23 @@
 <body>
 
   <!-- Top Navbar -->
-  <header class="top-navbar">
-    <div class="brand-area">
-      <div class="brand-icon"><i class="fas fa-qrcode"></i></div>
-      <span class="text-gradient">DigiCV Admin</span>
-    </div>
-    <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
-    <nav class="nav-links" id="main-nav">
-      <a href="admin-dashboard.php" class="active">Overview</a>
-      <a href="#users-section">Users Matrix</a>
-      <a href="#">System Logs</a>
-      <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
-      <a href="index.html" class="mobile-only" style="color:var(--danger)"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </nav>
-    <div class="nav-user">
-      <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">AD</div></a>
-      <a href="php_actions/logout.php" class="btn btn-ghost btn-icon" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
-    </div>
-  </header>
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">DigiCV Admin</span>
+      </div>
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+      </nav>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">AD</div></a>
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </header>
 
   <!-- Page Content -->
   <main class="page-container" style="padding-top:32px">
