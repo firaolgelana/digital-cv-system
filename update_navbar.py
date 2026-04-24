@@ -45,7 +45,6 @@ def process_file(filepath):
       <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
       <nav class="nav-links" id="main-nav">
         {back_button}
-        <a href="index.html"><i class="fas fa-home"></i> Home</a>
         <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
         <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
       </nav>
