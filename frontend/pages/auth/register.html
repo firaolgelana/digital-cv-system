@@ -125,7 +125,9 @@
                 />
               </div>
               <div class="form-group" style="margin: 0">
-                <label class="label" for="confirm-password">Confirm password</label>
+                <label class="label" for="confirm-password"
+                  >Confirm password</label
+                >
                 <input
                   class="input"
                   id="confirm-password"
@@ -133,17 +135,8 @@
                   placeholder="Confirm password"
                   required
                 />
-                <div class="error-msg" id="pass-error">
-                  Passwords do not match.
-                </div>
               </div>
             </div>
-
-            <div
-              class="activity-item"
-              id="register-message"
-              style="display: none; margin: 4px 0 0"
-            ></div>
 
             <button
               class="btn btn-primary btn-lg"
@@ -171,34 +164,32 @@
       </div>
     </div>
 
+    <div
+      id="digicv-toast-host"
+      class="toast-host"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+
     <script>
       (function () {
         const form = document.getElementById("register-form");
-        const passError = document.getElementById("pass-error");
-        const messageBox = document.getElementById("register-message");
         const submitBtn = document.getElementById("register-btn");
-
-        function showMessage(message, success) {
-          messageBox.style.display = "block";
-          messageBox.textContent = message;
-          messageBox.style.background = success ? "#ecf9f2" : "#fdf1f1";
-          messageBox.style.borderColor = success ? "#b6e3ce" : "#efc2c2";
-          messageBox.style.color = success ? "#1f8a5b" : "#b13a3a";
-        }
 
         form.addEventListener("submit", async function (e) {
           e.preventDefault();
 
           const password = document.getElementById("password").value;
-          const confirmPassword = document.getElementById("confirm-password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
 
           if (password !== confirmPassword) {
-            passError.style.display = "block";
+            window.DigiCVApp.toast("Passwords do not match.", {
+              type: "error",
+              title: "Check your password",
+            });
             return;
           }
-
-          passError.style.display = "none";
-          messageBox.style.display = "none";
 
           const payload = {
             first_name: document.getElementById("first-name").value.trim(),
@@ -223,14 +214,23 @@
             );
 
             if (!data.success) {
-              showMessage(data.message || "Registration failed.", false);
+              window.DigiCVApp.toast(data.message || "Registration failed.", {
+                type: "error",
+                title: "Registration failed",
+              });
               return;
             }
 
-            showMessage(data.message || "Registration successful.", true);
+            window.DigiCVApp.toast(data.message || "Registration successful.", {
+              type: "success",
+              title: "Account created",
+            });
             window.location.href = data.redirect || "login.html";
           } catch (error) {
-            showMessage("Network error. Please try again.", false);
+            window.DigiCVApp.toast(error.message || "Network error. Please try again.", {
+              type: "error",
+              title: "Unable to register",
+            });
           } finally {
             window.DigiCVApp.setButtonLoading(
               submitBtn,
