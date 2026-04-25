@@ -71,31 +71,56 @@
   function toast(message, options) {
     const host = ensureToastHost();
     const config = options || {};
-    const type = config.type || "info";
+    const allowedTypes = ["success", "error", "warning", "info"];
+    const type = allowedTypes.includes(config.type) ? config.type : "info";
     const toastNode = document.createElement("div");
-    const iconMarkup =
-      type === "success"
-        ? '<i class="fas fa-circle-check"></i>'
-        : type === "error"
-          ? '<i class="fas fa-triangle-exclamation"></i>'
-          : '<i class="fas fa-circle-info"></i>';
+    const iconMap = {
+      success: '<i class="fas fa-circle-check"></i>',
+      error: '<i class="fas fa-triangle-exclamation"></i>',
+      warning: '<i class="fas fa-circle-exclamation"></i>',
+      info: '<i class="fas fa-circle-info"></i>',
+    };
+    const defaultTitleMap = {
+      success: "Success",
+      error: "Error",
+      warning: "Warning",
+      info: "Notice",
+    };
 
     toastNode.className = "toast toast--" + type;
-    toastNode.setAttribute("role", type === "error" ? "alert" : "status");
+    toastNode.setAttribute(
+      "role",
+      type === "error" || type === "warning" ? "alert" : "status",
+    );
     toastNode.style.pointerEvents = "auto";
-    toastNode.innerHTML =
-      '<div class="toast__icon" aria-hidden="true">' +
-      iconMarkup +
-      '</div><div class="toast__body"><div class="toast__title">' +
-      (config.title ||
-        (type === "success"
-          ? "Success"
-          : type === "error"
-            ? "Error"
-            : "Notice")) +
-      '</div><div class="toast__message">' +
-      message +
-      '</div></div><button class="toast__close" type="button" aria-label="Dismiss notification">&times;</button>';
+
+    const iconNode = document.createElement("div");
+    iconNode.className = "toast__icon";
+    iconNode.setAttribute("aria-hidden", "true");
+    iconNode.innerHTML = iconMap[type];
+
+    const bodyNode = document.createElement("div");
+    bodyNode.className = "toast__body";
+
+    const titleNode = document.createElement("div");
+    titleNode.className = "toast__title";
+    titleNode.textContent = config.title || defaultTitleMap[type];
+
+    const messageNode = document.createElement("div");
+    messageNode.className = "toast__message";
+    messageNode.textContent = String(message || "");
+
+    const closeButton = document.createElement("button");
+    closeButton.className = "toast__close";
+    closeButton.type = "button";
+    closeButton.setAttribute("aria-label", "Dismiss notification");
+    closeButton.innerHTML = '<i class="fas fa-xmark" aria-hidden="true"></i>';
+
+    bodyNode.appendChild(titleNode);
+    bodyNode.appendChild(messageNode);
+    toastNode.appendChild(iconNode);
+    toastNode.appendChild(bodyNode);
+    toastNode.appendChild(closeButton);
 
     const removeToast = function () {
       toastNode.classList.remove("is-visible");
@@ -107,9 +132,7 @@
       }, 240);
     };
 
-    toastNode
-      .querySelector(".toast__close")
-      .addEventListener("click", removeToast);
+    closeButton.addEventListener("click", removeToast);
 
     host.appendChild(toastNode);
     requestAnimationFrame(function () {

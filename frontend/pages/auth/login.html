@@ -132,7 +132,7 @@
           const email = emailInput.value.trim();
           if (email.length < 5 || !email.includes("@")) {
             window.DigiCVApp.toast("Enter a valid university email address.", {
-              type: "error",
+              type: "warning",
               title: "Invalid email",
             });
             return;
