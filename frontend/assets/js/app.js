@@ -10,7 +10,28 @@
     return map[role] || "../student/home.html";
   }
 
+  async function authRequest(endpoint, payload) {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json().catch(function () {
+      return null;
+    });
+
+    if (!data) {
+      throw new Error("Invalid server response.");
+    }
+
+    return data;
+  }
+
   window.DigiCVApp = {
+    authRequest: authRequest,
     loginMock: function (role) {
       localStorage.setItem("digicv_role", role);
       window.location.href = roleRoute(role);

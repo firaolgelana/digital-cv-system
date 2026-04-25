@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+    <script src="../../assets/js/app.js"></script>
   </head>
   <body>
     <div class="auth-page">
@@ -47,28 +48,47 @@
           <form class="section-stack" id="register-form" style="gap: 12px">
             <div class="form-row" style="margin: 0; gap: 16px">
               <div class="form-group" style="margin: 0">
-                <label class="label">First name</label>
-                <input class="input" placeholder="First name" required />
+                <label class="label" for="first-name">First name</label>
+                <input
+                  class="input"
+                  id="first-name"
+                  type="text"
+                  placeholder="First name"
+                  required
+                />
               </div>
               <div class="form-group" style="margin: 0">
-                <label class="label">Last name</label>
-                <input class="input" placeholder="Last name" required />
+                <label class="label" for="last-name">Last name</label>
+                <input
+                  class="input"
+                  id="last-name"
+                  type="text"
+                  placeholder="Last name"
+                  required
+                />
               </div>
             </div>
 
             <div class="form-row" style="margin: 0; gap: 16px">
               <div class="form-group" style="margin: 0">
-                <label class="label">University email</label>
+                <label class="label" for="email">University email</label>
                 <input
                   class="input"
+                  id="email"
                   type="email"
                   placeholder="name@university.edu"
                   required
                 />
               </div>
               <div class="form-group" style="margin: 0">
-                <label class="label">Student ID</label>
-                <input class="input" placeholder="UGR/12345/14" required />
+                <label class="label" for="student-id">Student ID</label>
+                <input
+                  class="input"
+                  id="student-id"
+                  type="text"
+                  placeholder="UGR/12345/14"
+                  required
+                />
               </div>
             </div>
 
@@ -94,7 +114,7 @@
 
             <div class="form-row" style="margin: 0; gap: 16px">
               <div class="form-group" style="margin: 0">
-                <label class="label">Password</label>
+                <label class="label" for="password">Password</label>
                 <input
                   class="input"
                   id="password"
@@ -105,7 +125,7 @@
                 />
               </div>
               <div class="form-group" style="margin: 0">
-                <label class="label">Confirm password</label>
+                <label class="label" for="confirm-password">Confirm password</label>
                 <input
                   class="input"
                   id="confirm-password"
@@ -118,6 +138,12 @@
                 </div>
               </div>
             </div>
+
+            <div
+              class="activity-item"
+              id="register-message"
+              style="display: none; margin: 4px 0 0"
+            ></div>
 
             <button
               class="btn btn-primary btn-lg"
@@ -146,31 +172,74 @@
     </div>
 
     <script>
-      document
-        .getElementById("register-form")
-        .addEventListener("submit", function (e) {
+      (function () {
+        const form = document.getElementById("register-form");
+        const passError = document.getElementById("pass-error");
+        const messageBox = document.getElementById("register-message");
+        const submitBtn = document.getElementById("register-btn");
+
+        function showMessage(message, success) {
+          messageBox.style.display = "block";
+          messageBox.textContent = message;
+          messageBox.style.background = success ? "#ecf9f2" : "#fdf1f1";
+          messageBox.style.borderColor = success ? "#b6e3ce" : "#efc2c2";
+          messageBox.style.color = success ? "#1f8a5b" : "#b13a3a";
+        }
+
+        form.addEventListener("submit", async function (e) {
           e.preventDefault();
 
-          // Exact validation for match
-          const pwd = document.getElementById("password").value;
-          const cpwd = document.getElementById("confirm-password").value;
+          const password = document.getElementById("password").value;
+          const confirmPassword = document.getElementById("confirm-password").value;
 
-          if (pwd !== cpwd) {
-            document.getElementById("pass-error").style.display = "block";
+          if (password !== confirmPassword) {
+            passError.style.display = "block";
             return;
           }
-          document.getElementById("pass-error").style.display = "none";
 
-          const btn = document.getElementById("register-btn");
-          btn.innerHTML =
-            '<i class="fas fa-circle-notch fa-spin"></i> Registering...';
-          btn.disabled = true;
+          passError.style.display = "none";
+          messageBox.style.display = "none";
 
-          setTimeout(function () {
-            alert("Registration successful! Redirecting to login.");
-            window.location.href = "login.html";
-          }, 800);
+          const payload = {
+            first_name: document.getElementById("first-name").value.trim(),
+            last_name: document.getElementById("last-name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            student_id: document.getElementById("student-id").value.trim(),
+            department: document.getElementById("department").value.trim(),
+            password: password,
+            confirm_password: confirmPassword,
+          };
+
+          try {
+            window.DigiCVApp.setButtonLoading(
+              submitBtn,
+              true,
+              "Registering...",
+            );
+
+            const data = await window.DigiCVApp.authRequest(
+              "../../../php_actions/register_action.php",
+              payload,
+            );
+
+            if (!data.success) {
+              showMessage(data.message || "Registration failed.", false);
+              return;
+            }
+
+            showMessage(data.message || "Registration successful.", true);
+            window.location.href = data.redirect || "login.html";
+          } catch (error) {
+            showMessage("Network error. Please try again.", false);
+          } finally {
+            window.DigiCVApp.setButtonLoading(
+              submitBtn,
+              false,
+              "Create Account",
+            );
+          }
         });
+      })();
     </script>
   </body>
 </html>

@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
+    <script src="../../assets/js/app.js"></script>
   </head>
   <body>
     <div class="auth-page">
@@ -46,7 +47,16 @@
           </div>
 
           <form class="section-stack" id="login-form">
-            <input type="hidden" id="role" value="student" />
+            <div class="form-group" style="margin: 0">
+              <label class="label" for="role">Account role</label>
+              <select class="input" id="role" required>
+                <option value="student" selected>Student</option>
+                <option value="supervisor">Supervisor</option>
+                <option value="examiner">Examiner</option>
+                <option value="recruiter">Recruiter</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
 
             <div class="form-group" style="margin: 0">
               <label class="label" for="email">University Email</label>
@@ -99,6 +109,12 @@
               </div>
             </div>
 
+            <div
+              class="activity-item"
+              id="login-message"
+              style="display: none; margin: 4px 0 0"
+            ></div>
+
             <button
               class="btn btn-primary btn-lg"
               id="login-btn"
@@ -124,39 +140,70 @@
       </div>
     </div>
 
-    <!-- Generic Mock Script (Frontend Only) -->
     <script>
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", function (e) {
+      (function () {
+        const form = document.getElementById("login-form");
+        const emailInput = document.getElementById("email");
+        const emailError = document.getElementById("email-error");
+        const messageBox = document.getElementById("login-message");
+        const submitBtn = document.getElementById("login-btn");
+
+        function showMessage(message, success) {
+          messageBox.style.display = "block";
+          messageBox.textContent = message;
+          messageBox.style.background = success ? "#ecf9f2" : "#fdf1f1";
+          messageBox.style.borderColor = success ? "#b6e3ce" : "#efc2c2";
+          messageBox.style.color = success ? "#1f8a5b" : "#b13a3a";
+        }
+
+        form.addEventListener("submit", async function (e) {
           e.preventDefault();
-          // Validation mock
-          const email = document.getElementById("email").value;
+
+          const email = emailInput.value.trim();
           if (email.length < 5 || !email.includes("@")) {
-            document.getElementById("email-error").style.display = "block";
+            emailError.style.display = "block";
             return;
           }
-          document.getElementById("email-error").style.display = "none";
 
-          const btn = document.getElementById("login-btn");
-          const originalText = btn.innerHTML;
-          btn.innerHTML =
-            '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
-          btn.disabled = true;
+          emailError.style.display = "none";
+          messageBox.style.display = "none";
 
-          const role = document.getElementById("role").value || "student";
-          setTimeout(function () {
-            // Hardcoded redirects for frontend demonstration based on structure
-            const urls = {
-              student: "../../../student-dashboard.php",
-              admin: "../../../admin-dashboard.php",
-              supervisor: "../../../supervisor-dashboard.html",
-              examiner: "../../../examiner-dashboard.html",
-              recruiter: "../../../recruiter-view.html",
-            };
-            window.location.href = urls[role];
-          }, 600);
+          const payload = {
+            email: email,
+            password: document.getElementById("password").value,
+            role: document.getElementById("role").value || "student",
+          };
+
+          try {
+            window.DigiCVApp.setButtonLoading(
+              submitBtn,
+              true,
+              "Authenticating...",
+            );
+
+            const data = await window.DigiCVApp.authRequest(
+              "../../../php_actions/login_action.php",
+              payload,
+            );
+
+            if (!data.success) {
+              showMessage(data.message || "Login failed.", false);
+              return;
+            }
+
+            showMessage(data.message || "Login successful.", true);
+            window.location.href = data.redirect || "../../../index.html";
+          } catch (error) {
+            showMessage("Network error. Please try again.", false);
+          } finally {
+            window.DigiCVApp.setButtonLoading(
+              submitBtn,
+              false,
+              "Login",
+            );
+          }
         });
+      })();
     </script>
   </body>
 </html>

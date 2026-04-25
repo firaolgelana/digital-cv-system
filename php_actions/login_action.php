@@ -21,9 +21,10 @@ if (!$data) {
     $data = $_POST;
 }
 
-$email    = strtolower(trim($data['email']    ?? ''));
-$password = $data['password']                 ?? '';
-$role     = clean($data['role']               ?? '');   
+$email       = strtolower(trim((string)($data['email'] ?? '')));
+$password    = (string)($data['password'] ?? '');
+$role        = strtolower(trim((string)($data['role'] ?? '')));
+$allowedRoles = ['student', 'supervisor', 'examiner', 'recruiter', 'admin'];
 
 
 if (!isValidEmail($email)) {
@@ -34,6 +35,9 @@ if (empty($password)) {
 }
 if (empty($role)) {
     jsonResponse(false, 'Please select your role.');
+}
+if (!in_array($role, $allowedRoles, true)) {
+    jsonResponse(false, 'Please select a valid role.');
 }
 
 
@@ -67,6 +71,7 @@ try {
     }
 
     
+    session_regenerate_id(true);
     $_SESSION['user_id']   = (int) $user['id'];
     $_SESSION['full_name'] = $user['full_name'];
     $_SESSION['email']     = $user['email'];
