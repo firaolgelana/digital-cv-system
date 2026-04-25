@@ -48,17 +48,6 @@
 
           <form class="section-stack" id="login-form">
             <div class="form-group" style="margin: 0">
-              <label class="label" for="role">Account role</label>
-              <select class="input" id="role" required>
-                <option value="student" selected>Student</option>
-                <option value="supervisor">Supervisor</option>
-                <option value="examiner">Examiner</option>
-                <option value="recruiter">Recruiter</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-
-            <div class="form-group" style="margin: 0">
               <label class="label" for="email">University Email</label>
               <div style="position: relative">
                 <i
@@ -131,13 +120,6 @@
       </div>
     </div>
 
-    <div
-      id="digicv-toast-host"
-      class="toast-host"
-      aria-live="polite"
-      aria-atomic="true"
-    ></div>
-
     <script>
       (function () {
         const form = document.getElementById("login-form");
@@ -159,7 +141,6 @@
           const payload = {
             email: email,
             password: document.getElementById("password").value,
-            role: document.getElementById("role").value || "student",
           };
 
           try {

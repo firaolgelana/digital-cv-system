@@ -52,6 +52,19 @@
       host.setAttribute("aria-atomic", "true");
       document.body.appendChild(host);
     }
+
+    // Enforce fixed top-right placement even if CSS is missing/overridden.
+    host.style.position = "fixed";
+    host.style.top = "18px";
+    host.style.right = "18px";
+    host.style.left = "auto";
+    host.style.bottom = "auto";
+    host.style.zIndex = "9999";
+    host.style.display = "grid";
+    host.style.gap = "10px";
+    host.style.width = "min(360px, calc(100vw - 36px))";
+    host.style.pointerEvents = "none";
+
     return host;
   }
 
@@ -69,6 +82,7 @@
 
     toastNode.className = "toast toast--" + type;
     toastNode.setAttribute("role", type === "error" ? "alert" : "status");
+    toastNode.style.pointerEvents = "auto";
     toastNode.innerHTML =
       '<div class="toast__icon" aria-hidden="true">' +
       iconMarkup +

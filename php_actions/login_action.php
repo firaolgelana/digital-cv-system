@@ -23,8 +23,6 @@ if (!$data) {
 
 $email       = strtolower(trim((string)($data['email'] ?? '')));
 $password    = (string)($data['password'] ?? '');
-$role        = strtolower(trim((string)($data['role'] ?? '')));
-$allowedRoles = ['student', 'supervisor', 'examiner', 'recruiter', 'admin'];
 
 
 if (!isValidEmail($email)) {
@@ -32,12 +30,6 @@ if (!isValidEmail($email)) {
 }
 if (empty($password)) {
     jsonResponse(false, 'Password is required.');
-}
-if (empty($role)) {
-    jsonResponse(false, 'Please select your role.');
-}
-if (!in_array($role, $allowedRoles, true)) {
-    jsonResponse(false, 'Please select a valid role.');
 }
 
 
@@ -63,11 +55,6 @@ try {
     
     if (!(int) $user['is_active']) {
         jsonResponse(false, 'Your account has been deactivated. Please contact the administrator.');
-    }
-
-    
-    if ($user['role'] !== $role) {
-        jsonResponse(false, 'The selected role does not match this account. Please choose the correct role.');
     }
 
     
