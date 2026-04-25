@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Supervisor Review — DigiCV</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="frontend/assets/js/app.js"></script>
   </head>
   <body>
     <!-- Top Navbar -->
@@ -14,131 +18,322 @@
         <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
         <span class="text-gradient">Supervisor Hub</span>
       </div>
-      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <button class="hamburger-btn" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav class="nav-links" id="main-nav">
-        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
-        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
-        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+        <a href="javascript:history.back()"
+          ><i class="fas fa-arrow-left"></i> Back</a
+        >
+        <a href="profile.html" class="mobile-only"
+          ><i class="fas fa-user-cog"></i> Profile Settings</a
+        >
+        <a href="index.html" class="mobile-only" style="color: var(--danger)"
+          ><i class="fas fa-sign-out-alt"></i> Sign out</a
+        >
       </nav>
       <div class="nav-user">
-        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">SP</div></a>
-        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+        <a href="profile.html" style="text-decoration: none"
+          ><div
+            class="avatar avatar--sm avatar--primary"
+            title="Profile Settings"
+          >
+            SP
+          </div></a
+        >
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"
+          ><i class="fas fa-sign-out-alt"></i
+        ></a>
       </div>
     </header>
 
-    <main class="page-container" style="padding-top:32px">
+    <main class="page-container" style="padding-top: 32px">
       <div class="layout-split">
-        
         <!-- Left Column: Operations -->
         <div class="section-stack delay-1">
           <!-- Queue Selection -->
           <section class="card tight">
-            <h2 class="card-title"><i class="fas fa-list" style="color:var(--primary-500);margin-right:8px"></i> Pending Submissions</h2>
-            <p class="muted" style="margin-bottom:16px;font-size:0.9rem">Select a student submission to evaluate the payload natively.</p>
-            
-            <div class="section-stack gap-sm">
-               <!-- Selected Mock Resume in Queue -->
-               <article class="list-card" style="cursor:pointer; border-color:var(--primary-500)">
-                 <div class="list-head" style="margin-bottom:4px">
-                   <strong>John Doe (SWE)</strong>
-                   <span class="badge pending" style="margin-top:0"><i class="fas fa-hourglass-half"></i> Pending</span>
-                 </div>
-                 <div class="muted" style="font-size:0.85rem">Submitted: Aug 24, 2026 - Target: Software Engineer</div>
-               </article>
+            <h2 class="card-title">
+              <i
+                class="fas fa-list"
+                style="color: var(--primary-500); margin-right: 8px"
+              ></i>
+              Pending Submissions
+            </h2>
+            <p class="muted" style="margin-bottom: 16px; font-size: 0.9rem">
+              Select a student submission to evaluate the payload natively.
+            </p>
 
-               <!-- Other Resumes -->
-               <article class="list-card" style="cursor:pointer; opacity:0.6">
-                 <div class="list-head" style="margin-bottom:4px">
-                   <strong>Alice Smith (Cybersecurity)</strong>
-                   <span class="badge pending" style="margin-top:0"><i class="fas fa-hourglass-half"></i> Pending</span>
-                 </div>
-                 <div class="muted" style="font-size:0.85rem">Submitted: Aug 23, 2026 - Target: Penetration Tester</div>
-               </article>
+            <div class="section-stack gap-sm">
+              <!-- Selected Mock Resume in Queue -->
+              <article
+                class="list-card"
+                style="cursor: pointer; border-color: var(--primary-500)"
+              >
+                <div class="list-head" style="margin-bottom: 4px">
+                  <strong>John Doe (SWE)</strong>
+                  <span class="badge pending" style="margin-top: 0"
+                    ><i class="fas fa-hourglass-half"></i> Pending</span
+                  >
+                </div>
+                <div class="muted" style="font-size: 0.85rem">
+                  Submitted: Aug 24, 2026 - Target: Software Engineer
+                </div>
+              </article>
+
+              <!-- Other Resumes -->
+              <article class="list-card" style="cursor: pointer; opacity: 0.6">
+                <div class="list-head" style="margin-bottom: 4px">
+                  <strong>Alice Smith (Cybersecurity)</strong>
+                  <span class="badge pending" style="margin-top: 0"
+                    ><i class="fas fa-hourglass-half"></i> Pending</span
+                  >
+                </div>
+                <div class="muted" style="font-size: 0.85rem">
+                  Submitted: Aug 23, 2026 - Target: Penetration Tester
+                </div>
+              </article>
             </div>
           </section>
 
           <!-- Decision Action Block -->
-          <section class="card tight" style="position:sticky;top:90px">
-            <h2 class="card-title"><i class="fas fa-gavel" style="color:var(--gray-300);margin-right:8px"></i> Evaluation Panel</h2>
-            <div style="margin-top:16px;">
-               <div style="display:flex;gap:12px;margin-bottom:16px">
-                  <button class="btn btn-primary" style="flex:1"><i class="fas fa-check"></i> Approve CV</button>
-                  <button class="btn btn-ghost" style="flex:1; border:1px solid var(--danger); color:var(--danger)"><i class="fas fa-times"></i> Reject</button>
-               </div>
-               <label class="label">Revisions Needed</label>
-               <textarea class="textarea form-input" placeholder="Explain the necessary revisions to return the CV to draft status..."></textarea>
-               <button class="btn" style="width:100%;margin-top:12px;background:var(--surface-alt);border:1px solid var(--border)"><i class="fas fa-undo"></i> Request Changes</button>
+          <section class="card tight" style="position: sticky; top: 90px">
+            <h2 class="card-title">
+              <i
+                class="fas fa-gavel"
+                style="color: var(--gray-300); margin-right: 8px"
+              ></i>
+              Evaluation Panel
+            </h2>
+            <div style="margin-top: 16px">
+              <div style="display: flex; gap: 12px; margin-bottom: 16px">
+                <button class="btn btn-primary" style="flex: 1">
+                  <i class="fas fa-check"></i> Approve CV
+                </button>
+                <button
+                  class="btn btn-ghost"
+                  style="
+                    flex: 1;
+                    border: 1px solid var(--danger);
+                    color: var(--danger);
+                  "
+                >
+                  <i class="fas fa-times"></i> Reject
+                </button>
+              </div>
+              <label class="label">Revisions Needed</label>
+              <textarea
+                class="textarea form-input"
+                placeholder="Explain the necessary revisions to return the CV to draft status..."
+              ></textarea>
+              <button
+                class="btn"
+                style="
+                  width: 100%;
+                  margin-top: 12px;
+                  background: var(--surface-alt);
+                  border: 1px solid var(--border);
+                "
+              >
+                <i class="fas fa-undo"></i> Request Changes
+              </button>
             </div>
           </section>
         </div>
 
-
         <!-- Right Column: Live A4 Visualizer -->
         <aside class="section-stack delay-2">
-          <div class="card tight" style="padding:0;background:var(--surface-alt);position:sticky;top:90px">
-            <div style="padding:16px 24px;border-bottom:1px solid var(--surface-border);display:flex;justify-content:space-between;align-items:center">
-              <strong>CV Preview <span class="muted" style="font-weight:400;margin-left:8px">(John Doe)</span></strong>
-              <span class="badge" style="background:var(--surface); border:1px solid var(--border)"><i class="fas fa-lock"></i> Secured View</span>
+          <div
+            class="card tight"
+            style="
+              padding: 0;
+              background: var(--surface-alt);
+              position: sticky;
+              top: 90px;
+            "
+          >
+            <div
+              style="
+                padding: 16px 24px;
+                border-bottom: 1px solid var(--surface-border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <strong
+                >CV Preview
+                <span class="muted" style="font-weight: 400; margin-left: 8px"
+                  >(John Doe)</span
+                ></strong
+              >
+              <span
+                class="badge"
+                style="
+                  background: var(--surface);
+                  border: 1px solid var(--border);
+                "
+                ><i class="fas fa-lock"></i> Secured View</span
+              >
             </div>
-            
-            <div style="padding:24px;height:750px;overflow-y:auto;background:rgba(0,0,0,0.2)">
-              <article class="a4-sheet" style="font-size:0.9rem;border:none">
-                <h1 class="a4-name" style="font-size:24px">John Doe</h1>
-                <p class="a4-headline" style="font-size:16px">Full Stack Software Engineer</p>
-                <div class="muted" style="font-size:12px;margin-top:4px;color:var(--gray-700)">johndoe@university.edu | +251 911 111 222 | Addis Ababa, Ethiopia</div>
-                <div style="font-size:12px;margin-top:4px;display:flex;gap:12px;flex-wrap:wrap">
-                   <a href="#" style="color:var(--primary-600);text-decoration:none"><strong>Portfolio</strong></a> | 
-                   <a href="#" style="color:var(--primary-600);text-decoration:none"><strong>GitHub</strong></a> | 
-                   <a href="#" style="color:var(--primary-600);text-decoration:none"><strong>LinkedIn</strong></a>
+
+            <div
+              style="
+                padding: 24px;
+                height: 750px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.2);
+              "
+            >
+              <article class="a4-sheet" style="font-size: 0.9rem; border: none">
+                <h1 class="a4-name" style="font-size: 24px">John Doe</h1>
+                <p class="a4-headline" style="font-size: 16px">
+                  Full Stack Software Engineer
+                </p>
+                <div
+                  class="muted"
+                  style="
+                    font-size: 12px;
+                    margin-top: 4px;
+                    color: var(--gray-700);
+                  "
+                >
+                  johndoe@university.edu | +251 911 111 222 | Addis Ababa,
+                  Ethiopia
                 </div>
-                
-                <section class="a4-section" style="margin-top:16px">
-                  <h3 style="margin-bottom:8px">Summary</h3>
-                  <p style="color:var(--gray-800); line-height:1.4">Driven software engineer targeting robust web architecture and cloud-native solutions. Experienced scaling APIs for peak distribution requirements.</p>
+                <div
+                  style="
+                    font-size: 12px;
+                    margin-top: 4px;
+                    display: flex;
+                    gap: 12px;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>Portfolio</strong></a
+                  >
+                  |
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>GitHub</strong></a
+                  >
+                  |
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>LinkedIn</strong></a
+                  >
+                </div>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Summary</h3>
+                  <p style="color: var(--gray-800); line-height: 1.4">
+                    Driven software engineer targeting robust web architecture
+                    and cloud-native solutions. Experienced scaling APIs for
+                    peak distribution requirements.
+                  </p>
                 </section>
 
-                <section class="a4-section" style="margin-top:16px">
-                  <h3 style="margin-bottom:8px">Education</h3>
-                  <p style="color:var(--gray-800);margin-bottom:8px"><strong>Adama Science and Technology University</strong> — BSc Software Engineering <br><span class="muted" style="color:var(--gray-600)">Oct 2021 - Present</span></p>
-                </section>
-                
-                <section class="a4-section" style="margin-top:16px">
-                  <h3 style="margin-bottom:8px">Experience</h3>
-                  <p style="color:var(--gray-800);margin-bottom:12px"><strong>Software Engineer Intern, ExampleTech</strong> <span class="muted" style="color:var(--gray-600)">(Jun 2025 - Present)</span><br><span style="font-size:0.85em;color:var(--gray-800)">Engineered scalable Next.js interfaces dynamically resolving backend payload dependencies reducing query times.</span></p>
-                </section>
-
-                <section class="a4-section" style="margin-top:16px">
-                  <h3 style="margin-bottom:8px">Projects</h3>
-                  <p style="color:var(--gray-800);margin-bottom:12px"><strong>DigiCV Distributed Network</strong> <a href="#" style="font-size:0.85em;color:var(--primary-600);margin-left:8px">Proof</a><br><span style="font-size:0.85em;color:var(--gray-800)">A massive scale backend modeling student QR authentications efficiently natively verifying metrics dynamically.</span></p>
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Education</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 8px">
+                    <strong>Adama Science and Technology University</strong> —
+                    BSc Software Engineering <br /><span
+                      class="muted"
+                      style="color: var(--gray-600)"
+                      >Oct 2021 - Present</span
+                    >
+                  </p>
                 </section>
 
-                <section class="a4-section" style="margin-top:16px">
-                  <h3 style="margin-bottom:8px">Certifications</h3>
-                  <ul style="margin:0;padding-left:16px;color:var(--gray-800)">
-                     <li style="margin-bottom:4px"><strong>AWS Solutions Architect</strong> - <a href="#" style="color:var(--primary-600)">View File</a></li>
-                     <li style="margin-bottom:4px"><strong>CompTIA Security+</strong> - <a href="#" style="color:var(--primary-600)">View File</a></li>
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Experience</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 12px">
+                    <strong>Software Engineer Intern, ExampleTech</strong>
+                    <span class="muted" style="color: var(--gray-600)"
+                      >(Jun 2025 - Present)</span
+                    ><br /><span
+                      style="font-size: 0.85em; color: var(--gray-800)"
+                      >Engineered scalable Next.js interfaces dynamically
+                      resolving backend payload dependencies reducing query
+                      times.</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Projects</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 12px">
+                    <strong>DigiCV Distributed Network</strong>
+                    <a
+                      href="#"
+                      style="
+                        font-size: 0.85em;
+                        color: var(--primary-600);
+                        margin-left: 8px;
+                      "
+                      >Proof</a
+                    ><br /><span
+                      style="font-size: 0.85em; color: var(--gray-800)"
+                      >A massive scale backend modeling student QR
+                      authentications efficiently natively verifying metrics
+                      dynamically.</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Certifications</h3>
+                  <ul
+                    style="
+                      margin: 0;
+                      padding-left: 16px;
+                      color: var(--gray-800);
+                    "
+                  >
+                    <li style="margin-bottom: 4px">
+                      <strong>AWS Solutions Architect</strong> -
+                      <a href="#" style="color: var(--primary-600)"
+                        >View File</a
+                      >
+                    </li>
+                    <li style="margin-bottom: 4px">
+                      <strong>CompTIA Security+</strong> -
+                      <a href="#" style="color: var(--primary-600)"
+                        >View File</a
+                      >
+                    </li>
                   </ul>
                 </section>
-                
-                <section class="a4-section" style="margin-top:16px">
-                  <h3 style="margin-bottom:8px">Skills</h3>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Skills</h3>
                   <div class="tag-list">
-                    <span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">Docker</span>
+                    <span class="tag">JavaScript</span
+                    ><span class="tag">React</span
+                    ><span class="tag">Node.js</span><span class="tag">PHP</span
+                    ><span class="tag">MySQL</span
+                    ><span class="tag">Docker</span>
                   </div>
                 </section>
               </article>
             </div>
           </div>
         </aside>
-
       </div>
     </main>
 
     <script>
       // Mobile Menu Toggle
-      document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
-        document.getElementById('main-nav').classList.toggle('mobile-open');
-      });
+      document
+        .getElementById("mobile-menu-toggle")
+        .addEventListener("click", () => {
+          document.getElementById("main-nav").classList.toggle("mobile-open");
+        });
     </script>
   </body>
 </html>

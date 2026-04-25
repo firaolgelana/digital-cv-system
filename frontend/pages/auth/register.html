@@ -214,11 +214,14 @@
               return;
             }
 
-            window.DigiCVApp.toast(data.message || "Registration successful.", {
-              type: "success",
-              title: "Account created",
-            });
-            window.location.href = data.redirect || "login.html";
+            window.DigiCVApp.redirectWithToast(
+              data.redirect || "login.html",
+              data.message || "Registration successful.",
+              {
+                type: "success",
+                title: "Account created",
+              },
+            );
           } catch (error) {
             window.DigiCVApp.toast(
               error.message || "Network error. Please try again.",

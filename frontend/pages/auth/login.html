@@ -163,11 +163,14 @@
               return;
             }
 
-            window.DigiCVApp.toast(data.message || "Login successful.", {
-              type: "success",
-              title: "Welcome back",
-            });
-            window.location.href = data.redirect || "../../../index.html";
+            window.DigiCVApp.redirectWithToast(
+              data.redirect || "../../../index.html",
+              data.message || "Login successful.",
+              {
+                type: "success",
+                title: "Welcome back",
+              },
+            );
           } catch (error) {
             window.DigiCVApp.toast(
               error.message || "Network error. Please try again.",

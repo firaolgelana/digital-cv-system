@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Recruiter Access — DigiCV</title>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="frontend/assets/js/app.js"></script>
   </head>
   <body>
     <!-- Top Navbar -->
@@ -14,39 +18,127 @@
         <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
         <span class="text-gradient">Recruiter Portal</span>
       </div>
-      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <button class="hamburger-btn" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
       <nav class="nav-links" id="main-nav">
-        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
-        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
-        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+        <a href="javascript:history.back()"
+          ><i class="fas fa-arrow-left"></i> Back</a
+        >
+        <a href="profile.html" class="mobile-only"
+          ><i class="fas fa-user-cog"></i> Profile Settings</a
+        >
+        <a href="index.html" class="mobile-only" style="color: var(--danger)"
+          ><i class="fas fa-sign-out-alt"></i> Sign out</a
+        >
       </nav>
       <div class="nav-user">
-        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">US</div></a>
-        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+        <a href="profile.html" style="text-decoration: none"
+          ><div
+            class="avatar avatar--sm avatar--primary"
+            title="Profile Settings"
+          >
+            US
+          </div></a
+        >
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"
+          ><i class="fas fa-sign-out-alt"></i
+        ></a>
       </div>
     </header>
 
     <main class="page-container">
       <div class="page-header animate-fade-in">
         <h1>Scan Candidate QR</h1>
-        <p>Point your device camera at the candidate's QR code to pull up their verified CV.</p>
+        <p>
+          Point your device camera at the candidate's QR code to pull up their
+          verified CV.
+        </p>
       </div>
 
       <!-- Split Layout -->
       <div class="layout-split delay-1">
-        
         <!-- Scanner panel (Left) -->
         <aside class="section-stack">
-          <div class="card tight" style="display:flex;flex-direction:column;align-items:center;padding-top:40px;padding-bottom:40px">
-            <div style="width:260px;height:260px;border:3px dashed var(--surface-border);border-radius:var(--radius-lg);position:relative;display:grid;place-items:center;background:rgba(255,255,255,0.02)">
-              <i class="fas fa-camera" style="font-size:3rem;color:var(--text-muted);opacity:0.5"></i>
+          <div
+            class="card tight"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              padding-top: 40px;
+              padding-bottom: 40px;
+            "
+          >
+            <div
+              style="
+                width: 260px;
+                height: 260px;
+                border: 3px dashed var(--surface-border);
+                border-radius: var(--radius-lg);
+                position: relative;
+                display: grid;
+                place-items: center;
+                background: rgba(255, 255, 255, 0.02);
+              "
+            >
+              <i
+                class="fas fa-camera"
+                style="font-size: 3rem; color: var(--text-muted); opacity: 0.5"
+              ></i>
               <!-- Scanning animation corners -->
-              <div style="position:absolute;top:-3px;left:-3px;width:30px;height:30px;border-top:3px solid var(--primary-500);border-left:3px solid var(--primary-500);border-radius:8px 0 0 0"></div>
-              <div style="position:absolute;top:-3px;right:-3px;width:30px;height:30px;border-top:3px solid var(--primary-500);border-right:3px solid var(--primary-500);border-radius:0 8px 0 0"></div>
-              <div style="position:absolute;bottom:-3px;left:-3px;width:30px;height:30px;border-bottom:3px solid var(--primary-500);border-left:3px solid var(--primary-500);border-radius:0 0 0 8px"></div>
-              <div style="position:absolute;bottom:-3px;right:-3px;width:30px;height:30px;border-bottom:3px solid var(--primary-500);border-right:3px solid var(--primary-500);border-radius:0 0 8px 0"></div>
+              <div
+                style="
+                  position: absolute;
+                  top: -3px;
+                  left: -3px;
+                  width: 30px;
+                  height: 30px;
+                  border-top: 3px solid var(--primary-500);
+                  border-left: 3px solid var(--primary-500);
+                  border-radius: 8px 0 0 0;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  top: -3px;
+                  right: -3px;
+                  width: 30px;
+                  height: 30px;
+                  border-top: 3px solid var(--primary-500);
+                  border-right: 3px solid var(--primary-500);
+                  border-radius: 0 8px 0 0;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  bottom: -3px;
+                  left: -3px;
+                  width: 30px;
+                  height: 30px;
+                  border-bottom: 3px solid var(--primary-500);
+                  border-left: 3px solid var(--primary-500);
+                  border-radius: 0 0 0 8px;
+                "
+              ></div>
+              <div
+                style="
+                  position: absolute;
+                  bottom: -3px;
+                  right: -3px;
+                  width: 30px;
+                  height: 30px;
+                  border-bottom: 3px solid var(--primary-500);
+                  border-right: 3px solid var(--primary-500);
+                  border-radius: 0 0 8px 0;
+                "
+              ></div>
             </div>
-            <p class="muted" style="margin-top:24px;text-align:center">Waiting for QR code detection...</p>
+            <p class="muted" style="margin-top: 24px; text-align: center">
+              Waiting for QR code detection...
+            </p>
           </div>
         </aside>
 
@@ -54,48 +146,117 @@
         <section class="section-stack">
           <div class="card">
             <h2 class="card-title">Retrieved Profile</h2>
-            <p class="card-subtitle" style="margin-bottom:24px">Candidate verified by University system.</p>
-            
+            <p class="card-subtitle" style="margin-bottom: 24px">
+              Candidate verified by University system.
+            </p>
+
             <div class="section-stack">
               <div>
-                <h3 style="font-size: 1.5rem;font-weight:700;margin-bottom:4px">First Name Last Name</h3>
-                <p class="text-gradient" style="font-weight:600;display:inline-block">Software Engineer | Addis Ababa University</p>
-                <div style="margin-top:8px"><span class="badge approved"><i class="fas fa-check-circle" style="margin-right:4px"></i> Digitally Verified</span></div>
+                <h3
+                  style="
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    margin-bottom: 4px;
+                  "
+                >
+                  First Name Last Name
+                </h3>
+                <p
+                  class="text-gradient"
+                  style="font-weight: 600; display: inline-block"
+                >
+                  Software Engineer | Addis Ababa University
+                </p>
+                <div style="margin-top: 8px">
+                  <span class="badge approved"
+                    ><i
+                      class="fas fa-check-circle"
+                      style="margin-right: 4px"
+                    ></i>
+                    Digitally Verified</span
+                  >
+                </div>
               </div>
 
               <div>
-                <h4 style="font-size: 0.95rem; margin-bottom: 8px; color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em">Education</h4>
+                <h4
+                  style="
+                    font-size: 0.95rem;
+                    margin-bottom: 8px;
+                    color: var(--text-muted);
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                  "
+                >
+                  Education
+                </h4>
                 <p><strong>BSc Computer Science</strong> — 2021-2025</p>
               </div>
 
               <div>
-                <h4 style="font-size: 0.95rem; margin-bottom: 8px; color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em">Work Experience</h4>
+                <h4
+                  style="
+                    font-size: 0.95rem;
+                    margin-bottom: 8px;
+                    color: var(--text-muted);
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                  "
+                >
+                  Work Experience
+                </h4>
                 <p>Full-Stack Intern — Tech Innovations (2024)</p>
               </div>
 
               <div>
-                <h4 style="font-size: 0.95rem; margin-bottom: 8px; color:var(--text-muted);text-transform:uppercase;letter-spacing:0.04em">Skills</h4>
+                <h4
+                  style="
+                    font-size: 0.95rem;
+                    margin-bottom: 8px;
+                    color: var(--text-muted);
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                  "
+                >
+                  Skills
+                </h4>
                 <div class="tag-list">
-                  <span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">SQL</span>
+                  <span class="tag">JavaScript</span><span class="tag">PHP</span
+                  ><span class="tag">SQL</span>
                 </div>
               </div>
 
-              <div style="margin-top:16px;border-top:1px solid var(--surface-border);padding-top:24px">
-                <button class="btn btn-primary" style="width:100%;max-width:300px"><i class="fas fa-download"></i> Download Full PDF</button>
+              <div
+                style="
+                  margin-top: 16px;
+                  border-top: 1px solid var(--surface-border);
+                  padding-top: 24px;
+                "
+              >
+                <button
+                  class="btn btn-primary"
+                  style="width: 100%; max-width: 300px"
+                >
+                  <i class="fas fa-download"></i> Download Full PDF
+                </button>
               </div>
             </div>
           </div>
         </section>
-
       </div>
     </main>
-  
+
     <script>
       // Mobile Menu Toggle
-      if(document.getElementById('mobile-menu-toggle') && !window.mobileMenuInitialized){
-        document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
-          document.getElementById('main-nav').classList.toggle('mobile-open');
-        });
+      if (
+        document.getElementById("mobile-menu-toggle") &&
+        !window.mobileMenuInitialized
+      ) {
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", () => {
+            document.getElementById("main-nav").classList.toggle("mobile-open");
+          });
         window.mobileMenuInitialized = true;
       }
     </script>

@@ -441,6 +441,42 @@ p {
   flex: 1;
 }
 
+.auth-page #register-form {
+  gap: 14px !important;
+}
+
+.auth-page #register-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px !important;
+}
+
+.auth-page #register-form .label {
+  margin-bottom: 8px;
+}
+
+.auth-page #register-form .input {
+  min-height: 44px;
+}
+
+.auth-page #register-form .field-icon {
+  position: relative;
+}
+
+.auth-page #register-form .field-icon > i {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.auth-page #register-form .field-icon .input {
+  padding-left: 42px;
+}
+
 /* Original auth-panel hero overriding */
 .auth-panel.hero {
   background:
@@ -1071,6 +1107,11 @@ p {
     max-width: 500px;
     margin: 0 auto;
   }
+
+  .auth-page #register-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
   .auth-panel.hero {
     display: none;
   }

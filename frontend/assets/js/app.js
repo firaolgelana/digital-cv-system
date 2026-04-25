@@ -1,4 +1,6 @@
 (function () {
+  const PENDING_TOAST_KEY = "digicv.pendingToast";
+
   function roleRoute(role) {
     const map = {
       student: "../student/home.html",
@@ -43,6 +45,10 @@
   }
 
   function ensureToastHost() {
+    if (!document.body) {
+      return null;
+    }
+
     let host = document.getElementById("digicv-toast-host");
     if (!host) {
       host = document.createElement("div");
@@ -70,6 +76,10 @@
 
   function toast(message, options) {
     const host = ensureToastHost();
+    if (!host) {
+      return;
+    }
+
     const config = options || {};
     const allowedTypes = ["success", "error", "warning", "info"];
     const type = allowedTypes.includes(config.type) ? config.type : "info";
@@ -142,9 +152,71 @@
     window.setTimeout(removeToast, config.duration || 3800);
   }
 
+  function queueToast(message, options) {
+    const payload = {
+      message: String(message || ""),
+      options: options || {},
+      queuedAt: Date.now(),
+    };
+
+    try {
+      sessionStorage.setItem(PENDING_TOAST_KEY, JSON.stringify(payload));
+    } catch (error) {
+      // Ignore storage failures (private mode / quota errors).
+    }
+  }
+
+  function consumeQueuedToast() {
+    let raw = null;
+
+    try {
+      raw = sessionStorage.getItem(PENDING_TOAST_KEY);
+    } catch (error) {
+      return;
+    }
+
+    if (!raw) {
+      return;
+    }
+
+    try {
+      sessionStorage.removeItem(PENDING_TOAST_KEY);
+      const payload = JSON.parse(raw);
+      if (!payload || !payload.message) {
+        return;
+      }
+
+      // Prevent very old queued toasts from showing unexpectedly.
+      if (payload.queuedAt && Date.now() - payload.queuedAt > 15000) {
+        return;
+      }
+
+      window.setTimeout(function () {
+        toast(payload.message, payload.options || {});
+      }, 80);
+    } catch (error) {
+      // Ignore malformed payloads.
+    }
+  }
+
+  function redirectWithToast(url, message, options) {
+    queueToast(message, options);
+    window.location.href = url;
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", consumeQueuedToast, {
+      once: true,
+    });
+  } else {
+    consumeQueuedToast();
+  }
+
   window.DigiCVApp = {
     authRequest: authRequest,
     toast: toast,
+    queueToast: queueToast,
+    redirectWithToast: redirectWithToast,
     loginMock: function (role) {
       localStorage.setItem("digicv_role", role);
       window.location.href = roleRoute(role);

@@ -846,28 +846,6 @@ p {
   animation: fadeInUp 0.45s ease both;
 }
 
-.toast {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  background: #193852;
-  color: #fff;
-  padding: 10px 14px;
-  border-radius: 10px;
-  box-shadow: var(--shadow-md);
-  font-size: 13px;
-  z-index: 200;
-  opacity: 0;
-  transform: translateY(8px);
-  pointer-events: none;
-  transition: all 0.24s ease;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
