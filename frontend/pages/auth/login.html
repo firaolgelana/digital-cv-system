@@ -188,10 +188,13 @@
             });
             window.location.href = data.redirect || "../../../index.html";
           } catch (error) {
-            window.DigiCVApp.toast(error.message || "Network error. Please try again.", {
-              type: "error",
-              title: "Unable to sign in",
-            });
+            window.DigiCVApp.toast(
+              error.message || "Network error. Please try again.",
+              {
+                type: "error",
+                title: "Unable to sign in",
+              },
+            );
           } finally {
             window.DigiCVApp.setButtonLoading(submitBtn, false, "Login");
           }

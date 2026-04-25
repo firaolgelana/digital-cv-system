@@ -227,10 +227,13 @@
             });
             window.location.href = data.redirect || "login.html";
           } catch (error) {
-            window.DigiCVApp.toast(error.message || "Network error. Please try again.", {
-              type: "error",
-              title: "Unable to register",
-            });
+            window.DigiCVApp.toast(
+              error.message || "Network error. Please try again.",
+              {
+                type: "error",
+                title: "Unable to register",
+              },
+            );
           } finally {
             window.DigiCVApp.setButtonLoading(
               submitBtn,
