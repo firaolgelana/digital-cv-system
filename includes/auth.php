@@ -9,6 +9,7 @@ startSession();
  * @param string|string[] $allowedRoles  Pass a role name or array of role names.
  *                                       Empty = any authenticated user is allowed.
  */
+
 function requireAuth(array|string $allowedRoles = []): void {
     if (empty($_SESSION['user_id'])) {
         header('Location: ../index.html');

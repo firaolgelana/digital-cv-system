@@ -57,12 +57,12 @@ function verifyPassword(string $plain, string $hash): bool {
  */
 function dashboardForRole(string $role): string {
     return match ($role) {
-        'student'    => '../student-dashboard.php',
-        'supervisor' => '../supervisor-dashboard.html',
-        'examiner'   => '../supervisor-dashboard.html',
-        'recruiter'  => '../recruiter-view.html',
-        'admin'      => '../admin-dashboard.php',
-        default      => '../index.html',
+        'student'    => '/cv/student-dashboard.php',
+        'supervisor' => '/cv/supervisor-dashboard.html',
+        'examiner'   => '/cv/examiner-dashboard.html',
+        'recruiter'  => '/cv/recruiter-view.html',
+        'admin'      => '/cv/admin-dashboard.html',
+        default      => '/cv/index.html',
     };
 }
 
@@ -72,7 +72,7 @@ function dashboardForRole(string $role): string {
 function requireLogin(): void {
     startSession();
     if (empty($_SESSION['user_id'])) {
-        header('Location: index.html');
+        header('Location: /cv/index.html');
         exit;
     }
 }
