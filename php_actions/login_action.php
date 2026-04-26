@@ -75,6 +75,11 @@ try {
 
     jsonResponse(true, 'Login successful! Redirecting…', [
         'redirect' => dashboardForRole($user['role']),
+        'user' => [
+            'full_name' => $user['full_name'],
+            'email' => $user['email'],
+            'role' => $user['role'],
+        ],
     ]);
 
 } catch (PDOException $e) {

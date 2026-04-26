@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Public CV — DigiCV</title>
+  <meta name="description" content="View and download a student's shared digital CV." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+  <div class="app-layout" style="min-height: 100vh;">
+    <main class="main-content" style="margin-left: 0;">
+      <header class="top-bar">
+        <h2 class="top-bar__title">Public CV</h2>
+        <div class="top-bar__actions">
+          <button class="btn btn-secondary btn-sm" id="download-public-cv-btn"><i class="fas fa-download"></i> Download CV</button>
+          <button class="btn btn-outline btn-sm" id="print-public-cv-btn"><i class="fas fa-print"></i> Print / Save PDF</button>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div id="public-cv-error" class="card animate-fade-in" style="display: none;">
+          <div class="empty-state">
+            <div class="empty-state__icon"><i class="fas fa-triangle-exclamation"></i></div>
+            <h3 class="empty-state__title">This CV link is invalid</h3>
+            <p class="empty-state__desc">The QR code or shared CV link does not contain valid student CV data.</p>
+          </div>
+        </div>
+
+        <div id="public-cv-content" style="display: none;">
+          <div class="cv-preview animate-fade-in delay-1">
+            <div class="cv-preview__header">
+              <div class="cv-preview__avatar" id="public-cv-avatar">ST</div>
+              <div>
+                <h1 class="cv-preview__name" id="public-cv-name">Student</h1>
+                <div class="cv-preview__title" id="public-cv-title">Professional title not added</div>
+                <div class="cv-preview__contact">
+                  <span id="public-cv-email"></span>
+                  <span id="public-cv-phone"></span>
+                  <span id="public-cv-address"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="cv-preview__body">
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-user" style="margin-right: 8px;"></i>Professional Summary</h2>
+                <p class="cv-section__item-desc" id="public-cv-summary"></p>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-graduation-cap" style="margin-right: 8px;"></i>Education</h2>
+                <div class="cv-section__item-desc" id="public-cv-education"></div>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-briefcase" style="margin-right: 8px;"></i>Work Experience</h2>
+                <div class="cv-section__item-desc" id="public-cv-experience"></div>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-diagram-project" style="margin-right: 8px;"></i>Projects</h2>
+                <div class="cv-section__item-desc" id="public-cv-projects"></div>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-lightbulb" style="margin-right: 8px;"></i>Skills</h2>
+                <div style="margin-bottom: var(--space-md);">
+                  <div style="font-weight: 600; font-size: 0.9rem; color: var(--gray-700); margin-bottom: 8px;">Technical Skills</div>
+                  <div class="cv-skills-list" id="public-cv-technical-skills"></div>
+                </div>
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem; color: var(--gray-700); margin-bottom: 8px;">Soft Skills</div>
+                  <div class="cv-skills-list" id="public-cv-soft-skills"></div>
+                </div>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-language" style="margin-right: 8px;"></i>Languages</h2>
+                <div class="cv-section__item-desc" id="public-cv-languages"></div>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-certificate" style="margin-right: 8px;"></i>Certifications</h2>
+                <div class="cv-section__item-desc" id="public-cv-certifications"></div>
+              </div>
+
+              <div class="cv-section">
+                <h2 class="cv-section__title"><i class="fas fa-link" style="margin-right: 8px;"></i>Links</h2>
+                <div class="cv-section__item-desc" id="public-cv-links"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="assets/js/cv-share.js"></script>
+  <script src="assets/js/public-cv.js"></script>
+</body>
+</html>
