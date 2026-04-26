@@ -1,10 +1,3 @@
--- ============================================================
---  Digital CV System — MySQL Database Schema
---  Database  : digital_cv_db
---  Charset   : utf8mb4 / utf8mb4_unicode_ci
---  Created   : 2026-04-20
--- ============================================================
-
 -- Create & select the database
 CREATE DATABASE IF NOT EXISTS digital_cv_db
     CHARACTER SET utf8mb4
@@ -12,10 +5,6 @@ CREATE DATABASE IF NOT EXISTS digital_cv_db
 
 USE digital_cv_db;
 
--- ============================================================
---  TABLE 1: roles
---  Stores the five actor roles in the system
--- ============================================================
 CREATE TABLE IF NOT EXISTS roles (
     id         TINYINT UNSIGNED  NOT NULL AUTO_INCREMENT,
     name       VARCHAR(50)       NOT NULL UNIQUE,  -- student | supervisor | examiner | recruiter | admin
@@ -31,11 +20,6 @@ INSERT IGNORE INTO roles (name) VALUES
     ('recruiter'),
     ('admin');
 
-
--- ============================================================
---  TABLE 2: users
---  Central user accounts table (all actors)
--- ============================================================
 CREATE TABLE IF NOT EXISTS users (
     id            INT UNSIGNED     NOT NULL AUTO_INCREMENT,
     role_id       TINYINT UNSIGNED NOT NULL,
@@ -52,10 +36,6 @@ CREATE TABLE IF NOT EXISTS users (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 3: departments
---  Academic departments / faculties
--- ============================================================
 CREATE TABLE IF NOT EXISTS departments (
     id         SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     name       VARCHAR(150)      NOT NULL UNIQUE,
@@ -64,10 +44,6 @@ CREATE TABLE IF NOT EXISTS departments (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 4: students
---  Extended profile for users with role = 'student'
--- ============================================================
 CREATE TABLE IF NOT EXISTS students (
     id              INT UNSIGNED      NOT NULL AUTO_INCREMENT,
     user_id         INT UNSIGNED      NOT NULL UNIQUE,
@@ -81,11 +57,6 @@ CREATE TABLE IF NOT EXISTS students (
     CONSTRAINT fk_students_supervisor FOREIGN KEY (supervisor_id) REFERENCES users(id)       ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
--- ============================================================
---  TABLE 5: cvs
---  A student may have many CV drafts; only one can be approved
--- ============================================================
 CREATE TABLE IF NOT EXISTS cvs (
     id           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     student_id   INT UNSIGNED  NOT NULL,              -- FK → students.id
@@ -104,10 +75,7 @@ CREATE TABLE IF NOT EXISTS cvs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 6: cv_education
---  Education history entries linked to a CV
--- ============================================================
+
 CREATE TABLE IF NOT EXISTS cv_education (
     id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
     cv_id        INT UNSIGNED NOT NULL,
@@ -123,10 +91,7 @@ CREATE TABLE IF NOT EXISTS cv_education (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 7: cv_experience
---  Work / internship experience entries
--- ============================================================
+
 CREATE TABLE IF NOT EXISTS cv_experience (
     id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
     cv_id        INT UNSIGNED NOT NULL,
@@ -142,10 +107,6 @@ CREATE TABLE IF NOT EXISTS cv_experience (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 8: cv_skills
---  Skills linked to a CV
--- ============================================================
 CREATE TABLE IF NOT EXISTS cv_skills (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     cv_id      INT UNSIGNED NOT NULL,
@@ -156,10 +117,6 @@ CREATE TABLE IF NOT EXISTS cv_skills (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 9: cv_documents
---  Supporting documents uploaded with a CV (PDF, images, etc.)
--- ============================================================
 CREATE TABLE IF NOT EXISTS cv_documents (
     id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
     cv_id         INT UNSIGNED NOT NULL,
@@ -174,10 +131,6 @@ CREATE TABLE IF NOT EXISTS cv_documents (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 10: qr_codes
---  QR codes generated upon CV approval
--- ============================================================
 CREATE TABLE IF NOT EXISTS qr_codes (
     id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
     cv_id        INT UNSIGNED NOT NULL UNIQUE,            -- one QR per approved CV
@@ -191,10 +144,6 @@ CREATE TABLE IF NOT EXISTS qr_codes (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 11: qr_access_logs
---  Every time a recruiter scans/accesses a QR link
--- ============================================================
 CREATE TABLE IF NOT EXISTS qr_access_logs (
     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
     qr_id       INT UNSIGNED NOT NULL,
@@ -208,10 +157,6 @@ CREATE TABLE IF NOT EXISTS qr_access_logs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 12: notifications
---  In-system notifications for all actors
--- ============================================================
 CREATE TABLE IF NOT EXISTS notifications (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id    INT UNSIGNED NOT NULL,
@@ -224,10 +169,6 @@ CREATE TABLE IF NOT EXISTS notifications (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
--- ============================================================
---  TABLE 13: password_resets
---  Tokens for the "forgot password" flow
--- ============================================================
 CREATE TABLE IF NOT EXISTS password_resets (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     user_id    INT UNSIGNED NOT NULL,
