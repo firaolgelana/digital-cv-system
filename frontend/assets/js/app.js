@@ -1,17 +1,6 @@
 (function () {
   const PENDING_TOAST_KEY = "digicv.pendingToast";
 
-  function roleRoute(role) {
-    const map = {
-      student: "../student/home.html",
-      supervisor: "../supervisor/review-queue.html",
-      examiner: "../examiner/library.html",
-      recruiter: "../recruiter/scan.html",
-      admin: "../admin/overview.html",
-    };
-    return map[role] || "../student/home.html";
-  }
-
   async function authRequest(endpoint, payload) {
     let response;
 
@@ -262,13 +251,6 @@
     queueToast: queueToast,
     redirectWithToast: redirectWithToast,
     initPasswordToggles: initPasswordToggles,
-    loginMock: function (role) {
-      localStorage.setItem("digicv_role", role);
-      window.location.href = roleRoute(role);
-    },
-    registerMock: function () {
-      window.location.href = "./login.html";
-    },
     setButtonLoading: function (button, loading, text) {
       if (!button) return;
       if (loading) {
