@@ -20,12 +20,16 @@
   --primary-600: #059669;
   --accent-400: #fbbf24;
   --accent-500: #f59e0b;
+  --gray-600: #475569;
+  --gray-700: #334155;
 
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 10px;
   --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 10px 24px rgba(16, 185, 129, 0.22);
+  --space-sm: 8px;
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;

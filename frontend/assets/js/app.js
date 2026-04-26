@@ -204,6 +204,50 @@
     window.location.href = url;
   }
 
+  function initPasswordToggles(scope) {
+    const root = scope || document;
+    const toggles = root.querySelectorAll("[data-password-toggle]");
+
+    toggles.forEach(function (toggle) {
+      if (toggle.dataset.bound === "true") {
+        return;
+      }
+
+      const targetId = toggle.getAttribute("data-target");
+      if (!targetId) {
+        return;
+      }
+
+      const input = document.getElementById(targetId);
+      if (!input) {
+        return;
+      }
+
+      const setIcon = function (isVisible) {
+        const icon = toggle.querySelector("i");
+        if (!icon) {
+          return;
+        }
+
+        icon.className = isVisible ? "fas fa-eye-slash" : "fas fa-eye";
+        toggle.setAttribute(
+          "aria-label",
+          isVisible ? "Hide password" : "Show password",
+        );
+        toggle.setAttribute("aria-pressed", isVisible ? "true" : "false");
+      };
+
+      toggle.addEventListener("click", function () {
+        const isVisible = input.type === "text";
+        input.type = isVisible ? "password" : "text";
+        setIcon(!isVisible);
+      });
+
+      toggle.dataset.bound = "true";
+      setIcon(input.type === "text");
+    });
+  }
+
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", consumeQueuedToast, {
       once: true,
@@ -217,6 +261,7 @@
     toast: toast,
     queueToast: queueToast,
     redirectWithToast: redirectWithToast,
+    initPasswordToggles: initPasswordToggles,
     loginMock: function (role) {
       localStorage.setItem("digicv_role", role);
       window.location.href = roleRoute(role);

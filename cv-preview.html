@@ -5,25 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CV Preview</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
   </head>
   <body>
     <div class="page">
-    <header class="top-navbar">
-      <div class="brand-area">
-        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
-        <span class="text-gradient">DigiCV</span>
-      </div>
-      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
-      <nav class="nav-links" id="main-nav">
-        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
-        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
-        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
-      </nav>
-      <div class="nav-user">
-        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">US</div></a>
-        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
-      </div>
-    </header>
+      <header class="top-navbar">
+        <div class="brand-area">
+          <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+          <span class="text-gradient">DigiCV</span>
+        </div>
+        <button class="hamburger-btn" id="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        <nav class="nav-links" id="main-nav">
+          <a href="javascript:history.back()"
+            ><i class="fas fa-arrow-left"></i> Back</a
+          >
+          <a href="profile.html" class="mobile-only"
+            ><i class="fas fa-user-cog"></i> Profile Settings</a
+          >
+          <a href="index.html" class="mobile-only" style="color: var(--danger)"
+            ><i class="fas fa-sign-out-alt"></i> Sign out</a
+          >
+        </nav>
+        <div class="nav-user">
+          <a href="profile.html" style="text-decoration: none"
+            ><div
+              class="avatar avatar--sm avatar--primary"
+              title="Profile Settings"
+            >
+              US
+            </div></a
+          >
+          <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"
+            ><i class="fas fa-sign-out-alt"></i
+          ></a>
+        </div>
+      </header>
 
       <main class="main">
         <div class="container">
@@ -82,13 +103,18 @@
         </div>
       </main>
     </div>
-  
+
     <script>
       // Mobile Menu Toggle
-      if(document.getElementById('mobile-menu-toggle') && !window.mobileMenuInitialized){
-        document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
-          document.getElementById('main-nav').classList.toggle('mobile-open');
-        });
+      if (
+        document.getElementById("mobile-menu-toggle") &&
+        !window.mobileMenuInitialized
+      ) {
+        document
+          .getElementById("mobile-menu-toggle")
+          .addEventListener("click", () => {
+            document.getElementById("main-nav").classList.toggle("mobile-open");
+          });
         window.mobileMenuInitialized = true;
       }
     </script>
