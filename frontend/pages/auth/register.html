@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account — DigiCV</title>
+    <link rel="stylesheet" href="../../../styles.css" />
+    <link rel="stylesheet" href="../../assets/css/pages/auth/register.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="../../assets/js/app.js"></script>
+    <style>
+      .password-field {
+        position: relative;
+      }
+
+      .password-field .input {
+        padding-right: 44px;
+      }
+
+      .password-toggle {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+      }
+
+      .password-toggle:hover {
+        color: var(--text);
+        background: var(--surface-alt);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="auth-page">
+      <div class="auth-card animate-fade-in">
+        <section class="auth-panel hero" style="flex: 0.8">
+          <div class="auth-hero-content">
+            <div class="brand-area" style="color: #fff; margin-bottom: auto">
+              <div class="brand-icon"><i class="fas fa-user-graduate"></i></div>
+              <span style="font-weight: 700">DigiCV Core</span>
+            </div>
+
+            <div style="margin-top: 100px">
+              <h1 class="auth-title">
+                Start your<br /><span>journey today.</span>
+              </h1>
+              <p class="auth-sub" style="color: var(--text); opacity: 0.9">
+                Securely build and publish cryptographic CV versions directly to
+                recruiters.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="auth-panel"
+          style="flex: 1.5; background: var(--surface)"
+        >
+          <div class="auth-meta" style="margin-bottom: 24px">
+            <h2 class="auth-title" style="font-size: 2rem">Register</h2>
+            <p class="auth-sub">
+              Set up your student profile to start building secure CV versions.
+            </p>
+          </div>
+
+          <form class="section-stack" id="register-form" style="gap: 12px">
+            <div class="form-row" style="margin: 0; gap: 16px">
+              <div class="form-group" style="margin: 0">
+                <label class="label" for="first-name">First name</label>
+                <input
+                  class="input"
+                  id="first-name"
+                  type="text"
+                  placeholder="First name"
+                  required
+                />
+              </div>
+              <div class="form-group" style="margin: 0">
+                <label class="label" for="last-name">Last name</label>
+                <input
+                  class="input"
+                  id="last-name"
+                  type="text"
+                  placeholder="Last name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-row" style="margin: 0; gap: 16px">
+              <div class="form-group" style="margin: 0">
+                <label class="label" for="email">University email</label>
+                <input
+                  class="input"
+                  id="email"
+                  type="email"
+                  placeholder="name@university.edu"
+                  required
+                />
+              </div>
+              <div class="form-group" style="margin: 0">
+                <label class="label" for="student-id">Student ID</label>
+                <input
+                  class="input"
+                  id="student-id"
+                  type="text"
+                  placeholder="UGR/12345/14"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group" style="margin: 0">
+              <label class="label" for="department">Department</label>
+              <div class="field-icon">
+                <i class="fa fa-building"></i>
+                <input
+                  class="input"
+                  id="department"
+                  type="text"
+                  list="department-list"
+                  placeholder="Enter your department"
+                  required
+                />
+                <datalist id="department-list">
+                  <option value="Computer Science"></option>
+                  <option value="Software Engineering"></option>
+                  <option value="Information Technology"></option>
+                </datalist>
+              </div>
+            </div>
+
+            <div class="form-row" style="margin: 0; gap: 16px">
+              <div class="form-group" style="margin: 0">
+                <label class="label" for="password">Password</label>
+                <div class="password-field">
+                  <input
+                    class="input"
+                    id="password"
+                    type="password"
+                    placeholder="Create password"
+                    required
+                    minlength="6"
+                  />
+                  <button
+                    class="password-toggle"
+                    type="button"
+                    data-password-toggle
+                    data-target="password"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                  >
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="form-group" style="margin: 0">
+                <label class="label" for="confirm-password"
+                  >Confirm password</label
+                >
+                <div class="password-field">
+                  <input
+                    class="input"
+                    id="confirm-password"
+                    type="password"
+                    placeholder="Confirm password"
+                    required
+                  />
+                  <button
+                    class="password-toggle"
+                    type="button"
+                    data-password-toggle
+                    data-target="confirm-password"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                  >
+                    <i class="fas fa-eye" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <button
+              class="btn btn-primary btn-lg"
+              id="register-btn"
+              type="submit"
+              style="width: 100%; margin-top: 8px"
+            >
+              Create Account
+              <i class="fas fa-check" style="margin-left: 4px"></i>
+            </button>
+
+            <p
+              style="
+                text-align: center;
+                font-size: 0.9rem;
+                color: var(--text-muted);
+                margin-top: 8px;
+              "
+            >
+              Already have an account?
+              <a href="login.html" style="font-weight: 600">Sign in</a>
+            </p>
+          </form>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const form = document.getElementById("register-form");
+        const submitBtn = document.getElementById("register-btn");
+
+        window.DigiCVApp.initPasswordToggles();
+
+        form.addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const password = document.getElementById("password").value;
+          const confirmPassword =
+            document.getElementById("confirm-password").value;
+
+          if (password !== confirmPassword) {
+            window.DigiCVApp.toast("Passwords do not match.", {
+              type: "warning",
+              title: "Check your password",
+            });
+            return;
+          }
+
+          const payload = {
+            first_name: document.getElementById("first-name").value.trim(),
+            last_name: document.getElementById("last-name").value.trim(),
+            email: document.getElementById("email").value.trim(),
+            student_id: document.getElementById("student-id").value.trim(),
+            department: document.getElementById("department").value.trim(),
+            password: password,
+            confirm_password: confirmPassword,
+          };
+
+          try {
+            window.DigiCVApp.setButtonLoading(
+              submitBtn,
+              true,
+              "Registering...",
+            );
+
+            const data = await window.DigiCVApp.authRequest(
+              "../../../php_actions/register_action.php",
+              payload,
+            );
+
+            if (!data.success) {
+              window.DigiCVApp.toast(data.message || "Registration failed.", {
+                type: "error",
+                title: "Registration failed",
+              });
+              return;
+            }
+
+            window.DigiCVApp.redirectWithToast(
+              data.redirect || "login.html",
+              data.message || "Registration successful.",
+              {
+                type: "success",
+                title: "Account created",
+              },
+            );
+          } catch (error) {
+            window.DigiCVApp.toast(
+              error.message || "Network error. Please try again.",
+              {
+                type: "error",
+                title: "Unable to register",
+              },
+            );
+          } finally {
+            window.DigiCVApp.setButtonLoading(
+              submitBtn,
+              false,
+              "Create Account",
+            );
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

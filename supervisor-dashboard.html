@@ -1,395 +1,339 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Supervisor Dashboard — DigiCV</title>
-  <meta name="description" content="Review and approve student CVs as a project supervisor." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    .review-card {
-      background: var(--surface-card);
-      border: 1px solid var(--surface-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-xl);
-      transition: all var(--transition-base);
-      backdrop-filter: blur(16px);
-    }
-    .review-card:hover {
-      border-color: rgba(99,102,241,0.25);
-      box-shadow: var(--shadow-md);
-    }
-    .review-card__header {
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      margin-bottom: var(--space-lg);
-    }
-    .review-card__student {
-      flex: 1;
-    }
-    .review-card__name {
-      font-weight: 600;
-      font-size: 1rem;
-    }
-    .review-card__meta {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-    }
-    .review-card__details {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-md);
-      margin-bottom: var(--space-lg);
-    }
-    .review-card__detail {
-      text-align: center;
-      padding: var(--space-md);
-      background: var(--surface-elevated);
-      border-radius: var(--radius-md);
-    }
-    .review-card__detail-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .review-card__detail-value {
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-top: 2px;
-    }
-    .review-card__actions {
-      display: flex;
-      gap: var(--space-sm);
-    }
-    .comment-box {
-      display: none;
-      margin-top: var(--space-lg);
-      padding-top: var(--space-lg);
-      border-top: 1px solid var(--surface-border);
-    }
-    .comment-box.visible {
-      display: block;
-    }
-  </style>
-</head>
-<body>
-  <div class="app-layout">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-brand">
-        <div class="sidebar-brand__icon"><i class="fas fa-qrcode"></i></div>
-        <div>
-          <div class="sidebar-brand__text text-gradient">DigiCV</div>
-          <div class="sidebar-brand__sub">Digital CV System</div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supervisor Review — DigiCV</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="frontend/assets/js/app.js"></script>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">Supervisor Hub</span>
       </div>
-      <nav class="sidebar-nav">
-        <div class="sidebar-section-title">Supervisor</div>
-        <a href="supervisor-dashboard.html" class="sidebar-link active">
-          <span class="sidebar-link__icon"><i class="fas fa-house"></i></span> Dashboard
-        </a>
-        <a href="#" class="sidebar-link">
-          <span class="sidebar-link__icon"><i class="fas fa-inbox"></i></span> Pending Reviews
-          <span class="sidebar-link__badge">4</span>
-        </a>
-        <a href="#" class="sidebar-link">
-          <span class="sidebar-link__icon"><i class="fas fa-circle-check"></i></span> Approved CVs
-        </a>
-        <a href="#" class="sidebar-link">
-          <span class="sidebar-link__icon"><i class="fas fa-circle-xmark"></i></span> Rejected CVs
-        </a>
-
-        <div class="sidebar-section-title">Account</div>
-        <a href="#" class="sidebar-link">
-          <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span> Profile Settings
-        </a>
-        <a href="#" class="sidebar-link">
-          <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span> Notifications
-          <span class="sidebar-link__badge">4</span>
-        </a>
+      <button class="hamburger-btn" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"
+          ><i class="fas fa-arrow-left"></i> Back</a
+        >
+        <a href="profile.html" class="mobile-only"
+          ><i class="fas fa-user-cog"></i> Profile Settings</a
+        >
+        <a href="index.html" class="mobile-only" style="color: var(--danger)"
+          ><i class="fas fa-sign-out-alt"></i> Sign out</a
+        >
       </nav>
-      <div class="sidebar-footer">
-        <div class="sidebar-user">
-          <div class="avatar avatar--accent">DA</div>
-          <div class="sidebar-user__info">
-            <div class="sidebar-user__name">Mr. Daniel Tsegaye</div>
-            <div class="sidebar-user__role">Project Supervisor</div>
-          </div>
-          <a href="php_actions/logout.php" title="Sign out" style="color: var(--text-muted);"><i class="fas fa-right-from-bracket"></i></a>
-        </div>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration: none"
+          ><div
+            class="avatar avatar--sm avatar--primary"
+            title="Profile Settings"
+          >
+            SP
+          </div></a
+        >
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"
+          ><i class="fas fa-sign-out-alt"></i
+        ></a>
       </div>
-    </aside>
+    </header>
 
-    <!-- Main -->
-    <main class="main-content">
-      <header class="top-bar">
-        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></button>
-        <h2 class="top-bar__title">Supervisor Dashboard</h2>
-        <div class="top-bar__actions">
-          <div class="search-box" style="width:240px;">
-            <span class="search-icon"><i class="fas fa-search"></i></span>
-            <input type="text" class="form-input" placeholder="Search students…" />
-          </div>
-          <button class="btn btn-ghost btn-icon notification-btn">
-            <i class="fas fa-bell"></i>
-            <span class="notification-dot"></span>
-          </button>
-          <div class="avatar avatar--sm avatar--accent">DT</div>
-        </div>
-      </header>
+    <main class="page-container" style="padding-top: 32px">
+      <div class="layout-split">
+        <!-- Left Column: Operations -->
+        <div class="section-stack delay-1">
+          <!-- Queue Selection -->
+          <section class="card tight">
+            <h2 class="card-title">
+              <i
+                class="fas fa-list"
+                style="color: var(--primary-500); margin-right: 8px"
+              ></i>
+              Pending Submissions
+            </h2>
+            <p class="muted" style="margin-bottom: 16px; font-size: 0.9rem">
+              Select a student submission to evaluate the payload natively.
+            </p>
 
-      <div class="page-content">
-        <div class="page-header animate-fade-in">
-          <h1 class="page-header__title">Welcome, Mr. Daniel 👋</h1>
-          <p class="page-header__sub">Review and approve student CV submissions.</p>
-        </div>
+            <div class="section-stack gap-sm">
+              <!-- Selected Mock Resume in Queue -->
+              <article
+                class="list-card"
+                style="cursor: pointer; border-color: var(--primary-500)"
+              >
+                <div class="list-head" style="margin-bottom: 4px">
+                  <strong>John Doe (SWE)</strong>
+                  <span class="badge pending" style="margin-top: 0"
+                    ><i class="fas fa-hourglass-half"></i> Pending</span
+                  >
+                </div>
+                <div class="muted" style="font-size: 0.85rem">
+                  Submitted: Aug 24, 2026 - Target: Software Engineer
+                </div>
+              </article>
 
-        <!-- Stats -->
-        <div class="grid grid-4 gap-lg" style="margin-bottom: var(--space-2xl);">
-          <div class="stat-card animate-fade-in delay-1">
-            <div class="stat-icon stat-icon--warning"><i class="fas fa-hourglass-half"></i></div>
-            <div class="stat-value">4</div>
-            <div class="stat-label">Pending Review</div>
-          </div>
-          <div class="stat-card animate-fade-in delay-2">
-            <div class="stat-icon stat-icon--accent"><i class="fas fa-circle-check"></i></div>
-            <div class="stat-value">12</div>
-            <div class="stat-label">Approved</div>
-          </div>
-          <div class="stat-card animate-fade-in delay-3">
-            <div class="stat-icon stat-icon--danger"><i class="fas fa-circle-xmark"></i></div>
-            <div class="stat-value">3</div>
-            <div class="stat-label">Rejected</div>
-          </div>
-          <div class="stat-card animate-fade-in delay-4">
-            <div class="stat-icon stat-icon--primary"><i class="fas fa-users"></i></div>
-            <div class="stat-value">19</div>
-            <div class="stat-label">Total Students</div>
-          </div>
-        </div>
+              <!-- Other Resumes -->
+              <article class="list-card" style="cursor: pointer; opacity: 0.6">
+                <div class="list-head" style="margin-bottom: 4px">
+                  <strong>Alice Smith (Cybersecurity)</strong>
+                  <span class="badge pending" style="margin-top: 0"
+                    ><i class="fas fa-hourglass-half"></i> Pending</span
+                  >
+                </div>
+                <div class="muted" style="font-size: 0.85rem">
+                  Submitted: Aug 23, 2026 - Target: Penetration Tester
+                </div>
+              </article>
+            </div>
+          </section>
 
-        <!-- Tabs -->
-        <div class="tabs">
-          <button class="tab-btn active" id="tab-pending">Pending Review (4)</button>
-          <button class="tab-btn" id="tab-approved">Approved (12)</button>
-          <button class="tab-btn" id="tab-rejected">Rejected (3)</button>
-          <button class="tab-btn" id="tab-all">All Submissions</button>
-        </div>
-
-        <!-- Pending Reviews -->
-        <div class="flex flex-col gap-lg" id="pending-list">
-          <!-- Student 1 -->
-          <div class="review-card animate-fade-in">
-            <div class="review-card__header">
-              <div class="avatar avatar--primary">FB</div>
-              <div class="review-card__student">
-                <div class="review-card__name">Firaol Gelana</div>
-                <div class="review-card__meta">Computer Science • UGR/30549/15 • Submitted 2 hours ago</div>
+          <!-- Decision Action Block -->
+          <section class="card tight" style="position: sticky; top: 90px">
+            <h2 class="card-title">
+              <i
+                class="fas fa-gavel"
+                style="color: var(--gray-300); margin-right: 8px"
+              ></i>
+              Evaluation Panel
+            </h2>
+            <div style="margin-top: 16px">
+              <div style="display: flex; gap: 12px; margin-bottom: 16px">
+                <button class="btn btn-primary" style="flex: 1">
+                  <i class="fas fa-check"></i> Approve CV
+                </button>
+                <button
+                  class="btn btn-ghost"
+                  style="
+                    flex: 1;
+                    border: 1px solid var(--danger);
+                    color: var(--danger);
+                  "
+                >
+                  <i class="fas fa-times"></i> Reject
+                </button>
               </div>
-              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
+              <label class="label">Revisions Needed</label>
+              <textarea
+                class="textarea form-input"
+                placeholder="Explain the necessary revisions to return the CV to draft status..."
+              ></textarea>
+              <button
+                class="btn"
+                style="
+                  width: 100%;
+                  margin-top: 12px;
+                  background: var(--surface-alt);
+                  border: 1px solid var(--border);
+                "
+              >
+                <i class="fas fa-undo"></i> Request Changes
+              </button>
             </div>
-            <div class="review-card__details">
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Completion</div>
-                <div class="review-card__detail-value" style="color: var(--success);">85%</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Sections</div>
-                <div class="review-card__detail-value">5 / 6</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Documents</div>
-                <div class="review-card__detail-value">2 files</div>
-              </div>
-            </div>
-            <div class="review-card__actions">
-              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
-              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
-              <button class="btn btn-danger btn-sm" onclick="this.closest('.review-card').querySelector('.comment-box').classList.toggle('visible')"><i class="fas fa-xmark"></i> Reject</button>
-              <button class="btn btn-outline btn-sm" onclick="this.closest('.review-card').querySelector('.comment-box').classList.toggle('visible')"><i class="fas fa-comment"></i> Comment</button>
-            </div>
-            <div class="comment-box">
-              <div class="form-group" style="margin-bottom: var(--space-md);">
-                <label class="form-label">Add Comment / Rejection Reason</label>
-                <textarea class="form-textarea" rows="3" placeholder="Provide feedback for the student…"></textarea>
-              </div>
-              <div class="flex gap-sm">
-                <button class="btn btn-primary btn-sm"><i class="fas fa-paper-plane"></i> Send Feedback</button>
-                <button class="btn btn-ghost btn-sm" onclick="this.closest('.comment-box').classList.remove('visible')">Cancel</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Student 2 -->
-          <div class="review-card animate-fade-in delay-1">
-            <div class="review-card__header">
-              <div class="avatar" style="background: rgba(245,158,11,.2); color: var(--warning);">MT</div>
-              <div class="review-card__student">
-                <div class="review-card__name">Meron Tadesse</div>
-                <div class="review-card__meta">Software Engineering • UGR/23456/14 • Submitted 5 hours ago</div>
-              </div>
-              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
-            </div>
-            <div class="review-card__details">
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Completion</div>
-                <div class="review-card__detail-value" style="color: var(--success);">100%</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Sections</div>
-                <div class="review-card__detail-value">6 / 6</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Documents</div>
-                <div class="review-card__detail-value">4 files</div>
-              </div>
-            </div>
-            <div class="review-card__actions">
-              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
-              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
-              <button class="btn btn-danger btn-sm"><i class="fas fa-xmark"></i> Reject</button>
-              <button class="btn btn-outline btn-sm"><i class="fas fa-comment"></i> Comment</button>
-            </div>
-          </div>
-
-          <!-- Student 3 -->
-          <div class="review-card animate-fade-in delay-2">
-            <div class="review-card__header">
-              <div class="avatar" style="background: rgba(139,92,246,.2); color: #a78bfa;">KH</div>
-              <div class="review-card__student">
-                <div class="review-card__name">Kidus Haile</div>
-                <div class="review-card__meta">Information Technology • UGR/34567/14 • Submitted 1 day ago</div>
-              </div>
-              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
-            </div>
-            <div class="review-card__details">
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Completion</div>
-                <div class="review-card__detail-value" style="color: var(--warning);">70%</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Sections</div>
-                <div class="review-card__detail-value">4 / 6</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Documents</div>
-                <div class="review-card__detail-value">1 file</div>
-              </div>
-            </div>
-            <div class="review-card__actions">
-              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
-              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
-              <button class="btn btn-danger btn-sm"><i class="fas fa-xmark"></i> Reject</button>
-              <button class="btn btn-outline btn-sm"><i class="fas fa-comment"></i> Comment</button>
-            </div>
-          </div>
-
-          <!-- Student 4 -->
-          <div class="review-card animate-fade-in delay-3">
-            <div class="review-card__header">
-              <div class="avatar" style="background: rgba(16,185,129,.2); color: var(--accent-400);">SG</div>
-              <div class="review-card__student">
-                <div class="review-card__name">Sara Girma</div>
-                <div class="review-card__meta">Computer Science • UGR/45678/14 • Submitted 2 days ago</div>
-              </div>
-              <span class="badge badge--pending"><i class="fas fa-clock"></i> Pending</span>
-            </div>
-            <div class="review-card__details">
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Completion</div>
-                <div class="review-card__detail-value" style="color: var(--success);">95%</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Sections</div>
-                <div class="review-card__detail-value">6 / 6</div>
-              </div>
-              <div class="review-card__detail">
-                <div class="review-card__detail-label">Documents</div>
-                <div class="review-card__detail-value">3 files</div>
-              </div>
-            </div>
-            <div class="review-card__actions">
-              <a href="cv-preview.html" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i> View CV</a>
-              <button class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
-              <button class="btn btn-danger btn-sm"><i class="fas fa-xmark"></i> Reject</button>
-              <button class="btn btn-outline btn-sm"><i class="fas fa-comment"></i> Comment</button>
-            </div>
-          </div>
+          </section>
         </div>
 
-        <!-- Recently Approved Table -->
-        <div class="card" style="margin-top: var(--space-2xl);">
-          <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-circle-check" style="color: var(--success); margin-right: 8px;"></i>Recently Approved</h3>
+        <!-- Right Column: Live A4 Visualizer -->
+        <aside class="section-stack delay-2">
+          <div
+            class="card tight"
+            style="
+              padding: 0;
+              background: var(--surface-alt);
+              position: sticky;
+              top: 90px;
+            "
+          >
+            <div
+              style="
+                padding: 16px 24px;
+                border-bottom: 1px solid var(--surface-border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <strong
+                >CV Preview
+                <span class="muted" style="font-weight: 400; margin-left: 8px"
+                  >(John Doe)</span
+                ></strong
+              >
+              <span
+                class="badge"
+                style="
+                  background: var(--surface);
+                  border: 1px solid var(--border);
+                "
+                ><i class="fas fa-lock"></i> Secured View</span
+              >
+            </div>
+
+            <div
+              style="
+                padding: 24px;
+                height: 750px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.2);
+              "
+            >
+              <article class="a4-sheet" style="font-size: 0.9rem; border: none">
+                <h1 class="a4-name" style="font-size: 24px">John Doe</h1>
+                <p class="a4-headline" style="font-size: 16px">
+                  Full Stack Software Engineer
+                </p>
+                <div
+                  class="muted"
+                  style="
+                    font-size: 12px;
+                    margin-top: 4px;
+                    color: var(--gray-700);
+                  "
+                >
+                  johndoe@university.edu | +251 911 111 222 | Addis Ababa,
+                  Ethiopia
+                </div>
+                <div
+                  style="
+                    font-size: 12px;
+                    margin-top: 4px;
+                    display: flex;
+                    gap: 12px;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>Portfolio</strong></a
+                  >
+                  |
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>GitHub</strong></a
+                  >
+                  |
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>LinkedIn</strong></a
+                  >
+                </div>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Summary</h3>
+                  <p style="color: var(--gray-800); line-height: 1.4">
+                    Driven software engineer targeting robust web architecture
+                    and cloud-native solutions. Experienced scaling APIs for
+                    peak distribution requirements.
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Education</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 8px">
+                    <strong>Adama Science and Technology University</strong> —
+                    BSc Software Engineering <br /><span
+                      class="muted"
+                      style="color: var(--gray-600)"
+                      >Oct 2021 - Present</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Experience</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 12px">
+                    <strong>Software Engineer Intern, ExampleTech</strong>
+                    <span class="muted" style="color: var(--gray-600)"
+                      >(Jun 2025 - Present)</span
+                    ><br /><span
+                      style="font-size: 0.85em; color: var(--gray-800)"
+                      >Engineered scalable Next.js interfaces dynamically
+                      resolving backend payload dependencies reducing query
+                      times.</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Projects</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 12px">
+                    <strong>DigiCV Distributed Network</strong>
+                    <a
+                      href="#"
+                      style="
+                        font-size: 0.85em;
+                        color: var(--primary-600);
+                        margin-left: 8px;
+                      "
+                      >Proof</a
+                    ><br /><span
+                      style="font-size: 0.85em; color: var(--gray-800)"
+                      >A massive scale backend modeling student QR
+                      authentications efficiently natively verifying metrics
+                      dynamically.</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Certifications</h3>
+                  <ul
+                    style="
+                      margin: 0;
+                      padding-left: 16px;
+                      color: var(--gray-800);
+                    "
+                  >
+                    <li style="margin-bottom: 4px">
+                      <strong>AWS Solutions Architect</strong> -
+                      <a href="#" style="color: var(--primary-600)"
+                        >View File</a
+                      >
+                    </li>
+                    <li style="margin-bottom: 4px">
+                      <strong>CompTIA Security+</strong> -
+                      <a href="#" style="color: var(--primary-600)"
+                        >View File</a
+                      >
+                    </li>
+                  </ul>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Skills</h3>
+                  <div class="tag-list">
+                    <span class="tag">JavaScript</span
+                    ><span class="tag">React</span
+                    ><span class="tag">Node.js</span><span class="tag">PHP</span
+                    ><span class="tag">MySQL</span
+                    ><span class="tag">Docker</span>
+                  </div>
+                </section>
+              </article>
+            </div>
           </div>
-          <div class="table-wrapper">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Student</th>
-                  <th>Department</th>
-                  <th>Submitted</th>
-                  <th>Approved</th>
-                  <th>QR Code</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="flex items-center gap-sm">
-                      <div class="avatar avatar--sm avatar--accent">AW</div>
-                      <span>Almaz Worku</span>
-                    </div>
-                  </td>
-                  <td>Computer Science</td>
-                  <td>Apr 10, 2026</td>
-                  <td>Apr 12, 2026</td>
-                  <td><span class="badge badge--success"><i class="fas fa-check"></i> Generated</span></td>
-                  <td><a href="cv-preview.html" class="btn btn-ghost btn-sm">View</a></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="flex items-center gap-sm">
-                      <div class="avatar avatar--sm avatar--primary">DK</div>
-                      <span>Dawit Kebede</span>
-                    </div>
-                  </td>
-                  <td>Software Engineering</td>
-                  <td>Apr 8, 2026</td>
-                  <td>Apr 11, 2026</td>
-                  <td><span class="badge badge--success"><i class="fas fa-check"></i> Generated</span></td>
-                  <td><a href="cv-preview.html" class="btn btn-ghost btn-sm">View</a></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="flex items-center gap-sm">
-                      <div class="avatar avatar--sm" style="background: rgba(245,158,11,.2); color: var(--warning);">HM</div>
-                      <span>Hana Mulatu</span>
-                    </div>
-                  </td>
-                  <td>Information Technology</td>
-                  <td>Apr 7, 2026</td>
-                  <td>Apr 10, 2026</td>
-                  <td><span class="badge badge--success"><i class="fas fa-check"></i> Generated</span></td>
-                  <td><a href="cv-preview.html" class="btn btn-ghost btn-sm">View</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        </aside>
       </div>
     </main>
-  </div>
 
-  <script>
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    if (window.innerWidth <= 768) menuToggle.style.display = 'flex';
-    menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
-  </script>
-</body>
+    <script>
+      // Mobile Menu Toggle
+      document
+        .getElementById("mobile-menu-toggle")
+        .addEventListener("click", () => {
+          document.getElementById("main-nav").classList.toggle("mobile-open");
+        });
+    </script>
+  </body>
 </html>

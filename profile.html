@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Settings — DigiCV</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">Account Settings</span>
+      </div>
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Return to Dashboard</a>
+        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+      </nav>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">US</div></a>
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </header>
+
+    <main class="page-container" style="padding-top:32px">
+      <div class="page-header animate-fade-in" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+        <div>
+           <h1>Profile Management</h1>
+           <p>Securely maintain your underlying identity records, authentication credentials, and notifications centrally.</p>
+        </div>
+      </div>
+
+      <div class="layout-split delay-1">
+        
+        <!-- Left Column: Settings Navigation List -->
+        <aside class="section-stack">
+          <div class="card tight" style="position:sticky;top:90px">
+             <div class="section-stack gap-sm">
+                <button class="btn btn-ghost" style="justify-content:flex-start; background:var(--surface-alt); border:1px solid var(--primary-500); color:var(--primary-500)"><i class="fas fa-user" style="width:24px"></i> Base Identity</button>
+                <button class="btn btn-ghost" style="justify-content:flex-start"><i class="fas fa-shield-alt" style="width:24px"></i> Security & Authentication</button>
+                <button class="btn btn-ghost" style="justify-content:flex-start"><i class="fas fa-bell" style="width:24px"></i> Notifications</button>
+                <button class="btn btn-ghost" style="justify-content:flex-start; color:var(--danger)"><i class="fas fa-exclamation-triangle" style="width:24px"></i> Danger Zone</button>
+             </div>
+          </div>
+        </aside>
+
+        <!-- Right Column: Form Modules -->
+        <section class="section-stack delay-2">
+            
+            <!-- 1. Identity Component -->
+            <div class="card tight" style="margin-bottom:24px">
+               <h3 class="card-title" style="margin-bottom:16px; display:flex; align-items:center"><i class="fas fa-user-edit" style="color:var(--primary-500); margin-right:8px"></i> Core Identity</h3>
+               <div style="display:flex; gap:16px; margin-bottom:24px; align-items:center; border-bottom:1px solid var(--border); padding-bottom:16px">
+                  <div class="avatar avatar--lg avatar--accent">US</div>
+                  <div>
+                     <button class="btn btn-ghost btn-sm"><i class="fas fa-camera"></i> Change Avatar</button>
+                     <p class="muted" style="margin-top:4px; font-size:0.85rem">Supports JPG, PNG (Max. 2MB)</p>
+                  </div>
+               </div>
+
+               <div class="form-grid two">
+                  <div>
+                     <label class="label">First Name</label>
+                     <input class="input form-input" value="Current" />
+                  </div>
+                  <div>
+                     <label class="label">Last Name</label>
+                     <input class="input form-input" value="User" />
+                  </div>
+                  <div style="grid-column: 1 / -1">
+                     <label class="label">Academic Email Address</label>
+                     <input class="input form-input" type="email" value="current.user@university.edu" />
+                  </div>
+                  <div>
+                     <label class="label">Department / Faculty</label>
+                     <select class="form-input" style="padding:10px; color:var(--text)">
+                        <option>Computer Science</option>
+                        <option>Software Engineering</option>
+                        <option>Information Systems</option>
+                     </select>
+                  </div>
+                  <div>
+                     <label class="label">Mobile Phone</label>
+                     <input class="input form-input" type="tel" placeholder="+251 900 000 000" />
+                  </div>
+               </div>
+               <button class="btn btn-primary" style="margin-top:24px"><i class="fas fa-save"></i> Save Changes</button>
+            </div>
+
+            <!-- 2. Security Component -->
+            <div class="card tight" style="margin-bottom:24px">
+               <h3 class="card-title" style="margin-bottom:16px; display:flex; align-items:center"><i class="fas fa-key" style="color:var(--warning); margin-right:8px"></i> Authentication Security</h3>
+               <div class="form-grid two">
+                  <div style="grid-column: 1 / -1">
+                     <label class="label">Current Password</label>
+                     <input class="input form-input" type="password" placeholder="Enter your current password..." />
+                  </div>
+                  <div>
+                     <label class="label">New Password</label>
+                     <input class="input form-input" type="password" placeholder="Min. 8 characters" />
+                  </div>
+                  <div>
+                     <label class="label">Confirm New Password</label>
+                     <input class="input form-input" type="password" placeholder="Review entry mapping" />
+                  </div>
+               </div>
+               <button class="btn btn-ghost" style="margin-top:24px; border:1px solid var(--warning); color:var(--warning)"><i class="fas fa-sync-alt"></i> Update Password</button>
+            </div>
+
+            <!-- 3. Notification Tracking Component -->
+            <div class="card tight" style="margin-bottom:24px">
+               <h3 class="card-title" style="margin-bottom:16px; display:flex; align-items:center"><i class="fas fa-broadcast-tower" style="color:var(--info); margin-right:8px"></i> Telemetry</h3>
+               
+               <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); padding:16px; border-radius:var(--radius-sm); margin-bottom:8px">
+                  <div>
+                     <strong>Action Emails</strong>
+                     <p class="muted" style="font-size:0.85rem">Receive SMTP warnings on CV approvals or rejections securely.</p>
+                  </div>
+                  <button class="btn btn-primary btn-sm"><i class="fas fa-toggle-on"></i> Enabled</button>
+               </div>
+
+               <div style="display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); padding:16px; border-radius:var(--radius-sm)">
+                  <div>
+                     <strong>Scan Alerts</strong>
+                     <p class="muted" style="font-size:0.85rem">Trigger notifications when your QR payloads are successfully authenticated by external agents.</p>
+                  </div>
+                  <button class="btn btn-ghost btn-sm" style="border:1px solid var(--border)"><i class="fas fa-toggle-off"></i> Disabled</button>
+               </div>
+            </div>
+
+            <!-- 4. Destruction Component -->
+            <div class="card tight" style="border:1px solid rgba(239, 68, 68, 0.3); background:rgba(239, 68, 68, 0.05)">
+               <h3 class="card-title" style="margin-bottom:8px; color:var(--danger)">Danger Zone</h3>
+               <p class="muted" style="margin-bottom:16px">Permanently destroy your underlying records mapping alongside all linked CV arrays. Note: Operation executes against the schema bypassing cascading protections permanently.</p>
+               <button class="btn btn-ghost" style="background:var(--danger); color:#fff; border:none"><i class="fas fa-skull"></i> Nuke Profile Matrix</button>
+            </div>
+
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+      document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+        document.getElementById('main-nav').classList.toggle('mobile-open');
+      });
+    </script>
+  </body>
+</html>

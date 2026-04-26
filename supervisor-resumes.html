@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resumes Management — Supervisor</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">Supervisor Hub</span>
+      </div>
+      <button class="hamburger-btn" id="mobile-menu-toggle"><i class="fas fa-bars"></i></button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"><i class="fas fa-arrow-left"></i> Back</a>
+        <a href="profile.html" class="mobile-only"><i class="fas fa-user-cog"></i> Profile Settings</a>
+        <a href="index.html" class="mobile-only" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Sign out</a>
+      </nav>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration:none"><div class="avatar avatar--sm avatar--primary" title="Profile Settings">SP</div></a>
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"><i class="fas fa-sign-out-alt"></i></a>
+      </div>
+    </header>
+
+    <main class="page-container" style="padding-top:32px">
+      <div class="page-header animate-fade-in" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+        <div>
+          <h1>Resumes Management</h1>
+          <p>Monitor, search, and manage all historically processed CVs across your department.</p>
+        </div>
+        <div style="display:flex; gap:8px">
+           <input type="text" class="input form-input" placeholder="Search by name or title..." style="width:250px" />
+           <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+      <!-- Main Logs Matrix -->
+      <section class="card section-stack delay-1" style="margin-top:24px">
+         <!-- Filters -->
+         <div style="display:flex; gap:12px; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:16px">
+            <button class="btn btn-ghost active" style="color:var(--primary-500); border-bottom:2px solid var(--primary-500)">All Resumes</button>
+            <button class="btn btn-ghost">Approved</button>
+            <button class="btn btn-ghost">Rejected</button>
+         </div>
+
+         <!-- Data Table Structure -->
+         <div class="table-wrapper">
+             <table class="table">
+               <thead>
+                 <tr>
+                   <th>Student Profile</th>
+                   <th>CV Target Title</th>
+                   <th>Modified Date</th>
+                   <th>Evaluation Status</th>
+                   <th>Actions</th>
+                 </tr>
+               </thead>
+               <tbody>
+                  <!-- Row 1 -->
+                 <tr>
+                   <td>
+                     <div class="flex items-center gap-sm">
+                       <div class="avatar avatar--sm avatar--primary">JD</div>
+                       <div>
+                         <div style="font-weight:500">John Doe</div>
+                         <div class="muted">SWE Dept.</div>
+                       </div>
+                     </div>
+                   </td>
+                   <td>Full Stack Software Engineer</td>
+                   <td>Aug 24, 2026</td>
+                   <td><span class="badge pending"><i class="fas fa-hourglass-half"></i> Pending</span></td>
+                   <td>
+                     <div class="flex gap-sm">
+                       <a href="supervisor-dashboard.html" class="btn btn-ghost btn-sm" title="Evaluate"><i class="fas fa-gavel"></i> Evaluate</a>
+                     </div>
+                   </td>
+                 </tr>
+
+                 <!-- Row 2 -->
+                 <tr>
+                   <td>
+                     <div class="flex items-center gap-sm">
+                       <div class="avatar avatar--sm avatar--primary">EW</div>
+                       <div>
+                         <div style="font-weight:500">Elias White</div>
+                         <div class="muted">IT Dept.</div>
+                       </div>
+                     </div>
+                   </td>
+                   <td>Cloud Systems Administrator</td>
+                   <td>Aug 20, 2026</td>
+                   <td><span class="badge approved"><i class="fas fa-check"></i> Approved</span></td>
+                   <td>
+                     <div class="flex gap-sm">
+                       <button class="btn btn-ghost btn-sm" title="View Document"><i class="fas fa-eye"></i></button>
+                       <button class="btn btn-ghost btn-sm" style="color:var(--danger)" title="Revoke Status"><i class="fas fa-undo"></i> Revoke</button>
+                     </div>
+                   </td>
+                 </tr>
+
+                 <!-- Row 3 -->
+                 <tr>
+                   <td>
+                     <div class="flex items-center gap-sm">
+                       <div class="avatar avatar--sm avatar--primary">MB</div>
+                       <div>
+                         <div style="font-weight:500">Maria Bello</div>
+                         <div class="muted">Cybersecurity Dept.</div>
+                       </div>
+                     </div>
+                   </td>
+                   <td>Penetration Tester Module</td>
+                   <td>Aug 18, 2026</td>
+                   <td><span class="badge draft"><i class="fas fa-times"></i> Rejected</span></td>
+                   <td>
+                     <div class="flex gap-sm">
+                       <button class="btn btn-ghost btn-sm" title="View Document"><i class="fas fa-eye"></i></button>
+                       <button class="btn btn-ghost btn-sm" title="Check Request Log"><i class="fas fa-comment-dots"></i> Notes</button>
+                     </div>
+                   </td>
+                 </tr>
+
+               </tbody>
+             </table>
+         </div>
+      </section>
+
+    </main>
+
+    <script>
+      // Mobile Menu Toggle
+      document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+        document.getElementById('main-nav').classList.toggle('mobile-open');
+      });
+    </script>
+  </body>
+</html>

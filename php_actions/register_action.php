@@ -15,13 +15,13 @@ if (!$data) {
     $data = $_POST; 
 }
 
-$firstName   = clean($data['first_name']      ?? '');
-$lastName    = clean($data['last_name']       ?? '');
-$email       = strtolower(trim($data['email'] ?? ''));
-$studentId   = clean($data['student_id']      ?? '');
-$department  = clean($data['department']      ?? '');
-$password    = $data['password']              ?? '';
-$confirmPass = $data['confirm_password']      ?? '';
+$firstName   = clean((string)($data['first_name'] ?? ''));
+$lastName    = clean((string)($data['last_name'] ?? ''));
+$email       = strtolower(trim((string)($data['email'] ?? '')));
+$studentId   = clean((string)($data['student_id'] ?? ''));
+$department  = clean((string)($data['department'] ?? ''));
+$password    = (string)($data['password'] ?? '');
+$confirmPass = (string)($data['confirm_password'] ?? '');
 
 if (!$firstName || !$lastName) {
     jsonResponse(false, 'First name and last name are required.');
@@ -45,17 +45,21 @@ if ($password !== $confirmPass) {
 $fullName = $firstName . ' ' . $lastName;
 
 try {
+    $pdo = null;
     $pdo = getDB();
+    $pdo->beginTransaction();
 
     $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
     $stmt->execute([$email]);
     if ($stmt->fetch()) {
+        $pdo->rollBack();
         jsonResponse(false, 'An account with this email already exists.');
     }
 
     $stmt = $pdo->prepare('SELECT id FROM students WHERE student_number = ? LIMIT 1');
     $stmt->execute([$studentId]);
     if ($stmt->fetch()) {
+        $pdo->rollBack();
         jsonResponse(false, 'This Student ID is already registered.');
     }
 
@@ -63,6 +67,7 @@ try {
     $stmt->execute();
     $role = $stmt->fetch();
     if (!$role) {
+        $pdo->rollBack();
         jsonResponse(false, 'System error: default role not found. Please contact admin.');
     }
     $roleId = $role['id'];
@@ -92,16 +97,21 @@ try {
     ');
     $stmt->execute([$userId, $deptId, $studentId]);
 
+    $pdo->commit();
+    session_regenerate_id(true);
     $_SESSION['user_id']   = $userId;
     $_SESSION['full_name'] = $fullName;
     $_SESSION['email']     = $email;
     $_SESSION['role']      = 'student';
 
     jsonResponse(true, 'Account created successfully! Redirecting…', [
-        'redirect' => '../student-dashboard.php',
+        'redirect' => dashboardForRole('student'),
     ]);
 
 } catch (PDOException $e) {
+    if ($pdo instanceof PDO && $pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     error_log('Register error: ' . $e->getMessage());
     jsonResponse(false, 'A server error occurred. Please try again.');
 }

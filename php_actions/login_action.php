@@ -21,9 +21,8 @@ if (!$data) {
     $data = $_POST;
 }
 
-$email    = strtolower(trim($data['email']    ?? ''));
-$password = $data['password']                 ?? '';
-$role     = clean($data['role']               ?? '');   
+$email       = strtolower(trim((string)($data['email'] ?? '')));
+$password    = (string)($data['password'] ?? '');
 
 
 if (!isValidEmail($email)) {
@@ -31,9 +30,6 @@ if (!isValidEmail($email)) {
 }
 if (empty($password)) {
     jsonResponse(false, 'Password is required.');
-}
-if (empty($role)) {
-    jsonResponse(false, 'Please select your role.');
 }
 
 
@@ -62,11 +58,7 @@ try {
     }
 
     
-    if ($user['role'] !== $role) {
-        jsonResponse(false, 'The selected role does not match this account. Please choose the correct role.');
-    }
-
-    
+    session_regenerate_id(true);
     $_SESSION['user_id']   = (int) $user['id'];
     $_SESSION['full_name'] = $user['full_name'];
     $_SESSION['email']     = $user['email'];

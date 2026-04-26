@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Examiner CV Library — DigiCV</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="frontend/assets/js/app.js"></script>
+  </head>
+  <body>
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <div class="brand-icon"><i class="fas fa-file-signature"></i></div>
+        <span class="text-gradient">Examiner Portal</span>
+      </div>
+      <button class="hamburger-btn" id="mobile-menu-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="nav-links" id="main-nav">
+        <a href="javascript:history.back()"
+          ><i class="fas fa-arrow-left"></i> Back</a
+        >
+        <a href="profile.html" class="mobile-only"
+          ><i class="fas fa-user-cog"></i> Profile Settings</a
+        >
+        <a href="index.html" class="mobile-only" style="color: var(--danger)"
+          ><i class="fas fa-sign-out-alt"></i> Sign out</a
+        >
+      </nav>
+      <div class="nav-user">
+        <a href="profile.html" style="text-decoration: none"
+          ><div
+            class="avatar avatar--sm avatar--primary"
+            title="Profile Settings"
+          >
+            EX
+          </div></a
+        >
+        <a class="btn btn-ghost btn-icon" href="index.html" title="Sign out"
+          ><i class="fas fa-sign-out-alt"></i
+        ></a>
+      </div>
+    </header>
+
+    <main class="page-container" style="padding-top: 32px">
+      <div
+        class="page-header animate-fade-in"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          flex-wrap: wrap;
+          gap: 16px;
+        "
+      >
+        <div>
+          <h1>Verified Output Library</h1>
+          <p>
+            Index, evaluate, and securely pull standardized approved profiles.
+          </p>
+        </div>
+      </div>
+
+      <div class="layout-split delay-1">
+        <!-- Left Filter & Search Queue Panel -->
+        <aside class="section-stack">
+          <!-- Filters Native Logic -->
+          <div class="card tight">
+            <h2 class="card-title" style="margin-bottom: 16px">
+              <i class="fas fa-search"></i> Advanced Query
+            </h2>
+            <div class="form-grid two" style="margin-bottom: 16px">
+              <div style="grid-column: 1 / -1">
+                <input
+                  class="input form-input"
+                  placeholder="Search by name, ID, or distinct keyword..."
+                />
+              </div>
+              <div>
+                <select
+                  class="form-input"
+                  style="padding: 10px; color: var(--text)"
+                >
+                  <option>All Departments</option>
+                  <option>Computer Science</option>
+                </select>
+              </div>
+              <div>
+                <input
+                  class="input form-input"
+                  placeholder="Min. Required Skill (e.g. Docker)"
+                />
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width: 100%">
+              <i class="fas fa-filter"></i> Apply Filters
+            </button>
+          </div>
+
+          <!-- Matching CVs List -->
+          <div
+            class="card tight"
+            style="padding: 0; background: none; border: none"
+          >
+            <h3
+              style="
+                margin-bottom: 12px;
+                font-size: 1rem;
+                color: var(--gray-300);
+              "
+            >
+              Found Profiles (2)
+            </h3>
+            <div class="section-stack gap-sm">
+              <!-- Selected Resume -->
+              <article
+                class="list-card"
+                style="cursor: pointer; border-color: #8b5cf6; padding: 16px"
+              >
+                <div class="list-head" style="margin-bottom: 8px">
+                  <strong style="color: var(--text)">Alice Smith</strong>
+                  <span
+                    class="badge"
+                    style="
+                      background: var(--surface);
+                      border: 1px solid #8b5cf6;
+                      color: #8b5cf6;
+                    "
+                    ><i class="fas fa-check-circle"></i> Extracted</span
+                  >
+                </div>
+                <div
+                  class="muted"
+                  style="margin-bottom: 12px; font-size: 0.85rem"
+                >
+                  Target: Backend Engineer | Dept: SWE
+                </div>
+                <div class="tag-list" style="margin-bottom: 0">
+                  <span class="tag">Java</span><span class="tag">Docker</span
+                  ><span class="tag">PostgreSQL</span>
+                </div>
+              </article>
+
+              <!-- Other Resume -->
+              <article
+                class="list-card"
+                style="cursor: pointer; opacity: 0.6; padding: 16px"
+              >
+                <div class="list-head" style="margin-bottom: 8px">
+                  <strong style="color: var(--text)">John Doe</strong>
+                </div>
+                <div
+                  class="muted"
+                  style="margin-bottom: 12px; font-size: 0.85rem"
+                >
+                  Target: Full Stack SWE | Dept: CS
+                </div>
+                <div class="tag-list" style="margin-bottom: 0">
+                  <span class="tag">JavaScript</span
+                  ><span class="tag">Node.js</span><span class="tag">PHP</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Right Component: Standard Unified CV A4 Visualizer -->
+        <section class="section-stack delay-2">
+          <!-- Evaluator Output -->
+          <div class="card tight" style="margin-bottom: 16px">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+              "
+            >
+              <h3 class="card-title" style="margin: 0">
+                <i
+                  class="fas fa-clipboard-list"
+                  style="color: var(--primary-500); margin-right: 8px"
+                ></i>
+                Evaluation Metrics
+              </h3>
+              <button class="btn btn-primary btn-sm">
+                <i class="fas fa-save"></i> Save Remarks
+              </button>
+            </div>
+            <textarea
+              class="textarea form-input"
+              rows="2"
+              placeholder="Private examiner notes regarding Alice's background..."
+            ></textarea>
+          </div>
+
+          <!-- Preview Hook -->
+          <div
+            class="card tight"
+            style="
+              padding: 0;
+              background: var(--surface-alt);
+              position: sticky;
+              top: 90px;
+            "
+          >
+            <div
+              style="
+                padding: 16px 24px;
+                border-bottom: 1px solid var(--surface-border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <strong
+                >Read-Only Document
+                <span class="muted" style="font-weight: 400; margin-left: 8px"
+                  >(Alice Smith)</span
+                ></strong
+              >
+              <span
+                class="badge"
+                style="
+                  background: var(--surface);
+                  border: 1px solid var(--border);
+                "
+                ><i class="fas fa-shield-alt"></i> Verified Payload</span
+              >
+            </div>
+
+            <div
+              style="
+                padding: 24px;
+                height: 750px;
+                overflow-y: auto;
+                background: rgba(0, 0, 0, 0.2);
+              "
+            >
+              <article class="a4-sheet" style="font-size: 0.9rem; border: none">
+                <h1 class="a4-name" style="font-size: 24px">Alice Smith</h1>
+                <p class="a4-headline" style="font-size: 16px">
+                  Backend Systems Engineer
+                </p>
+                <div
+                  class="muted"
+                  style="
+                    font-size: 12px;
+                    margin-top: 4px;
+                    color: var(--gray-700);
+                  "
+                >
+                  asmith@university.edu | +251 922 444 888 | Adds Ababa
+                </div>
+                <div
+                  style="
+                    font-size: 12px;
+                    margin-top: 4px;
+                    display: flex;
+                    gap: 12px;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>LinkedIn</strong></a
+                  >
+                  |
+                  <a
+                    href="#"
+                    style="color: var(--primary-600); text-decoration: none"
+                    ><strong>GitHub</strong></a
+                  >
+                </div>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Summary</h3>
+                  <p style="color: var(--gray-800); line-height: 1.4">
+                    Systems optimizer dedicated to deploying scalable backend
+                    logic mapping cleanly onto Dockerized infrastructure arrays
+                    natively without bottleneck constraints.
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Education</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 8px">
+                    <strong>ASTU</strong> — BSc Software Engineering <br /><span
+                      class="muted"
+                      style="color: var(--gray-600)"
+                      >Oct 2022 - Aug 2026</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Projects</h3>
+                  <p style="color: var(--gray-800); margin-bottom: 12px">
+                    <strong>Enterprise Backend API</strong> <br /><span
+                      style="font-size: 0.85em; color: var(--gray-800)"
+                      >Constructed robust Java Spring interfaces natively
+                      authenticating QR token layers correctly.</span
+                    >
+                  </p>
+                </section>
+
+                <section class="a4-section" style="margin-top: 16px">
+                  <h3 style="margin-bottom: 8px">Skills</h3>
+                  <div class="tag-list">
+                    <span class="tag">Java</span><span class="tag">Docker</span
+                    ><span class="tag">PostgreSQL</span
+                    ><span class="tag">Git</span>
+                  </div>
+                </section>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      document
+        .getElementById("mobile-menu-toggle")
+        .addEventListener("click", () => {
+          document.getElementById("main-nav").classList.toggle("mobile-open");
+        });
+    </script>
+  </body>
+</html>
