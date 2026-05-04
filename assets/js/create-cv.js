@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const menuToggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   const form = document.getElementById("cv-form");
@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebarName = document.getElementById("form-sidebar-name");
   const avatar = document.getElementById("form-avatar");
   const sidebarEmail = document.getElementById("form-sidebar-email");
-  const currentUser = window.UserSession ? window.UserSession.getUser() : null;
+  let currentUser = window.UserSession ? window.UserSession.getUser() : null;
 
   if (window.innerWidth <= 768 && menuToggle) {
     menuToggle.style.display = "flex";
@@ -39,7 +39,12 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
   const optionalFields = new Set(["linkedin", "portfolio"]);
 
-  const existingCv = window.CVStorage.getCv();
+  let existingCv = window.CVStorage.getCv();
+
+  await hydrateCv();
+
+  currentUser = window.UserSession ? window.UserSession.getUser() : currentUser;
+  existingCv = window.CVStorage.getCv();
   const initialValues = {
     ...existingCv,
     fullName: existingCv.fullName || (currentUser && currentUser.fullName) || "",
@@ -70,26 +75,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  saveDraftButton.addEventListener("click", () => {
+  saveDraftButton.addEventListener("click", async () => {
     statusField.value = "Draft";
-    saveCv("Draft saved");
+    await saveCv("save_draft");
   });
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!validateForSubmit()) {
       return;
     }
     statusField.value = "Pending Review";
-    const savedCv = saveCv("CV submitted for review");
-    message.textContent = "CV submitted successfully. Redirecting to dashboard...";
-    message.style.color = "var(--success)";
+    const savedCv = await saveCv("submit_cv");
+    if (!savedCv) {
+      return;
+    }
 
     window.setTimeout(() => {
       window.location.href = "student-dashboard.html";
     }, 700);
-
-    return savedCv;
   });
 
   function updateIdentity(name, email) {
@@ -108,7 +112,44 @@ document.addEventListener("DOMContentLoaded", () => {
     avatar.textContent = window.CVStorage.getInitials(displayName);
   }
 
-  function saveCv(activityLabel) {
+  async function saveCv(action) {
+    const payload = collectPayload();
+
+    try {
+      toggleActions(true);
+      const res = await fetch("php_actions/cv_actions.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, ...payload })
+      });
+      const data = await res.json();
+
+      if (!data.success) {
+        message.textContent = data.message || "Unable to save your CV right now.";
+        message.style.color = "var(--danger)";
+        return null;
+      }
+
+      if (data.user && window.UserSession) {
+        window.UserSession.saveUser(data.user);
+        currentUser = window.UserSession.getUser();
+      }
+
+      const savedCv = window.CVStorage.setCv(data.cv || payload);
+      message.textContent = data.message;
+      message.style.color = "var(--success)";
+      updateIdentity(savedCv.fullName, savedCv.email);
+      return savedCv;
+    } catch (error) {
+      message.textContent = "Network error. Please try again.";
+      message.style.color = "var(--danger)";
+      return null;
+    } finally {
+      toggleActions(false);
+    }
+  }
+
+  function collectPayload() {
     const formData = new FormData(form);
     const payload = {};
 
@@ -116,11 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       payload[fieldName] = (formData.get(fieldName) || "").toString().trim();
     });
 
-    const savedCv = window.CVStorage.saveCv(payload, activityLabel);
-    message.textContent = savedCv.status === "Draft" ? "Draft saved successfully." : "CV submitted successfully.";
-    message.style.color = "var(--success)";
-    updateIdentity(savedCv.fullName, savedCv.email);
-    return savedCv;
+    return payload;
   }
 
   function validateForSubmit() {
@@ -146,5 +183,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     return true;
+  }
+
+  async function hydrateCv() {
+    try {
+      const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+        headers: { Accept: "application/json" }
+      });
+      const data = await res.json();
+      if (data.success && data.user && window.UserSession) {
+        window.UserSession.saveUser(data.user);
+        currentUser = window.UserSession.getUser();
+      }
+      if (data.success && data.cv) {
+        window.CVStorage.setCv(data.cv);
+      } else if (data.success) {
+        window.CVStorage.clearCv();
+      }
+    } catch (error) {
+      // Keep the local cache as a fallback if the backend is unavailable.
+    }
+  }
+
+  function toggleActions(loading) {
+    saveDraftButton.disabled = loading;
+    form.querySelector('button[type="submit"]').disabled = loading;
   }
 });

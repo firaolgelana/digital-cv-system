@@ -1,6 +1,7 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const menuToggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
+  await hydrateCv();
   const currentUser = window.UserSession ? window.UserSession.getUser() : null;
   const cv = window.CVStorage.getCv();
   const hasCv = Boolean(cv.fullName || cv.email || cv.summary || cv.education || cv.experience);
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   badge.className = window.CVStorage.getStatusClass(status);
   badge.innerHTML = `<i class="fas ${status === "Pending Review" ? "fa-hourglass-half" : "fa-pen"}"></i> ${status}`;
   document.getElementById("preview-last-updated").textContent = `Last updated: ${window.CVStorage.formatDate(cv.updatedAt)}`;
+  renderReviewNote(cv);
 
   document.getElementById("preview-name").textContent = cv.fullName || currentUser?.fullName || "Student";
   document.getElementById("preview-title").textContent = cv.profession || "Professional title not added";
@@ -43,6 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSkills("preview-technical-skills", window.CVStorage.toArray(cv.technicalSkills), "rgba(99,102,241,.15)", "var(--primary-700)");
   renderSkills("preview-soft-skills", window.CVStorage.toArray(cv.softSkills), "#ecfdf5", "#065f46");
 });
+
+async function hydrateCv() {
+  try {
+    const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+      headers: { Accept: "application/json" }
+    });
+    const data = await res.json();
+    if (data.success && data.user && window.UserSession) {
+      window.UserSession.saveUser(data.user);
+    }
+    if (data.success && data.cv) {
+      window.CVStorage.setCv(data.cv);
+    } else if (data.success) {
+      window.CVStorage.clearCv();
+    }
+  } catch (error) {
+    // Fall back to cached data if the request fails.
+  }
+}
 
 function renderIdentity(cv, currentUser) {
   const name = cv.fullName || currentUser?.fullName || "Student";
@@ -66,6 +87,22 @@ function renderSkills(containerId, items, background, color) {
   container.innerHTML = items
     .map((item) => `<span class="cv-skill-tag" style="background: ${background}; color: ${color};">${escapeHtml(item)}</span>`)
     .join("");
+}
+
+function renderReviewNote(cv) {
+  const card = document.getElementById("preview-review-note-card");
+  const text = document.getElementById("preview-review-note");
+  if (!card || !text) {
+    return;
+  }
+
+  if (!cv.reviewNote) {
+    card.style.display = "none";
+    return;
+  }
+
+  card.style.display = "block";
+  text.textContent = cv.reviewNote;
 }
 
 function escapeHtml(value) {

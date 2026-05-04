@@ -56,6 +56,7 @@ $fullName = $firstName . ' ' . $lastName;
 // ── Database operations ──────────────────────────────────────
 try {
     $pdo = getDB();
+    ensureDefaultAdminAccount($pdo);
 
     // 1. Check email uniqueness
     $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');

@@ -1,13 +1,27 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const encodedPayload = new URLSearchParams(window.location.hash.replace(/^#/, "")).get("cv");
-  const payload = encodedPayload ? window.CVShare.decodePayload(encodedPayload) : null;
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = new URLSearchParams(window.location.search).get("token");
   const errorCard = document.getElementById("public-cv-error");
   const content = document.getElementById("public-cv-content");
+  const downloadButton = document.getElementById("download-public-cv-btn");
+  const printButton = document.getElementById("print-public-cv-btn");
 
-  if (!payload || !payload.student) {
-    errorCard.style.display = "block";
-    content.style.display = "none";
-    document.getElementById("download-public-cv-btn").disabled = true;
+  if (!token) {
+    showError();
+    return;
+  }
+
+  let payload = null;
+  try {
+    const response = await fetch(`php_actions/generate_qr.php?action=get_public_cv&token=${encodeURIComponent(token)}`, {
+      headers: { Accept: "application/json" }
+    });
+    payload = await response.json();
+  } catch (error) {
+    payload = null;
+  }
+
+  if (!payload?.success || !payload.student) {
+    showError();
     return;
   }
 
@@ -32,14 +46,24 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSkills("public-cv-soft-skills", window.CVShare.toArray(student.softSkills), "#ecfdf5", "#065f46");
   renderLinks(student);
 
-  document.getElementById("download-public-cv-btn").addEventListener("click", () => {
+  downloadButton.disabled = false;
+  printButton.disabled = false;
+
+  downloadButton.addEventListener("click", () => {
     const filename = `${slugify(student.fullName || "student")}-cv.html`;
-    window.CVShare.downloadHtmlFile(filename, window.CVShare.buildDownloadHtml(payload));
+    window.CVShare.downloadHtmlFile(filename, window.CVShare.buildDownloadHtml({ student }));
   });
 
-  document.getElementById("print-public-cv-btn").addEventListener("click", () => {
+  printButton.addEventListener("click", () => {
     window.print();
   });
+
+  function showError() {
+    errorCard.style.display = "block";
+    content.style.display = "none";
+    downloadButton.disabled = true;
+    printButton.disabled = true;
+  }
 });
 
 function renderSkills(containerId, items, background, color) {

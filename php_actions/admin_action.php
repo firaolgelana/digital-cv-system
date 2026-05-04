@@ -29,6 +29,7 @@ if ($method === 'GET') {
 }
 
 $pdo = getDB();
+ensureDefaultAdminAccount($pdo);
 
 // ============================================================
 //  GET: get_stats

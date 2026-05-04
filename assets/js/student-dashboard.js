@@ -1,7 +1,8 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const menuToggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   const searchInput = document.getElementById("search-input");
+  await hydrateCv();
   const currentUser = window.UserSession ? window.UserSession.getUser() : null;
   const cv = window.CVStorage.getCv();
   const hasCv = Boolean(cv.fullName || cv.email || cv.summary || cv.education || cv.experience);
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (hasCv) {
     renderChecklist(cv);
+    renderReviewNote(cv);
     renderSummary(cv, currentUser);
     renderDetailSections(cv);
     renderActivity(cv);
@@ -29,6 +31,25 @@ document.addEventListener("DOMContentLoaded", () => {
     filterDetails(event.target.value);
   });
 });
+
+async function hydrateCv() {
+  try {
+    const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+      headers: { Accept: "application/json" }
+    });
+    const data = await res.json();
+    if (data.success && data.user && window.UserSession) {
+      window.UserSession.saveUser(data.user);
+    }
+    if (data.success && data.cv) {
+      window.CVStorage.setCv(data.cv);
+    } else if (data.success) {
+      window.CVStorage.clearCv();
+    }
+  } catch (error) {
+    // Fall back to cached data if the request fails.
+  }
+}
 
 function renderHeader(cv, currentUser, hasCv) {
   const name = hasCv && cv.fullName
@@ -105,6 +126,22 @@ function renderSummary(cv, currentUser) {
   skillsContainer.innerHTML = skills
     .map((skill) => `<span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">${escapeHtml(skill)}</span>`)
     .join("");
+}
+
+function renderReviewNote(cv) {
+  const card = document.getElementById("cv-review-note-card");
+  const text = document.getElementById("cv-review-note");
+  if (!card || !text) {
+    return;
+  }
+
+  if (!cv.reviewNote) {
+    card.style.display = "none";
+    return;
+  }
+
+  card.style.display = "block";
+  text.textContent = cv.reviewNote;
 }
 
 function renderDetailSections(cv) {

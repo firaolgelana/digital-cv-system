@@ -1,6 +1,28 @@
 (function () {
   const STORAGE_KEY = "digicv_student_cv";
 
+  function normalizeStorageSegment(value) {
+    return normalizeText(value)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "");
+  }
+
+  function getStorageKey() {
+    const user = window.UserSession && typeof window.UserSession.getUser === "function"
+      ? window.UserSession.getUser()
+      : null;
+
+    if (!user) {
+      return `${STORAGE_KEY}:anonymous`;
+    }
+
+    const role = normalizeStorageSegment(user.role || "student") || "student";
+    const identity = normalizeStorageSegment(user.email || user.fullName || "anonymous") || "anonymous";
+
+    return `${STORAGE_KEY}:${role}:${identity}`;
+  }
+
   function normalizeText(value) {
     return typeof value === "string" ? value.trim() : "";
   }
@@ -14,7 +36,7 @@
 
   function getStoredCv() {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
+      const raw = window.localStorage.getItem(getStorageKey());
       return raw ? JSON.parse(raw) : null;
     } catch (error) {
       return null;
@@ -50,6 +72,17 @@
     return { ...getDefaultCv(), ...(getStoredCv() || {}) };
   }
 
+  function setCv(nextCv) {
+    const currentCv = getCv();
+    const mergedCv = {
+      ...currentCv,
+      ...(nextCv || {})
+    };
+
+    window.localStorage.setItem(getStorageKey(), JSON.stringify(mergedCv));
+    return mergedCv;
+  }
+
   function buildChecklist(cv) {
     return [
       { label: "Personal Information", completed: Boolean(cv.fullName && cv.email) },
@@ -73,6 +106,15 @@
   }
 
   function getStatusClass(status) {
+    if (status === "Approved") {
+      return "badge badge--approved";
+    }
+    if (status === "Rejected") {
+      return "badge badge--rejected";
+    }
+    if (status === "Changes Requested") {
+      return "badge badge--warning";
+    }
     if (status === "Pending Review") {
       return "badge badge--pending";
     }
@@ -116,13 +158,19 @@
       activity
     };
 
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(mergedCv));
+    window.localStorage.setItem(getStorageKey(), JSON.stringify(mergedCv));
     return mergedCv;
+  }
+
+  function clearCv() {
+    window.localStorage.removeItem(getStorageKey());
   }
 
   window.CVStorage = {
     getCv,
+    setCv,
     saveCv,
+    clearCv,
     getCompletion,
     buildChecklist,
     getInitials,

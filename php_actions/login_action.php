@@ -40,6 +40,7 @@ if (empty($role)) {
 // ── Database lookup ──────────────────────────────────────────
 try {
     $pdo = getDB();
+    ensureDefaultAdminAccount($pdo);
 
     // Fetch user + their role name in one query
     $stmt = $pdo->prepare('

@@ -29,6 +29,26 @@ function requireAuth(array|string $allowedRoles = []): void {
 }
 
 /**
+ * Require a logged-in API user; return JSON errors instead of redirects.
+ *
+ * @param string|string[] $allowedRoles
+ */
+function requireApiAuth(array|string $allowedRoles = []): void {
+    if (empty($_SESSION['user_id'])) {
+        http_response_code(401);
+        jsonResponse(false, 'Your session has expired. Please sign in again.');
+    }
+
+    if (!empty($allowedRoles)) {
+        $allowed = (array) $allowedRoles;
+        if (!in_array($_SESSION['role'], $allowed, true)) {
+            http_response_code(403);
+            jsonResponse(false, 'You do not have permission to access this resource.');
+        }
+    }
+}
+
+/**
  * Returns the currently logged-in user's session data,
  * or null if nobody is logged in.
  */

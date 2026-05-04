@@ -52,6 +52,15 @@ CREATE TABLE IF NOT EXISTS users (
     CONSTRAINT fk_users_role FOREIGN KEY (role_id) REFERENCES roles(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Seed default admin account
+INSERT INTO users (role_id, full_name, email, password_hash, is_active)
+SELECT r.id, 'Firaol Gelana', 'gelanafiraol@gmail.com', '$2y$10$Vdag/ystvrAfhOXEOMLJ0eMsDrtai3g8vjFrUnhAahu73lKb7XfAC', 1
+FROM roles r
+WHERE r.name = 'admin'
+  AND NOT EXISTS (
+      SELECT 1 FROM users u WHERE u.email = 'gelanafiraol@gmail.com'
+  );
+
 
 -- ============================================================
 --  TABLE 3: departments
@@ -91,8 +100,19 @@ CREATE TABLE IF NOT EXISTS cvs (
     id           INT UNSIGNED  NOT NULL AUTO_INCREMENT,
     student_id   INT UNSIGNED  NOT NULL,              -- FK → students.id
     title        VARCHAR(200)  NOT NULL DEFAULT 'My CV',
+    profession   VARCHAR(150)           DEFAULT NULL,
     summary      TEXT                   DEFAULT NULL,
-    status       ENUM('draft','pending','approved','rejected') NOT NULL DEFAULT 'draft',
+    address      VARCHAR(255)           DEFAULT NULL,
+    linkedin     VARCHAR(255)           DEFAULT NULL,
+    portfolio    VARCHAR(255)           DEFAULT NULL,
+    education_text        TEXT          DEFAULT NULL,
+    experience_text       TEXT          DEFAULT NULL,
+    technical_skills      TEXT          DEFAULT NULL,
+    soft_skills           TEXT          DEFAULT NULL,
+    languages             TEXT          DEFAULT NULL,
+    projects              TEXT          DEFAULT NULL,
+    certifications        TEXT          DEFAULT NULL,
+    status       ENUM('draft','pending','approved','rejected','changes_requested') NOT NULL DEFAULT 'draft',
     submitted_at TIMESTAMP              DEFAULT NULL,
     reviewed_at  TIMESTAMP              DEFAULT NULL,
     reviewer_id  INT UNSIGNED           DEFAULT NULL,  -- supervisor or examiner who acted
