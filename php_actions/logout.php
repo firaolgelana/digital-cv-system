@@ -11,7 +11,7 @@ logout();
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta http-equiv="refresh" content="0;url=../index.html" />
+  <meta http-equiv="refresh" content="0;url=/cvs/index.html" />
   <title>Signing out...</title>
 </head>
 <body>
@@ -23,7 +23,7 @@ logout();
     .filter((key) => key.indexOf("digicv_student_cv:") === 0)
     .forEach((key) => window.localStorage.removeItem(key));
 
-  window.location.replace("../index.html");
+  window.location.replace("/cvs/index.html");
 </script>
 </body>
 </html>

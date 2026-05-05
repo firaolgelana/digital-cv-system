@@ -14,7 +14,7 @@ startSession();
  */
 function requireAuth(array|string $allowedRoles = []): void {
     if (empty($_SESSION['user_id'])) {
-        header('Location: ../index.html');
+        header('Location: /cvs/index.html');
         exit;
     }
 

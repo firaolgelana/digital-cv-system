@@ -60,13 +60,15 @@ function verifyPassword(string $plain, string $hash): bool {
  * Return the dashboard URL for a given role name.
  */
 function dashboardForRole(string $role): string {
+    $basePath = '/cvs/'; // Your base path
+
     return match ($role) {
-        'student'    => '../student-dashboard.html',
-        'supervisor' => '../supervisor-dashboard.php',
-        'examiner'   => '../supervisor-dashboard.php',
-        'recruiter'  => '../recruiter-view.html',
-        'admin'      => '../admin-dashboard.php',
-        default      => '../index.html',
+        'student'    => $basePath . 'student-dashboard.html',
+        'supervisor' => $basePath . 'supervisor-dashboard.php',
+        'examiner'   => $basePath . 'supervisor-dashboard.php',
+        'recruiter'  => $basePath . 'recruiter-view.html',
+        'admin'      => $basePath . 'admin-dashboard.php',
+        default      => $basePath . 'index.html',
     };
 }
 
