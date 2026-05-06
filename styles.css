@@ -324,7 +324,7 @@ input, select, textarea, button {
   font-size: 1.15rem;
 }
 
-/* ---------- Cards ---------- */
+/*Cards*/
 .card {
   background: var(--surface-card);
   border: 1px solid var(--surface-border);
