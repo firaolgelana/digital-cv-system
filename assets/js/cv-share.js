@@ -28,6 +28,7 @@
 
   function buildSharePayload(cv, user, token) {
     return {
+      id: cv.id || null,
       token,
       generatedAt: new Date().toISOString(),
       student: {
@@ -55,7 +56,13 @@
 
   function buildPublicCvUrl(payload) {
     const url = new URL("public-cv.html", window.location.href);
-    url.hash = `cv=${encodePayload(payload)}`;
+    if (payload.id) {
+      url.searchParams.set("id", payload.id);
+    } else if (payload.token) {
+      url.searchParams.set("token", payload.token);
+    } else {
+      url.hash = `cv=${encodePayload(payload)}`;
+    }
     return url.toString();
   }
 

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Resumes — DigiCV</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="assets/js/auth-guard.js"></script>
+  </head>
+  <body>
+    <div class="app-layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand__icon"><i class="fas fa-qrcode"></i></div>
+          <div>
+            <div class="sidebar-brand__text text-gradient">DigiCV</div>
+            <div class="sidebar-brand__sub">Digital CV System</div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <div class="sidebar-section-title">Main</div>
+          <a href="student-dashboard.html" class="sidebar-link">
+            <span class="sidebar-link__icon"><i class="fas fa-house"></i></span>
+            Dashboard
+          </a>
+          <a href="my-resumes.html" class="sidebar-link active">
+            <span class="sidebar-link__icon"><i class="fas fa-file-pen"></i></span>
+            My Resumes
+          </a>
+          <a href="qr-code.html" class="sidebar-link">
+            <span class="sidebar-link__icon"><i class="fas fa-qrcode"></i></span>
+            QR Code
+          </a>
+
+          <div class="sidebar-section-title">Account</div>
+          <a href="profile-settings.php" class="sidebar-link">
+            <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span>
+            Profile Settings
+          </a>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="sidebar-user">
+            <div class="avatar avatar--primary" id="sidebar-avatar">ST</div>
+            <div class="sidebar-user__info">
+              <div class="sidebar-user__name" id="sidebar-name">Student</div>
+              <div class="sidebar-user__role" id="sidebar-role">student@example.com</div>
+            </div>
+            <a href="php_actions/logout.php" title="Sign out" style="color: var(--text-muted); font-size: 1rem">
+              <i class="fas fa-right-from-bracket"></i>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="top-bar">
+          <button class="btn btn-ghost btn-icon" id="menu-toggle"><i class="fas fa-bars"></i></button>
+          <h2 class="top-bar__title">My Resumes</h2>
+          <div class="top-bar__actions">
+            <a href="create-cv.html" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> New CV
+            </a>
+          </div>
+        </header>
+
+        <div class="page-content">
+          <div class="page-header animate-fade-in">
+            <h1 class="page-header__title">Resumes & CVs</h1>
+            <p class="page-header__sub">Manage multiple versions of your professional profile.</p>
+          </div>
+
+          <div id="resumes-list" class="grid grid-3 gap-lg">
+            <!-- CV cards will be injected here -->
+            <div class="col-span-full py-xl text-center" id="loading-resumes">
+                <i class="fas fa-circle-notch fa-spin fa-2x" style="color: var(--primary-500)"></i>
+                <p style="margin-top: 10px; color: var(--text-secondary)">Loading your resumes...</p>
+            </div>
+          </div>
+
+          <div id="empty-state" class="card animate-fade-in" style="display: none;">
+            <div class="empty-state">
+              <div class="empty-state__icon"><i class="fas fa-file-circle-plus"></i></div>
+              <h3 class="empty-state__title">No CVs found</h3>
+              <p class="empty-state__desc">You haven't created any CVs yet. Start by creating your first professional profile.</p>
+              <a href="create-cv.html" class="btn btn-primary"><i class="fas fa-plus"></i> Create First CV</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="assets/js/mobile-nav.js"></script>
+    <script src="assets/js/user-session.js"></script>
+    <script src="assets/js/my-resumes.js"></script>
+  </body>
+</html>

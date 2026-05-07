@@ -65,6 +65,13 @@ $initials = page_initials($user['full_name']);
         <a href="supervisor-dashboard.php" class="sidebar-link active">
           <span class="sidebar-link__icon"><i class="fas fa-house"></i></span> Dashboard
         </a>
+        <div class="sidebar-section-title">Account</div>
+        <a href="profile-settings.php" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span> Profile Settings
+        </a>
+        <a href="notifications.php" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span> Notifications
+        </a>
       </nav>
       <div class="sidebar-footer">
         <div class="sidebar-user">
@@ -87,7 +94,11 @@ $initials = page_initials($user['full_name']);
             <span class="search-icon"><i class="fas fa-search"></i></span>
             <input type="text" class="form-input" placeholder="Search students…" id="review-search" />
           </div>
-          <div class="avatar avatar--sm avatar--accent"><?= htmlspecialchars($initials) ?></div>
+          <button class="btn btn-ghost btn-icon notification-btn" onclick="window.location.href='notifications.php'" style="position:relative;">
+            <i class="fas fa-bell"></i>
+            <span id="unread-dot" style="display:none; position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%; border:2px solid var(--surface-card);"></span>
+          </button>
+          <div class="avatar avatar--sm avatar--accent" style="cursor:pointer" onclick="window.location.href='profile-settings.php'"><?= htmlspecialchars($initials) ?></div>
         </div>
       </header>
 
@@ -171,6 +182,7 @@ $initials = page_initials($user['full_name']);
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
   </script>
   <script src="assets/js/mobile-nav.js"></script>
+  <script src="assets/js/notifications-badge.js"></script>
   <script src="assets/js/supervisor-dashboard.js"></script>
 </body>
 </html>

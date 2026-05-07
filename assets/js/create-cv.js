@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sidebarName = document.getElementById("form-sidebar-name");
   const avatar = document.getElementById("form-avatar");
   const sidebarEmail = document.getElementById("form-sidebar-email");
+  const fileInput = document.getElementById("cv-docs");
+  const fileListContainer = document.getElementById("file-list");
+  let selectedFiles = [];
+  const urlParams = new URLSearchParams(window.location.search);
+  const cvIdFromUrl = urlParams.get('id');
   let currentUser = window.UserSession ? window.UserSession.getUser() : null;
 
   if (window.innerWidth <= 768 && menuToggle) {
@@ -69,11 +74,38 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const emailField = document.getElementById("email");
-  if (emailField) {
+  if (emailField && fullNameField) {
     emailField.addEventListener("input", () => {
       updateIdentity(fullNameField.value, emailField.value);
     });
   }
+
+  if (fileInput) {
+    fileInput.addEventListener("change", () => {
+      const files = Array.from(fileInput.files);
+      selectedFiles = [...selectedFiles, ...files];
+      renderFileList();
+    });
+  }
+
+  function renderFileList() {
+    fileListContainer.innerHTML = selectedFiles.map((file, index) => `
+      <div class="flex justify-between items-center p-sm" style="background: var(--surface-elevated); border-radius: var(--radius-md); border: 1px solid var(--surface-border);">
+        <div class="flex items-center gap-sm" style="overflow: hidden;">
+          <i class="fas ${file.type.includes('pdf') ? 'fa-file-pdf' : 'fa-file-image'}" style="color: var(--primary-400);"></i>
+          <span style="font-size: 0.82rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${file.name}</span>
+        </div>
+        <button type="button" class="btn btn-ghost btn-icon btn-sm" onclick="removeFile(${index})" style="color: var(--danger);">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    `).join("");
+  }
+
+  window.removeFile = (index) => {
+    selectedFiles.splice(index, 1);
+    renderFileList();
+  };
 
   saveDraftButton.addEventListener("click", async () => {
     statusField.value = "Draft";
@@ -113,14 +145,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function saveCv(action) {
-    const payload = collectPayload();
+    const formData = new FormData(form);
+    formData.append("action", action);
+    if (cvIdFromUrl) {
+      formData.append("id", cvIdFromUrl);
+    }
+    
+    // Explicitly add files since we might have removed some from the array but not the input
+    // Actually, it's easier to just append from selectedFiles
+    formData.delete("cv_docs[]"); // Clear any default from input
+    selectedFiles.forEach(file => {
+      formData.append("cv_docs[]", file);
+    });
 
     try {
       toggleActions(true);
       const res = await fetch("php_actions/cv_actions.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, ...payload })
+        // Do NOT set Content-Type header when using FormData, 
+        // the browser will set it with the correct boundary.
+        body: formData
       });
       const data = await res.json();
 
@@ -135,7 +179,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentUser = window.UserSession.getUser();
       }
 
-      const savedCv = window.CVStorage.setCv(data.cv || payload);
+      const savedCv = window.CVStorage.setCv(data.cv);
       message.textContent = data.message;
       message.style.color = "var(--success)";
       updateIdentity(savedCv.fullName, savedCv.email);
@@ -186,8 +230,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function hydrateCv() {
+    if (!cvIdFromUrl) {
+      window.CVStorage.clearCv();
+      return;
+    }
+
     try {
-      const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+      const url = `php_actions/cv_actions.php?action=get_cv&id=${cvIdFromUrl}`;
+      const res = await fetch(url, {
         headers: { Accept: "application/json" }
       });
       const data = await res.json();

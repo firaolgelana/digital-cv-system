@@ -13,6 +13,9 @@ requireAuth(['student']);
 
 $pdo = getDB();
 ensureCvColumns($pdo);
+ensureCvDocumentsTable($pdo);
+ensureNotificationsTable($pdo);
+ensureStudentColumns($pdo);
 
 $method = $_SERVER['REQUEST_METHOD'];
 $action = '';
@@ -30,11 +33,30 @@ try {
     $student = getStudentContext($pdo, (int) $_SESSION['user_id']);
 
     if ($method === 'GET' && $action === 'get_cv') {
-        $cv = getLatestCv($pdo, (int) $student['student_id']);
+        $cvId = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $cv = $cvId ? getCvById($pdo, $cvId) : getLatestCv($pdo, (int) $student['student_id']);
+        
+        // Ensure CV belongs to student
+        if ($cv && (int)$cv['student_id'] !== (int)$student['student_id']) {
+            jsonResponse(false, 'Unauthorized access to CV.');
+        }
+
         jsonResponse(true, 'ok', [
             'cv' => $cv ? formatCvForFrontend($cv, $student) : null,
             'user' => formatUserForFrontend($student),
         ]);
+    }
+
+    if ($method === 'GET' && $action === 'get_my_cvs') {
+        $stmt = $pdo->prepare("SELECT id, title, status, updated_at FROM cvs WHERE student_id = ? ORDER BY updated_at DESC");
+        $stmt->execute([$student['student_id']]);
+        $cvs = $stmt->fetchAll();
+        
+        foreach ($cvs as &$c) {
+            $c['status_label'] = frontendStatus($c['status']);
+        }
+
+        jsonResponse(true, 'ok', ['cvs' => $cvs]);
     }
 
     if ($method === 'POST' && in_array($action, ['save_draft', 'submit_cv'], true)) {
@@ -50,7 +72,17 @@ try {
         updateStudentProfile($pdo, (int) $_SESSION['user_id'], (int) $student['student_id'], $payload);
         $student = getStudentContext($pdo, (int) $_SESSION['user_id']);
 
-        $existingCv = getLatestCv($pdo, (int) $student['student_id']);
+        $cvIdReq = isset($data['id']) ? $data['id'] : null;
+        $existingCv = null;
+        if ($cvIdReq && $cvIdReq !== 'new') {
+            $existingCv = getCvById($pdo, (int) $cvIdReq);
+            // Verify ownership
+            if ($existingCv && (int)$existingCv['student_id'] !== (int)$student['student_id']) {
+                $pdo->rollBack();
+                jsonResponse(false, 'Unauthorized CV update.');
+            }
+        }
+
         $dbStatus = $isSubmit ? 'pending' : 'draft';
 
         if ($existingCv) {
@@ -114,11 +146,65 @@ try {
 
         $pdo->commit();
 
+        // Handle file uploads if any
+        if (!empty($_FILES['cv_docs'])) {
+            $uploadDir = __DIR__ . '/../uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $files = $_FILES['cv_docs'];
+            for ($i = 0; $i < count($files['name']); $i++) {
+                if ($files['error'][$i] === UPLOAD_ERR_OK) {
+                    $tmpName = $files['tmp_name'][$i];
+                    $originalName = basename($files['name'][$i]);
+                    $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+                    $newName = uniqid('cv_doc_', true) . '.' . $extension;
+                    $savePath = $uploadDir . $newName;
+
+                    if (move_uploaded_file($tmpName, $savePath)) {
+                        $stmtDoc = $pdo->prepare("
+                            INSERT INTO cv_documents (cv_id, original_name, stored_path, doc_type, mime_type, file_size_kb)
+                            VALUES (?, ?, ?, ?, ?, ?)
+                        ");
+                        $fileSize = (int) (filesize($savePath) / 1024);
+                        $mimeType = mime_content_type($savePath) ?: 'application/octet-stream';
+                        $stmtDoc->execute([$cvId, $originalName, 'uploads/' . $newName, 'other', $mimeType, $fileSize]);
+                    }
+                }
+            }
+        }
+
         $savedCv = getCvById($pdo, $cvId);
+        
+        // Notify Supervisor if assigned
+        if ($isSubmit) {
+            $stmtSup = $pdo->prepare('SELECT supervisor_id FROM students WHERE id = ?');
+            $stmtSup->execute([$student['student_id']]);
+            $supId = $stmtSup->fetchColumn();
+            if ($supId) {
+                createNotification($pdo, (int)$supId, 'New CV Submission', 'Student ' . $student['full_name'] . ' has submitted a CV for review.');
+            }
+        }
+
         jsonResponse(true, $isSubmit ? 'CV submitted successfully.' : 'Draft saved successfully.', [
             'cv' => formatCvForFrontend($savedCv, $student),
             'user' => formatUserForFrontend($student),
         ]);
+    }
+
+    if ($method === 'POST' && $action === 'delete_cv') {
+        $cvId = (int) ($data['id'] ?? 0);
+        if (!$cvId) jsonResponse(false, 'Missing CV ID.');
+
+        $stmt = $pdo->prepare("DELETE FROM cvs WHERE id = ? AND student_id = ?");
+        $stmt->execute([$cvId, $student['student_id']]);
+
+        if ($stmt->rowCount() > 0) {
+            jsonResponse(true, 'CV deleted successfully.');
+        } else {
+            jsonResponse(false, 'CV not found or access denied.');
+        }
     }
 
     http_response_code(400);
@@ -128,7 +214,7 @@ try {
         $pdo->rollBack();
     }
     error_log('CV action error: ' . $e->getMessage());
-    jsonResponse(false, 'A server error occurred. Please try again.');
+    jsonResponse(false, 'A server error occurred: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
 }
 
 function ensureCvColumns(PDO $pdo): void {
@@ -144,6 +230,40 @@ function ensureCvColumns(PDO $pdo): void {
     addColumnIfMissing($pdo, 'cvs', 'languages', 'TEXT DEFAULT NULL AFTER soft_skills');
     addColumnIfMissing($pdo, 'cvs', 'projects', 'TEXT DEFAULT NULL AFTER languages');
     addColumnIfMissing($pdo, 'cvs', 'certifications', 'TEXT DEFAULT NULL AFTER projects');
+    addColumnIfMissing($pdo, 'cvs', 'reviewer_id', 'INT DEFAULT NULL AFTER status');
+    addColumnIfMissing($pdo, 'cvs', 'review_note', 'TEXT DEFAULT NULL AFTER reviewer_id');
+    addColumnIfMissing($pdo, 'cvs', 'reviewed_at', 'TIMESTAMP NULL DEFAULT NULL AFTER review_note');
+    addColumnIfMissing($pdo, 'cvs', 'submitted_at', 'TIMESTAMP NULL DEFAULT NULL AFTER reviewed_at');
+}
+
+function ensureCvDocumentsTable(PDO $pdo): void {
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS cv_documents (
+            id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            cv_id INT UNSIGNED NOT NULL,
+            doc_type VARCHAR(80) NOT NULL DEFAULT 'other',
+            original_name VARCHAR(255) NOT NULL,
+            stored_path VARCHAR(255) NOT NULL,
+            mime_type VARCHAR(100) DEFAULT NULL,
+            file_size_kb INT UNSIGNED DEFAULT NULL,
+            uploaded_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT fk_docs_cv_new FOREIGN KEY (cv_id) REFERENCES cvs(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    ");
+}
+
+function ensureNotificationsTable(PDO $pdo): void {
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS notifications (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            title VARCHAR(255) NOT NULL,
+            message TEXT NOT NULL,
+            is_read TINYINT(1) DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    ");
 }
 
 function getStudentContext(PDO $pdo, int $userId): array {
@@ -263,6 +383,7 @@ function upsertDepartment(PDO $pdo, string $department): ?int {
 }
 
 function formatCvForFrontend(array $cv, array $student): array {
+    global $pdo;
     return [
         'id' => (int) $cv['id'],
         'fullName' => $student['full_name'],
@@ -281,12 +402,23 @@ function formatCvForFrontend(array $cv, array $student): array {
         'languages' => $cv['languages'] ?? '',
         'projects' => $cv['projects'] ?? '',
         'certifications' => $cv['certifications'] ?? '',
-        'status' => frontendStatus($cv['status']),
+        'status' => frontendStatus((string) $cv['status']),
         'createdAt' => $cv['created_at'] ?? '',
         'updatedAt' => $cv['updated_at'] ?? '',
         'reviewNote' => $cv['review_note'] ?? '',
+        'documents' => getCvDocuments($pdo, (int) $cv['id']),
         'activity' => buildActivityFeed($cv),
     ];
+}
+
+function getCvDocuments(PDO $pdo, int $cvId): array {
+    $stmt = $pdo->prepare("
+        SELECT original_name AS file_name, stored_path AS file_path, doc_type AS file_type 
+        FROM cv_documents 
+        WHERE cv_id = ?
+    ");
+    $stmt->execute([$cvId]);
+    return $stmt->fetchAll();
 }
 
 function formatUserForFrontend(array $student): array {
@@ -340,4 +472,9 @@ function buildCvTitle(array $payload): string {
 
 function nullable(string $value): ?string {
     return $value === '' ? null : $value;
+}
+
+function ensureStudentColumns(PDO $pdo): void {
+    addColumnIfMissing($pdo, 'students', 'supervisor_id', 'INT NULL DEFAULT NULL AFTER user_id');
+    addColumnIfMissing($pdo, 'students', 'student_number', 'VARCHAR(50) NULL DEFAULT NULL AFTER supervisor_id');
 }

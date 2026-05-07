@@ -81,6 +81,24 @@ try {
 
         $pdo->commit();
 
+        // Notify Student
+        $stmtUser = $pdo->prepare('SELECT s.user_id FROM cvs c JOIN students s ON s.id = c.student_id WHERE c.id = ?');
+        $stmtUser->execute([$cvId]);
+        $targetUserId = $stmtUser->fetchColumn();
+        if ($targetUserId) {
+            $notifTitle = match($decision) {
+                'approve' => 'CV Approved! 🎉',
+                'reject' => 'CV Rejected',
+                default => 'Changes Requested ✍️'
+            };
+            $notifMsg = match($decision) {
+                'approve' => 'Your digital CV has been approved by your supervisor. You can now generate and share your QR code.',
+                'reject'  => 'Your CV was not approved. Please contact your supervisor for more details.',
+                default   => 'Your supervisor has requested changes to your CV. Please check the review notes and update your profile.'
+            };
+            createNotification($pdo, (int)$targetUserId, $notifTitle, $notifMsg);
+        }
+
         $message = match ($decision) {
             'approve' => 'CV approved successfully.',
             'reject' => 'CV rejected successfully.',
@@ -223,6 +241,7 @@ function getRecentReviewed(PDO $pdo): array {
 }
 
 function formatSubmissionRow(array $row): array {
+    global $pdo;
     $fields = [
         $row['full_name'] ?? '',
         $row['profession'] ?? '',
@@ -247,8 +266,17 @@ function formatSubmissionRow(array $row): array {
         }
     }
 
+    $cvId = (int) $row['id'];
+    $stmtDocs = $pdo->prepare("
+        SELECT original_name AS file_name, stored_path AS file_path, doc_type AS file_type 
+        FROM cv_documents 
+        WHERE cv_id = ?
+    ");
+    $stmtDocs->execute([$cvId]);
+    $documents = $stmtDocs->fetchAll();
+
     return [
-        'id' => (int) $row['id'],
+        'id' => $cvId,
         'full_name' => $row['full_name'],
         'email' => $row['email'],
         'phone' => $row['phone'] ?? '',
@@ -271,6 +299,7 @@ function formatSubmissionRow(array $row): array {
         'reviewed_at' => $row['reviewed_at'],
         'review_note' => $row['review_note'] ?? '',
         'documents_count' => (int) $row['documents_count'],
+        'documents' => $documents,
         'completion' => (int) round(($completed / count($fields)) * 100),
         'completed_sections' => $completed,
         'total_sections' => count($fields),

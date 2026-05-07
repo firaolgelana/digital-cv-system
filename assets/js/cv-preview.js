@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cvIdFromUrl = urlParams.get('id');
   const menuToggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   await hydrateCv();
@@ -44,11 +46,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   renderSkills("preview-technical-skills", window.CVStorage.toArray(cv.technicalSkills), "rgba(99,102,241,.15)", "var(--primary-700)");
   renderSkills("preview-soft-skills", window.CVStorage.toArray(cv.softSkills), "#ecfdf5", "#065f46");
+  renderDocuments("preview-documents", cv.documents || []);
+
+  // PDF Export logic
+  const downloadBtn = document.getElementById("download-pdf-btn");
+  if (downloadBtn) {
+    const originalText = downloadBtn.innerHTML;
+    downloadBtn.addEventListener("click", async () => {
+      const element = document.querySelector(".cv-preview");
+      window.PDFUtils.setLoading(downloadBtn, true);
+      
+      try {
+        await window.PDFUtils.generateCV(element, { 
+          fullName: cv.fullName || currentUser?.fullName || "Student" 
+        });
+      } catch (err) {
+        alert("Could not generate PDF. Please try again.");
+      } finally {
+        window.PDFUtils.setLoading(downloadBtn, false, originalText);
+      }
+    });
+  }
 });
 
 async function hydrateCv() {
   try {
-    const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+    const url = cvIdFromUrl ? `php_actions/cv_actions.php?action=get_cv&id=${cvIdFromUrl}` : "php_actions/cv_actions.php?action=get_cv";
+    const res = await fetch(url, {
       headers: { Accept: "application/json" }
     });
     const data = await res.json();
@@ -109,4 +133,21 @@ function escapeHtml(value) {
   const div = document.createElement("div");
   div.textContent = value || "";
   return div.innerHTML;
+}
+
+function renderDocuments(containerId, docs) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (!docs || !docs.length) {
+    container.innerHTML = '<span style="color: var(--gray-500); font-size: 0.85rem;">No documents attached.</span>';
+    return;
+  }
+
+  container.innerHTML = docs.map(doc => `
+    <div class="flex items-center gap-sm p-sm" style="background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--surface-border);">
+      <i class="fas ${doc.file_name.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf' : 'fa-file-image'}" style="color: var(--primary-400);"></i>
+      <a href="${doc.file_path}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: var(--text-primary); text-decoration: none;">${escapeHtml(doc.file_name)}</a>
+    </div>
+  `).join("");
 }

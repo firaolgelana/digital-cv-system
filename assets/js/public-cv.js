@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const token = new URLSearchParams(window.location.search).get("token");
+  const cvId = new URLSearchParams(window.location.search).get("id");
   const errorCard = document.getElementById("public-cv-error");
   const content = document.getElementById("public-cv-content");
   const downloadButton = document.getElementById("download-public-cv-btn");
   const printButton = document.getElementById("print-public-cv-btn");
 
-  if (!token) {
+  if (!cvId) {
     showError();
     return;
   }
 
   let payload = null;
   try {
-    const response = await fetch(`php_actions/generate_qr.php?action=get_public_cv&token=${encodeURIComponent(token)}`, {
+    const response = await fetch(`php_actions/generate_qr.php?action=get_public_cv&id=${encodeURIComponent(cvId)}`, {
       headers: { Accept: "application/json" }
     });
     payload = await response.json();
@@ -45,13 +45,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderSkills("public-cv-technical-skills", window.CVShare.toArray(student.technicalSkills), "rgba(99,102,241,.15)", "var(--primary-700)");
   renderSkills("public-cv-soft-skills", window.CVShare.toArray(student.softSkills), "#ecfdf5", "#065f46");
   renderLinks(student);
+  renderDocuments("public-cv-documents", student.documents || []);
 
   downloadButton.disabled = false;
   printButton.disabled = false;
 
-  downloadButton.addEventListener("click", () => {
-    const filename = `${slugify(student.fullName || "student")}-cv.html`;
-    window.CVShare.downloadHtmlFile(filename, window.CVShare.buildDownloadHtml({ student }));
+  downloadButton.addEventListener("click", async () => {
+    const element = document.querySelector(".cv-preview");
+    const originalText = downloadButton.innerHTML;
+    window.PDFUtils.setLoading(downloadButton, true);
+
+    try {
+      await window.PDFUtils.generateCV(element, { 
+        fullName: student.fullName || "Student" 
+      });
+    } catch (err) {
+      alert("Could not generate PDF. Please try again.");
+    } finally {
+      window.PDFUtils.setLoading(downloadButton, false, originalText);
+    }
   });
 
   printButton.addEventListener("click", () => {
@@ -108,4 +120,21 @@ function slugify(value) {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function renderDocuments(containerId, docs) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  if (!docs || !docs.length) {
+    container.innerHTML = '<span style="color: var(--gray-500); font-size: 0.85rem;">No documents attached.</span>';
+    return;
+  }
+
+  container.innerHTML = docs.map(doc => `
+    <div class="flex items-center gap-sm p-sm" style="background: var(--surface-subtle); border-radius: var(--radius-sm); border: 1px solid var(--surface-border); margin-bottom: 8px;">
+      <i class="fas ${doc.file_name.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf' : 'fa-file-image'}" style="color: var(--primary-400);"></i>
+      <a href="${doc.file_path}" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: var(--text-primary); text-decoration: none;">${window.CVShare.escapeHtml(doc.file_name)}</a>
+    </div>
+  `).join("");
 }

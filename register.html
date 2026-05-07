@@ -7,6 +7,7 @@
   <meta name="description" content="Create your DigiCV account to start building and sharing your professional digital CV." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="assets/js/auto-redirect.js"></script>
 </head>
 <body>
   <div class="bg-glow bg-glow--primary"></div>
@@ -33,17 +34,17 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="reg-first-name">First Name</label>
-              <input type="text" class="form-input" id="reg-first-name" name="first_name" placeholder="Firaol" required />
+              <input type="text" class="form-input" id="reg-first-name" name="first_name" placeholder="First Name" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="reg-last-name">Last Name</label>
-              <input type="text" class="form-input" id="reg-last-name" name="last_name" placeholder="Gelana" required />
+              <input type="text" class="form-input" id="reg-last-name" name="last_name" placeholder="Last Name" required />
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="reg-email">University Email</label>
-            <input type="email" class="form-input" id="reg-email" name="email" placeholder="firaol@university.edu" required />
+            <input type="email" class="form-input" id="reg-email" name="email" placeholder="sample@university.edu" required />
           </div>
 
           <div class="form-group">
@@ -68,11 +69,21 @@
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="reg-password">Password</label>
-              <input type="password" class="form-input" id="reg-password" name="password" placeholder="••••••••" required />
+              <div class="password-toggle-wrapper">
+                <input type="password" class="form-input" id="reg-password" name="password" placeholder="••••••••" required />
+                <button type="button" class="password-toggle-icon" tabindex="-1">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
             </div>
             <div class="form-group">
               <label class="form-label" for="reg-confirm-password">Confirm Password</label>
-              <input type="password" class="form-input" id="reg-confirm-password" name="confirm_password" placeholder="••••••••" required />
+              <div class="password-toggle-wrapper">
+                <input type="password" class="form-input" id="reg-confirm-password" name="confirm_password" placeholder="••••••••" required />
+                <button type="button" class="password-toggle-icon" tabindex="-1">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
             </div>
           </div>
 
@@ -110,6 +121,7 @@
     </div>
   </div>
 <script src="assets/js/user-session.js"></script>
+<script src="assets/js/password-toggle.js"></script>
 <script>
 (function () {
   const form      = document.getElementById('register-form');

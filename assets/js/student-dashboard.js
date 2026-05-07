@@ -1,204 +1,115 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const searchInput = document.getElementById("search-input");
-  await hydrateCv();
   const currentUser = window.UserSession ? window.UserSession.getUser() : null;
-  const cv = window.CVStorage.getCv();
-  const hasCv = Boolean(cv.fullName || cv.email || cv.summary || cv.education || cv.experience);
-
-  renderHeader(cv, currentUser, hasCv);
-  renderStats(cv, hasCv);
-  renderDashboardState(hasCv);
-
-  if (hasCv) {
-    renderChecklist(cv);
-    renderReviewNote(cv);
-    renderSummary(cv, currentUser);
-    renderDetailSections(cv);
-    renderActivity(cv);
+  
+  const payload = await fetchJson("php_actions/generate_qr.php?action=get_all_qr");
+  if (payload?.success && payload.user && window.UserSession) {
+    window.UserSession.saveUser(payload.user);
   }
 
-  searchInput.addEventListener("input", (event) => {
-    filterDetails(event.target.value);
-  });
+  const user = payload?.user || currentUser;
+  const resumes = payload?.success ? payload.qrs : [];
+
+  renderHeader(user, resumes.length > 0);
+  renderDashboardState(resumes.length > 0);
+  
+  if (resumes.length > 0) {
+    renderAggregateStats(resumes);
+    renderRecentResumes(resumes);
+    renderRecentActivity(resumes);
+  } else {
+    document.getElementById("stat-cv-count").textContent = "0";
+    document.getElementById("stat-approved-qrs").textContent = "0";
+    document.getElementById("stat-total-views").textContent = "0";
+  }
 });
 
-async function hydrateCv() {
-  try {
-    const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
-      headers: { Accept: "application/json" }
-    });
-    const data = await res.json();
-    if (data.success && data.user && window.UserSession) {
-      window.UserSession.saveUser(data.user);
-    }
-    if (data.success && data.cv) {
-      window.CVStorage.setCv(data.cv);
-    } else if (data.success) {
-      window.CVStorage.clearCv();
-    }
-  } catch (error) {
-    // Fall back to cached data if the request fails.
-  }
-}
-
-function renderHeader(cv, currentUser, hasCv) {
-  const name = hasCv && cv.fullName
-    ? cv.fullName
-    : currentUser && currentUser.fullName
-      ? currentUser.fullName
-      : "Student";
-  const subtitle = hasCv
-    ? "Here is the latest information saved in your digital CV."
-    : "Create your CV to see your details, completion status, and activity here.";
-  const role = hasCv && cv.profession
-    ? cv.profession
-    : currentUser && currentUser.email
-      ? currentUser.email
-      : "student@example.com";
+function renderHeader(user, hasCvs) {
+  const name = user?.full_name || "Student";
   const initials = window.CVStorage.getInitials(name);
+  const subtitle = hasCvs 
+    ? "Welcome back! Here is an overview of your resume portfolio."
+    : "Create your CV to see your details, completion status, and activity here.";
 
-  document.getElementById("dashboard-greeting").textContent = hasCv ? `Welcome back, ${name}` : "Welcome to DigiCV";
+  document.getElementById("dashboard-greeting").textContent = hasCvs ? `Welcome back, ${name}` : "Welcome to DigiCV";
   document.getElementById("dashboard-subtitle").textContent = subtitle;
   document.getElementById("sidebar-name").textContent = name;
-  document.getElementById("sidebar-role").textContent = role;
+  document.getElementById("sidebar-role").textContent = user?.email || "student@example.com";
   document.getElementById("sidebar-avatar").textContent = initials;
   document.getElementById("header-avatar").textContent = initials;
 }
 
-function renderStats(cv, hasCv) {
-  document.getElementById("stat-cv-count").textContent = hasCv ? "1" : "0";
-  document.getElementById("stat-status").textContent = hasCv ? cv.status || "Draft" : "Not Started";
-  document.getElementById("stat-completion").textContent = hasCv ? `${window.CVStorage.getCompletion(cv)}%` : "0%";
-  document.getElementById("stat-last-updated").textContent = hasCv ? window.CVStorage.formatDate(cv.updatedAt) : "No Data";
+function renderDashboardState(hasCvs) {
+  document.getElementById("dashboard-empty-state").style.display = hasCvs ? "none" : "block";
+  document.getElementById("dashboard-content").style.display = hasCvs ? "block" : "none";
 }
 
-function renderDashboardState(hasCv) {
-  document.getElementById("dashboard-empty-state").style.display = hasCv ? "none" : "block";
-  document.getElementById("dashboard-content").style.display = hasCv ? "block" : "none";
+function renderAggregateStats(resumes) {
+  const totalCount = resumes.length;
+  let approvedCount = 0;
+  let totalViews = 0;
+  let totalCopies = 0;
+  let totalDownloads = 0;
+  let latestUpdate = null;
+
+  resumes.forEach(item => {
+    if (item.cv.status === "Approved") approvedCount++;
+    if (item.qr) {
+      totalViews += (item.qr.accessCount || 0);
+      totalCopies += (item.qr.copiedCount || 0);
+      totalDownloads += (item.qr.downloadedCount || 0);
+    }
+    const upDate = new Date(item.cv.updatedAt);
+    if (!latestUpdate || upDate > latestUpdate) latestUpdate = upDate;
+  });
+
+  document.getElementById("stat-cv-count").textContent = totalCount;
+  document.getElementById("stat-approved-qrs").textContent = approvedCount;
+  document.getElementById("stat-total-views").textContent = totalViews;
+  document.getElementById("stat-last-activity").textContent = latestUpdate ? window.CVStorage.formatDate(latestUpdate) : "No Data";
+
+  document.getElementById("dash-total-copies").textContent = totalCopies;
+  document.getElementById("dash-total-downloads").textContent = totalDownloads;
 }
 
-function renderChecklist(cv) {
-  const checklist = window.CVStorage.buildChecklist(cv);
-  const completion = window.CVStorage.getCompletion(cv);
-  const checklistContainer = document.getElementById("cv-checklist");
-  const statusBadge = document.getElementById("cv-status-badge");
-
-  document.getElementById("cv-completion-label").textContent = `${completion}%`;
-  document.getElementById("cv-progress-fill").style.width = `${completion}%`;
-  statusBadge.className = window.CVStorage.getStatusClass(cv.status || "Draft");
-  statusBadge.innerHTML = `<i class="fas ${cv.status === "Pending Review" ? "fa-hourglass-half" : "fa-pen"}"></i> ${cv.status || "Draft"}`;
-
-  checklistContainer.innerHTML = checklist
-    .map((item) => `
-      <div class="flex items-center gap-md">
-        <i class="fas ${item.completed ? "fa-circle-check" : "fa-circle"}" style="color: ${item.completed ? "var(--success)" : "var(--gray-600)"}; ${item.completed ? "" : "font-size: 0.65rem; margin: 0 3px;"}"></i>
-        <span style="font-size: 0.9rem; ${item.completed ? "" : "color: var(--text-secondary);"}">${item.label}</span>
-      </div>
-    `)
-    .join("");
-}
-
-function renderSummary(cv, currentUser) {
-  document.getElementById("cv-full-name").textContent = cv.fullName || (currentUser && currentUser.fullName) || "-";
-  document.getElementById("cv-profession").textContent = cv.profession || "-";
-  document.getElementById("cv-email").textContent = cv.email || (currentUser && currentUser.email) || "-";
-  document.getElementById("cv-phone").textContent = cv.phone || "-";
-  document.getElementById("cv-summary").textContent = cv.summary || "No professional summary added yet.";
-
-  const skills = window.CVStorage.toArray(cv.technicalSkills);
-  const skillsContainer = document.getElementById("cv-skills");
-
-  if (!skills.length) {
-    skillsContainer.innerHTML = '<span style="color: var(--text-secondary);">No technical skills added yet.</span>';
-    return;
-  }
-
-  skillsContainer.innerHTML = skills
-    .map((skill) => `<span class="cv-skill-tag" style="background: rgba(99,102,241,.15); color: var(--primary-300);">${escapeHtml(skill)}</span>`)
-    .join("");
-}
-
-function renderReviewNote(cv) {
-  const card = document.getElementById("cv-review-note-card");
-  const text = document.getElementById("cv-review-note");
-  if (!card || !text) {
-    return;
-  }
-
-  if (!cv.reviewNote) {
-    card.style.display = "none";
-    return;
-  }
-
-  card.style.display = "block";
-  text.textContent = cv.reviewNote;
-}
-
-function renderDetailSections(cv) {
-  const sections = [
-    { title: "Education", icon: "fa-graduation-cap", content: cv.education },
-    { title: "Experience", icon: "fa-briefcase", content: cv.experience },
-    { title: "Soft Skills", icon: "fa-people-group", content: cv.softSkills },
-    { title: "Languages", icon: "fa-language", content: cv.languages },
-    { title: "Projects", icon: "fa-diagram-project", content: cv.projects },
-    { title: "Certificates", icon: "fa-award", content: cv.certifications }
-  ];
-
-  const container = document.getElementById("cv-detail-sections");
-  container.innerHTML = sections
-    .map((section) => `
-      <div class="dashboard-detail-card" data-searchable="${escapeHtml(`${section.title} ${section.content || ""}`.toLowerCase())}">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: var(--space-sm);">
-          <i class="fas ${section.icon}" style="color: var(--primary-300);"></i>
-          <h4 style="font-size: 1rem;">${section.title}</h4>
+function renderRecentResumes(resumes) {
+  const container = document.getElementById("recent-resumes-list");
+  container.innerHTML = resumes.slice(0, 3).map(item => {
+    const { cv } = item;
+    const statusClass = window.CVStorage.getStatusClass(cv.status);
+    return `
+      <div class="notif-item animate-fade-in" onclick="window.location.href='cv-preview.html?id=${cv.id}'">
+        <div class="notif-item__icon">
+          <i class="fas fa-file-lines"></i>
         </div>
-        <p style="color: var(--text-secondary); white-space: pre-line;">${section.content ? escapeHtml(section.content) : "No information added yet."}</p>
-      </div>
-    `)
-    .join("");
-}
-
-function renderActivity(cv) {
-  const activityList = Array.isArray(cv.activity) ? cv.activity : [];
-  const container = document.getElementById("recent-activity-list");
-
-  if (!activityList.length) {
-    container.innerHTML = `
-      <div class="empty-state" style="padding: var(--space-xl);">
-        <div class="empty-state__icon" style="font-size: 2rem;"><i class="fas fa-clock"></i></div>
-        <h3 class="empty-state__title">No activity yet</h3>
-        <p class="empty-state__desc">Save or submit your CV to start seeing activity here.</p>
+        <div class="notif-item__content">
+          <div class="notif-item__title" style="display:flex; justify-content:space-between;">
+            ${cv.profession || 'Untitled Resume'}
+            <span class="${statusClass}" style="font-size:0.7rem; padding: 2px 8px;">${cv.status}</span>
+          </div>
+          <div class="notif-item__desc">Last updated on ${window.CVStorage.formatDate(cv.updatedAt)}</div>
+          <div class="notif-item__meta">
+            <i class="fas fa-circle-info"></i> ${cv.department || 'General'}
+          </div>
+        </div>
+        <div class="notif-item__actions">
+           <a href="create-cv.html?id=${cv.id}" class="btn btn-ghost btn-icon btn-sm" title="Edit"><i class="fas fa-pen"></i></a>
+        </div>
       </div>
     `;
-    return;
+  }).join("");
+}
+
+function renderRecentActivity(resumes) {
+    // In a multi-CV system, we'll just link Activity to the Notification center for simplicity 
+    // unless we want to aggregate all CV activity. For now, the dashboard content redesign 
+    // removed the activity block to favor 'Recent Resumes'.
+}
+
+async function fetchJson(url) {
+  try {
+    const response = await fetch(url, { headers: { Accept: "application/json" } });
+    return await response.json();
+  } catch (error) {
+    return null;
   }
-
-  container.innerHTML = `<div class="timeline">${
-    activityList
-      .slice(0, 5)
-      .map((item) => `
-        <div class="timeline-item">
-          <div class="timeline-item__dot ${item.label.includes("submitted") ? "timeline-item__dot--warning" : "timeline-item__dot--success"}"></div>
-          <div class="timeline-item__content">${escapeHtml(item.label)}</div>
-          <div class="timeline-item__time">${window.CVStorage.formatDate(item.time)}</div>
-        </div>
-      `)
-      .join("")
-  }</div>`;
-}
-
-function filterDetails(searchTerm) {
-  const normalizedTerm = searchTerm.trim().toLowerCase();
-  const cards = document.querySelectorAll(".dashboard-detail-card");
-
-  cards.forEach((card) => {
-    const content = card.getAttribute("data-searchable") || "";
-    card.style.display = !normalizedTerm || content.includes(normalizedTerm) ? "block" : "none";
-  });
-}
-
-function escapeHtml(value) {
-  const div = document.createElement("div");
-  div.textContent = value || "";
-  return div.innerHTML;
 }

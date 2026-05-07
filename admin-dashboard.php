@@ -98,6 +98,13 @@ $initials = initials($user['full_name']);
       <a href="#" class="sidebar-link">
         <span class="sidebar-link__icon"><i class="fas fa-qrcode"></i></span> QR Codes
       </a>
+      <div class="sidebar-section-title">Account</div>
+      <a href="profile-settings.php" class="sidebar-link">
+        <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span> Profile Settings
+      </a>
+      <a href="notifications.php" class="sidebar-link">
+        <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span> Notifications
+      </a>
       <div class="sidebar-section-title">System</div>
       <a href="#" class="sidebar-link">
         <span class="sidebar-link__icon"><i class="fas fa-server"></i></span> System Health
@@ -125,7 +132,11 @@ $initials = initials($user['full_name']);
           <span class="search-icon"><i class="fas fa-search"></i></span>
           <input type="text" class="form-input" id="global-search" placeholder="Search users…"/>
         </div>
-        <div class="avatar avatar--sm" style="background:rgba(239,68,68,.2);color:var(--danger);"><?= $initials ?></div>
+        <button class="btn btn-ghost btn-icon notification-btn" onclick="window.location.href='notifications.php'" style="position:relative;">
+          <i class="fas fa-bell"></i>
+          <span id="unread-dot" style="display:none; position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%; border:2px solid var(--surface-card);"></span>
+        </button>
+        <div class="avatar avatar--sm" style="background:rgba(239,68,68,.2);color:var(--danger); cursor:pointer" onclick="window.location.href='profile-settings.php'"><?= $initials ?></div>
       </div>
     </header>
 
@@ -301,7 +312,12 @@ $initials = initials($user['full_name']);
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="cu-password" placeholder="Min 8 characters" required/>
+        <div class="password-toggle-wrapper">
+          <input type="password" class="form-input" id="cu-password" placeholder="Min 8 characters" required/>
+          <button type="button" class="password-toggle-icon" tabindex="-1">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:.5rem" id="cu-btn">
         <i class="fas fa-user-plus"></i>
@@ -448,6 +464,8 @@ document.getElementById('global-search').addEventListener('input', function() {
 
 </script>
 <script src="assets/js/mobile-nav.js"></script>
+<script src="assets/js/notifications-badge.js"></script>
+<script src="assets/js/password-toggle.js"></script>
 <script>
 function openSection(sec) {
   if (sec === 'users') document.getElementById('users-section').scrollIntoView({behavior:'smooth'});
