@@ -290,6 +290,7 @@ function upsertDepartment(PDO $pdo, string $department): ?int {
 }
 
 function formatCvForFrontend(array $cv, array $student): array {
+    global $pdo;
     return [
         'id' => (int) $cv['id'],
         'fullName' => $student['full_name'],
@@ -308,12 +309,19 @@ function formatCvForFrontend(array $cv, array $student): array {
         'languages' => $cv['languages'] ?? '',
         'projects' => $cv['projects'] ?? '',
         'certifications' => $cv['certifications'] ?? '',
-        'status' => frontendStatus($cv['status']),
+        'status' => frontendStatus((string) $cv['status']),
         'createdAt' => $cv['created_at'] ?? '',
         'updatedAt' => $cv['updated_at'] ?? '',
         'reviewNote' => $cv['review_note'] ?? '',
+        'documents' => getCvDocuments($pdo, (int) $cv['id']),
         'activity' => buildActivityFeed($cv),
     ];
+}
+
+function getCvDocuments(PDO $pdo, int $cvId): array {
+    $stmt = $pdo->prepare("SELECT file_name, file_path, file_type FROM cv_documents WHERE cv_id = ?");
+    $stmt->execute([$cvId]);
+    return $stmt->fetchAll();
 }
 
 function formatUserForFrontend(array $student): array {

@@ -281,6 +281,7 @@ function formatStudentUser(array $student): array {
 }
 
 function formatPublicStudent(array $row): array {
+    global $pdo;
     return [
         'fullName' => $row['full_name'] ?? 'Student',
         'email' => $row['email'] ?? '',
@@ -300,7 +301,14 @@ function formatPublicStudent(array $row): array {
         'certifications' => $row['certifications'] ?? '',
         'status' => frontendStatus((string) ($row['status'] ?? 'approved')),
         'updatedAt' => $row['updated_at'] ?? '',
+        'documents' => getCvDocuments($pdo, (int) $row['cv_id']),
     ];
+}
+
+function getCvDocuments(PDO $pdo, int $cvId): array {
+    $stmt = $pdo->prepare("SELECT file_name, file_path, file_type FROM cv_documents WHERE cv_id = ?");
+    $stmt->execute([$cvId]);
+    return $stmt->fetchAll();
 }
 
 function frontendStatus(string $status): string {
