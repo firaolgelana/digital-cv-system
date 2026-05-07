@@ -7,6 +7,7 @@
   <meta name="description" content="Create, manage, and share your professional CV with QR code integration. Built for graduate students and recruiters." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="assets/js/auto-redirect.js"></script>
 </head>
 <body>
   <!-- Background glows -->
@@ -49,7 +50,12 @@
 
           <div class="form-group">
             <label class="form-label" for="login-password">Password</label>
-            <input type="password" class="form-input" id="login-password" name="password" placeholder="••••••••" required />
+            <div class="password-toggle-wrapper">
+              <input type="password" class="form-input" id="login-password" name="password" placeholder="••••••••" required />
+              <button type="button" class="password-toggle-icon" tabindex="-1">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
           </div>
 
           <div class="flex justify-between items-center" style="margin-bottom: var(--space-xl);">
@@ -109,6 +115,7 @@
   </div>
 
 <script src="assets/js/user-session.js"></script>
+<script src="assets/js/password-toggle.js"></script>
 <script>
 (function () {
   const form    = document.getElementById('login-form');

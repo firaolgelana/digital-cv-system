@@ -301,7 +301,12 @@ $initials = initials($user['full_name']);
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="cu-password" placeholder="Min 8 characters" required/>
+        <div class="password-toggle-wrapper">
+          <input type="password" class="form-input" id="cu-password" placeholder="Min 8 characters" required/>
+          <button type="button" class="password-toggle-icon" tabindex="-1">
+            <i class="fas fa-eye"></i>
+          </button>
+        </div>
       </div>
       <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:.5rem" id="cu-btn">
         <i class="fas fa-user-plus"></i>
@@ -448,6 +453,7 @@ document.getElementById('global-search').addEventListener('input', function() {
 
 </script>
 <script src="assets/js/mobile-nav.js"></script>
+<script src="assets/js/password-toggle.js"></script>
 <script>
 function openSection(sec) {
   if (sec === 'users') document.getElementById('users-section').scrollIntoView({behavior:'smooth'});
