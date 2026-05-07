@@ -71,7 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  if (emailField) {
+  const emailField = document.getElementById("email");
+  if (emailField && fullNameField) {
     emailField.addEventListener("input", () => {
       updateIdentity(fullNameField.value, emailField.value);
     });
@@ -173,7 +174,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         currentUser = window.UserSession.getUser();
       }
 
-      const savedCv = window.CVStorage.setCv(data.cv || payload);
+      const savedCv = window.CVStorage.setCv(data.cv);
       message.textContent = data.message;
       message.style.color = "var(--success)";
       updateIdentity(savedCv.fullName, savedCv.email);

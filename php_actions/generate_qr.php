@@ -306,7 +306,11 @@ function formatPublicStudent(array $row): array {
 }
 
 function getCvDocuments(PDO $pdo, int $cvId): array {
-    $stmt = $pdo->prepare("SELECT file_name, file_path, file_type FROM cv_documents WHERE cv_id = ?");
+    $stmt = $pdo->prepare("
+        SELECT original_name AS file_name, stored_path AS file_path, doc_type AS file_type 
+        FROM cv_documents 
+        WHERE cv_id = ?
+    ");
     $stmt->execute([$cvId]);
     return $stmt->fetchAll();
 }
