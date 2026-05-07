@@ -80,7 +80,7 @@ $initials = page_initials($user['full_name']);
 
     <main class="main-content">
       <header class="top-bar">
-        <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none;"><i class="fas fa-bars"></i></button>
+        <button class="btn btn-ghost btn-icon" id="menu-toggle"><i class="fas fa-bars"></i></button>
         <h2 class="top-bar__title"><?= htmlspecialchars($displayRole) ?> Dashboard</h2>
         <div class="top-bar__actions">
           <div class="search-box" style="width:240px;">
@@ -170,6 +170,7 @@ $initials = page_initials($user['full_name']);
       'fullName' => $user['full_name'],
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
   </script>
+  <script src="assets/js/mobile-nav.js"></script>
   <script src="assets/js/supervisor-dashboard.js"></script>
 </body>
 </html>

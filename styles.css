@@ -122,6 +122,7 @@ body {
   line-height: 1.6;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a {
@@ -723,6 +724,47 @@ input, select, textarea, button {
 .app-layout {
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  min-width: 0;               /* prevent flex child overflow — critical! */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: 0 var(--space-xl);
+  height: var(--header-height);
+  border-bottom: 1px solid var(--surface-border);
+  background: var(--surface-glass);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.top-bar__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 600;
+  flex: 1;
+  min-width: 0;
+}
+
+.top-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.page-content {
+  padding: var(--space-2xl);
 }
 
 .sidebar {
@@ -737,7 +779,7 @@ input, select, textarea, button {
   z-index: 100;
   display: flex;
   flex-direction: column;
-  transition: width var(--transition-base);
+  transition: transform var(--transition-base), width var(--transition-base);
   overflow-y: auto;
 }
 
@@ -1656,53 +1698,643 @@ input, select, textarea, button {
   background: var(--success);
 }
 
-/* ---------- Responsive ---------- */
+/* ========================================
+   RESPONSIVE — Full Mobile-First Overhaul
+   ======================================== */
+
+/* ---------- Sidebar Overlay (mobile) ---------- */
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-base), visibility var(--transition-base);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---------- Hamburger: hide on desktop, show on mobile ---------- */
+#menu-toggle {
+  display: none !important;
+}
+
+/* ---------- 1024px — Tablet landscape ---------- */
 @media (max-width: 1024px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
+
+  .page-content {
+    padding: var(--space-xl);
+  }
 }
 
+/* ---------- 768px — Tablet / Mobile ---------- */
 @media (max-width: 768px) {
   :root {
     --sidebar-width: 0px;
   }
 
+  /* Show hamburger */
+  #menu-toggle {
+    display: flex !important;
+  }
+
+  /* Sidebar off-screen */
   .sidebar {
     transform: translateX(-100%);
+    width: 280px;
   }
 
   .sidebar.open {
     transform: translateX(0);
-    width: 260px;
+    box-shadow: var(--shadow-lg);
   }
 
+  /* Main content full-width */
   .main-content {
     margin-left: 0;
   }
 
+  /* ---------- Top Bar ---------- */
+  .top-bar {
+    padding: 0 var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .top-bar__title {
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .top-bar__actions {
+    gap: var(--space-sm);
+    flex-shrink: 0;
+  }
+
+  /* Hide search box on mobile top-bar */
+  .top-bar__actions .search-box {
+    display: none;
+  }
+
+  /* ---------- Grids → single column ---------- */
   .grid-4,
   .grid-3,
-  .grid-2 { grid-template-columns: 1fr; }
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
 
-  .form-row { grid-template-columns: 1fr; }
+  /* ---------- Form rows → stack ---------- */
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 
-  .auth-page { flex-direction: column; }
-  .auth-right { display: none; }
+  /* ---------- Page content ---------- */
+  .page-content {
+    padding: var(--space-lg);
+  }
 
-  .page-content { padding: var(--space-lg); }
-  .top-bar { padding: 0 var(--space-lg); }
+  .page-header__title {
+    font-size: 1.3rem;
+  }
 
+  .page-header__sub {
+    font-size: 0.88rem;
+  }
+
+  /* ---------- Stat cards ---------- */
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .stat-card {
+    padding: var(--space-lg);
+  }
+
+  /* ---------- Cards ---------- */
+  .card {
+    padding: var(--space-lg);
+  }
+
+  .card-header {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  /* ---------- Tabs → horizontal scroll ---------- */
+  .tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    scrollbar-width: none;       /* Firefox */
+    -ms-overflow-style: none;    /* IE/Edge */
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;               /* Chrome */
+  }
+
+  .tab-btn {
+    flex-shrink: 0;
+    font-size: 0.82rem;
+    padding: 0.6rem 1rem;
+    white-space: nowrap;
+  }
+
+  /* ---------- Table → scroll ---------- */
+  .table-wrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.7rem 0.75rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  /* ---------- Auth pages ---------- */
+  .auth-page {
+    flex-direction: column;
+  }
+
+  .auth-right {
+    display: none;
+  }
+
+  .auth-left {
+    padding: var(--space-lg);
+  }
+
+  .auth-card__title {
+    font-size: 1.4rem;
+  }
+
+  /* ---------- CV Preview ---------- */
   .cv-preview__header {
     flex-direction: column;
     text-align: center;
+    padding: var(--space-xl) var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .cv-preview__avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 1.6rem;
+  }
+
+  .cv-preview__name {
+    font-size: 1.3rem;
   }
 
   .cv-preview__contact {
     justify-content: center;
+    font-size: 0.78rem;
+    gap: var(--space-md);
+  }
+
+  .cv-preview__body {
+    padding: var(--space-lg);
+  }
+
+  /* ---------- Buttons → allow wrap ---------- */
+  .flex.gap-md,
+  .flex.gap-sm {
+    flex-wrap: wrap;
+  }
+
+  .btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  /* ---------- Review cards (supervisor) ---------- */
+  .review-card__header {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .review-card__details {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .review-card__actions {
+    flex-wrap: wrap;
+    gap: var(--space-sm) !important;
+  }
+
+  .review-card__meta {
+    font-size: 0.75rem;
+  }
+
+  /* ---------- QR / Share ---------- */
+  .share-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: var(--space-sm);
+  }
+
+  .qr-card__image {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* ---------- Recruiter page ---------- */
+  .recruiter-nav .container {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    padding: 0 var(--space-md);
+  }
+
+  .recruiter-info-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-md);
+  }
+
+  /* ---------- Modal ---------- */
+  .modal {
+    width: 95%;
+    padding: var(--space-lg);
+  }
+
+  /* ---------- Container ---------- */
+  .container {
+    padding: 0 var(--space-md);
+  }
+
+  /* ---------- Donut / Legend (admin) ---------- */
+  .donut-placeholder {
+    width: 140px;
+    height: 140px;
+  }
+
+  .donut-placeholder::after {
+    inset: 28px;
+  }
+
+  /* ---------- QR link box ---------- */
+  .qr-link-box {
+    flex-wrap: wrap;
+  }
+
+  .qr-link-input {
+    font-size: 0.8rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  /* ---------- Empty state ---------- */
+  .empty-state {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .empty-state__icon {
+    font-size: 2.4rem;
+  }
+
+  /* ---------- File upload ---------- */
+  .file-upload {
+    padding: var(--space-xl);
+  }
+
+  /* ---------- Stepper ---------- */
+  .stepper {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: var(--space-sm);
+  }
+
+  .stepper-step__label {
+    font-size: 0.75rem;
+  }
+
+  .stepper-line {
+    width: 40px;
+  }
+
+  /* ---------- Avatar sizes ---------- */
+  .avatar--xl {
+    width: 64px;
+    height: 64px;
+    font-size: 1.4rem;
+  }
+
+  /* ---------- Progress bar ---------- */
+  .progress-bar {
+    height: 6px;
+  }
+
+  /* ---------- Verified badge ---------- */
+  .verified-badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
+}
+
+/* ---------- 600px — Small tablet / large phone ---------- */
+@media (max-width: 600px) {
+  /* Stats row in QR page: stack to 1 col */
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Review card details: stack */
+  .review-card__details {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Admin donut + legend: stack vertically */
+  .donut-placeholder {
+    width: 120px;
+    height: 120px;
+    margin-bottom: var(--space-md);
+  }
+
+  .donut-placeholder::after {
+    inset: 22px;
+  }
+
+  /* Chart placeholder: reduce height */
+  .chart-placeholder {
+    height: 160px;
+  }
+
+  /* Log entries */
+  .log-entry {
+    font-size: 0.82rem;
+  }
+
+  /* Buttons in review cards → full width */
+  .review-card__actions .btn {
+    flex: 1;
+    min-width: 0;
+    justify-content: center;
+  }
+}
+
+/* ---------- 480px — Small phone ---------- */
+@media (max-width: 480px) {
+  .stepper-step__label {
+    display: none;
+  }
+
+  .stepper-line {
+    width: 24px;
+  }
+
+  .page-header__title {
+    font-size: 1.15rem;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .card-title {
+    font-size: 0.95rem;
+  }
+
+  .btn-sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+  }
+
+  .cv-preview__header {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .cv-preview__name {
+    font-size: 1.15rem;
+  }
+
+  .cv-preview__avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.3rem;
+  }
+
+  .cv-preview__body {
+    padding: var(--space-md);
+  }
+
+  .cv-section__title {
+    font-size: 0.92rem;
+  }
+
+  .cv-skill-tag {
+    font-size: 0.75rem;
+    padding: 3px 10px;
+  }
+
+  .qr-card__image {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Auth card */
+  .auth-card__title {
+    font-size: 1.2rem;
+  }
+
+  .auth-card__logo-text {
+    font-size: 1.2rem;
+  }
+
+  /* Make full-width buttons */
+  .auth-left .btn-lg,
+  .auth-left .btn {
+    font-size: 0.88rem;
+  }
+
+  /* Timeline */
+  .timeline {
+    padding-left: 22px;
+  }
+
+  .timeline-item__dot {
+    left: -18px;
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Share options */
+  .share-option {
+    padding: var(--space-md);
+  }
+
+  .share-option__icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+
+  .share-option__title {
+    font-size: 0.82rem;
+  }
+
+  /* Form elements */
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 0.88rem;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .form-label {
+    font-size: 0.82rem;
+  }
+
+  /* Search box inline style override */
+  .search-box {
+    width: 100% !important;
+  }
+
+  .search-box .form-input {
+    font-size: 0.85rem;
+  }
+}
+
+/* ---------- 360px — Very small phone ---------- */
+@media (max-width: 360px) {
+  .page-content {
+    padding: var(--space-md);
+  }
+
+  .card {
+    padding: var(--space-md);
+  }
+
+  .stat-card {
+    padding: var(--space-md);
+  }
+
+  .top-bar {
+    padding: 0 var(--space-sm);
+  }
+
+  .sidebar.open {
+    width: 260px;
+  }
+
+  .cv-preview__contact {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .container {
+    padding: 0 var(--space-sm);
+  }
+}
+
+/* ========================================
+   INLINE STYLE OVERRIDES — Admin Dashboard
+   These override inline style= attributes
+   that cannot be removed from PHP markup.
+   ======================================== */
+@media (max-width: 768px) {
+  /* Override fixed-width search boxes (style="width:240px/260px") */
+  .search-box[style*="width"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Override fixed-width selects (style="width:140px") */
+  .form-select[style*="width"] {
+    width: 100% !important;
+  }
+
+  /* Admin donut + legend wrapper: stack vertically */
+  .flex.items-center.gap-lg {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  /* Chart bars: let them scale */
+  .chart-placeholder {
+    height: auto !important;
+    min-height: 180px;
+  }
+
+  /* Admin modal */
+  .modal-overlay .modal-box {
+    width: 95% !important;
+    padding: var(--space-lg) !important;
+    max-width: 100% !important;
+  }
+
+  /* Log entry time */
+  .log-entry {
+    flex-wrap: wrap;
+  }
+
+  .log-entry__time {
+    width: 100%;
+    margin-top: var(--space-xs);
+  }
+
+  /* CV bar chart */
+  .cv-bar {
+    height: 120px !important;
+  }
+
+  .cv-bar__fill {
+    width: 70% !important;
   }
 }
 
 @media (max-width: 480px) {
-  .stepper-step__label { display: none; }
-  .stepper-line { width: 30px; }
+  /* Admin donut smaller */
+  .flex.items-center.gap-lg .donut-placeholder {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  /* Toast position */
+  #toast,
+  #review-toast {
+    right: var(--space-md) !important;
+    left: var(--space-md) !important;
+    max-width: 100% !important;
+    bottom: var(--space-md) !important;
+  }
+
+  /* Modal overlay */
+  .modal-overlay {
+    padding: var(--space-sm) !important;
+  }
+
+  /* Preview grid → single column */
+  .preview-grid {
+    grid-template-columns: 1fr !important;
+  }
 }

@@ -61,12 +61,12 @@ function verifyPassword(string $plain, string $hash): bool {
  */
 function dashboardForRole(string $role): string {
     return match ($role) {
-        'student'    => '../student-dashboard.html',
-        'supervisor' => '../supervisor-dashboard.php',
-        'examiner'   => '../supervisor-dashboard.php',
-        'recruiter'  => '../recruiter-view.html',
-        'admin'      => '../admin-dashboard.php',
-        default      => '../index.html',
+        'student'    => 'student-dashboard.html',
+        'supervisor' => 'supervisor-dashboard.php',
+        'examiner'   => 'supervisor-dashboard.php',
+        'recruiter'  => 'recruiter-view.html',
+        'admin'      => 'admin-dashboard.php',
+        default      => 'index.html',
     };
 }
 

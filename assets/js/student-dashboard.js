@@ -1,19 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const menuToggle = document.getElementById("menu-toggle");
-  const sidebar = document.getElementById("sidebar");
   const searchInput = document.getElementById("search-input");
   await hydrateCv();
   const currentUser = window.UserSession ? window.UserSession.getUser() : null;
   const cv = window.CVStorage.getCv();
   const hasCv = Boolean(cv.fullName || cv.email || cv.summary || cv.education || cv.experience);
-
-  if (window.innerWidth <= 768 && menuToggle) {
-    menuToggle.style.display = "flex";
-  }
-
-  if (menuToggle && sidebar) {
-    menuToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
-  }
 
   renderHeader(cv, currentUser, hasCv);
   renderStats(cv, hasCv);

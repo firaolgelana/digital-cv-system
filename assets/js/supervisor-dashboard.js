@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const menuToggle = document.getElementById("menu-toggle");
-  const sidebar = document.getElementById("sidebar");
   const searchInput = document.getElementById("review-search");
   const reviewList = document.getElementById("review-list");
   const recentBody = document.getElementById("recent-reviewed-body");
@@ -14,13 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     search: "",
     submissions: [],
   };
-
-  if (window.innerWidth <= 768 && menuToggle) {
-    menuToggle.style.display = "flex";
-  }
-  if (menuToggle && sidebar) {
-    menuToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
-  }
 
   document.getElementById("close-cv-modal").addEventListener("click", closeModal);
   modal.addEventListener("click", (event) => {

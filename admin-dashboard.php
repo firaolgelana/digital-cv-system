@@ -118,7 +118,7 @@ $initials = initials($user['full_name']);
   <!-- Main -->
   <main class="main-content">
     <header class="top-bar">
-      <button class="btn btn-ghost btn-icon" id="menu-toggle" style="display:none"><i class="fas fa-bars"></i></button>
+      <button class="btn btn-ghost btn-icon" id="menu-toggle"><i class="fas fa-bars"></i></button>
       <h2 class="top-bar__title">System Overview</h2>
       <div class="top-bar__actions">
         <div class="search-box" style="width:260px">
@@ -445,12 +445,10 @@ document.getElementById('global-search').addEventListener('input', function() {
   searchTimer = setTimeout(() => reloadUsers(document.getElementById('role-filter').value, this.value), 350);
 });
 
-// ── Sidebar toggle ────────────────────────────────────────────
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar    = document.getElementById('sidebar');
-if (window.innerWidth <= 768) menuToggle.style.display = 'flex';
-menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
 
+</script>
+<script src="assets/js/mobile-nav.js"></script>
+<script>
 function openSection(sec) {
   if (sec === 'users') document.getElementById('users-section').scrollIntoView({behavior:'smooth'});
 }
