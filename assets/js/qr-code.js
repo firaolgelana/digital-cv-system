@@ -116,29 +116,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       const response = await fetch(qrMeta.qrImageUrl);
-      const blob = await response.json().then(() => null).catch(() => response.blob()); // Just a safe check
-      const actualBlob = response.ok ? await response.blob() : null;
+      if (!response.ok) throw new Error("Network response was not ok");
       
-      if (actualBlob) {
-        const url = window.URL.createObjectURL(actualBlob);
-        const anchor = document.createElement("a");
-        anchor.href = url;
-        anchor.download = `${slugify(activeCv.fullName || sessionUser?.fullName || "student")}-cv-qr.png`;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        window.URL.revokeObjectURL(url);
+      const actualBlob = await response.blob();
+      const url = window.URL.createObjectURL(actualBlob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = `${slugify(activeCv.fullName || sessionUser?.fullName || "student")}-cv-qr.png`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+      window.URL.revokeObjectURL(url);
 
-        // Track download
-        const payload = await postJson("php_actions/generate_qr.php", { action: "track_download" });
-        if (payload?.success && payload.qr) {
-          qrMeta = payload.qr;
-          updateStats(qrMeta);
-        }
+      // Track download
+      const payload = await postJson("php_actions/generate_qr.php", { action: "track_download" });
+      if (payload?.success && payload.qr) {
+        qrMeta = payload.qr;
+        updateStats(qrMeta);
       }
     } catch (err) {
       console.error("QR Download error:", err);
-      setMessage("Download failed. You can right-click the QR and Save Image As.", true);
+      setMessage("Download failed (CORS or Network). Try right-click > 'Save Image As'.", true);
     } finally {
       downloadQrButton.disabled = false;
       downloadQrButton.innerHTML = '<i class="fas fa-download"></i> Download QR';
