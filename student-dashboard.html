@@ -50,13 +50,13 @@
           </a>
 
           <div class="sidebar-section-title">Account</div>
-          <a href="#" class="sidebar-link">
+          <a href="profile-settings.php" class="sidebar-link">
             <span class="sidebar-link__icon"
               ><i class="fas fa-user-gear"></i
             ></span>
             Profile Settings
           </a>
-          <a href="#" class="sidebar-link">
+          <a href="notifications.php" class="sidebar-link">
             <span class="sidebar-link__icon"><i class="fas fa-bell"></i></span>
             Notifications
           </a>
@@ -107,10 +107,11 @@
                 id="search-input"
               />
             </div>
-            <button class="btn btn-ghost btn-icon notification-btn">
+            <button class="btn btn-ghost btn-icon notification-btn" onclick="window.location.href='notifications.php'" style="position:relative;">
               <i class="fas fa-bell"></i>
+              <span id="unread-dot" style="display:none; position:absolute; top:8px; right:8px; width:8px; height:8px; background:var(--danger); border-radius:50%; border:2px solid var(--surface-card);"></span>
             </button>
-            <div class="avatar avatar--sm avatar--primary" id="header-avatar">
+            <div class="avatar avatar--sm avatar--primary" id="header-avatar" style="cursor:pointer" onclick="window.location.href='profile-settings.php'">
               ST
             </div>
           </div>
@@ -391,6 +392,7 @@
     <script src="assets/js/mobile-nav.js"></script>
     <script src="assets/js/user-session.js"></script>
     <script src="assets/js/cv-storage.js"></script>
+    <script src="assets/js/notifications-badge.js"></script>
     <script src="assets/js/student-dashboard.js"></script>
   </body>
 </html>

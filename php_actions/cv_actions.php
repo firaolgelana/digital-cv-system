@@ -142,6 +142,17 @@ try {
         }
 
         $savedCv = getCvById($pdo, $cvId);
+        
+        // Notify Supervisor if assigned
+        if ($isSubmit) {
+            $stmtSup = $pdo->prepare('SELECT supervisor_id FROM students WHERE id = ?');
+            $stmtSup->execute([$student['student_id']]);
+            $supId = $stmtSup->fetchColumn();
+            if ($supId) {
+                createNotification($pdo, (int)$supId, 'New CV Submission', 'Student ' . $student['full_name'] . ' has submitted a CV for review.');
+            }
+        }
+
         jsonResponse(true, $isSubmit ? 'CV submitted successfully.' : 'Draft saved successfully.', [
             'cv' => formatCvForFrontend($savedCv, $student),
             'user' => formatUserForFrontend($student),

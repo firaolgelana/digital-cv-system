@@ -142,3 +142,16 @@ function addColumnIfMissing(PDO $pdo, string $table, string $column, string $def
 
     $pdo->exec("ALTER TABLE {$table} ADD COLUMN {$column} {$definition}");
 }
+
+/**
+ * Create a system notification for a specific user.
+ */
+function createNotification(PDO $pdo, int $userId, string $title, string $message): bool {
+    try {
+        $stmt = $pdo->prepare('INSERT INTO notifications (user_id, title, message) VALUES (?, ?, ?)');
+        return $stmt->execute([$userId, $title, $message]);
+    } catch (PDOException $e) {
+        error_log('Notification error: ' . $e->getMessage());
+        return false;
+    }
+}

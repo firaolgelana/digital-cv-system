@@ -81,6 +81,24 @@ try {
 
         $pdo->commit();
 
+        // Notify Student
+        $stmtUser = $pdo->prepare('SELECT s.user_id FROM cvs c JOIN students s ON s.id = c.student_id WHERE c.id = ?');
+        $stmtUser->execute([$cvId]);
+        $targetUserId = $stmtUser->fetchColumn();
+        if ($targetUserId) {
+            $notifTitle = match($decision) {
+                'approve' => 'CV Approved! 🎉',
+                'reject' => 'CV Rejected',
+                default => 'Changes Requested ✍️'
+            };
+            $notifMsg = match($decision) {
+                'approve' => 'Your digital CV has been approved by your supervisor. You can now generate and share your QR code.',
+                'reject'  => 'Your CV was not approved. Please contact your supervisor for more details.',
+                default   => 'Your supervisor has requested changes to your CV. Please check the review notes and update your profile.'
+            };
+            createNotification($pdo, (int)$targetUserId, $notifTitle, $notifMsg);
+        }
+
         $message = match ($decision) {
             'approve' => 'CV approved successfully.',
             'reject' => 'CV rejected successfully.',
