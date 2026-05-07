@@ -33,11 +33,30 @@ try {
     $student = getStudentContext($pdo, (int) $_SESSION['user_id']);
 
     if ($method === 'GET' && $action === 'get_cv') {
-        $cv = getLatestCv($pdo, (int) $student['student_id']);
+        $cvId = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $cv = $cvId ? getCvById($pdo, $cvId) : getLatestCv($pdo, (int) $student['student_id']);
+        
+        // Ensure CV belongs to student
+        if ($cv && (int)$cv['student_id'] !== (int)$student['student_id']) {
+            jsonResponse(false, 'Unauthorized access to CV.');
+        }
+
         jsonResponse(true, 'ok', [
             'cv' => $cv ? formatCvForFrontend($cv, $student) : null,
             'user' => formatUserForFrontend($student),
         ]);
+    }
+
+    if ($method === 'GET' && $action === 'get_my_cvs') {
+        $stmt = $pdo->prepare("SELECT id, title, status, updated_at FROM cvs WHERE student_id = ? ORDER BY updated_at DESC");
+        $stmt->execute([$student['student_id']]);
+        $cvs = $stmt->fetchAll();
+        
+        foreach ($cvs as &$c) {
+            $c['status_label'] = frontendStatus($c['status']);
+        }
+
+        jsonResponse(true, 'ok', ['cvs' => $cvs]);
     }
 
     if ($method === 'POST' && in_array($action, ['save_draft', 'submit_cv'], true)) {
@@ -53,7 +72,17 @@ try {
         updateStudentProfile($pdo, (int) $_SESSION['user_id'], (int) $student['student_id'], $payload);
         $student = getStudentContext($pdo, (int) $_SESSION['user_id']);
 
-        $existingCv = getLatestCv($pdo, (int) $student['student_id']);
+        $cvIdReq = isset($data['id']) ? $data['id'] : null;
+        $existingCv = null;
+        if ($cvIdReq && $cvIdReq !== 'new') {
+            $existingCv = getCvById($pdo, (int) $cvIdReq);
+            // Verify ownership
+            if ($existingCv && (int)$existingCv['student_id'] !== (int)$student['student_id']) {
+                $pdo->rollBack();
+                jsonResponse(false, 'Unauthorized CV update.');
+            }
+        }
+
         $dbStatus = $isSubmit ? 'pending' : 'draft';
 
         if ($existingCv) {
@@ -162,6 +191,20 @@ try {
             'cv' => formatCvForFrontend($savedCv, $student),
             'user' => formatUserForFrontend($student),
         ]);
+    }
+
+    if ($method === 'POST' && $action === 'delete_cv') {
+        $cvId = (int) ($data['id'] ?? 0);
+        if (!$cvId) jsonResponse(false, 'Missing CV ID.');
+
+        $stmt = $pdo->prepare("DELETE FROM cvs WHERE id = ? AND student_id = ?");
+        $stmt->execute([$cvId, $student['student_id']]);
+
+        if ($stmt->rowCount() > 0) {
+            jsonResponse(true, 'CV deleted successfully.');
+        } else {
+            jsonResponse(false, 'CV not found or access denied.');
+        }
     }
 
     http_response_code(400);

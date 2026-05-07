@@ -1,7 +1,7 @@
 <?php
 // ============================================================
 //  QR Code and Public CV Actions
-//  GET  ?action=get_qr
+//  GET  ?action=get_qr|get_all_qr
 //  GET  ?action=get_public_cv&token=
 //  POST action=generate_qr|track_copy|track_download
 // ============================================================
@@ -52,25 +52,47 @@ try {
     requireAuth(['student']);
     $student = getStudentQrContext($pdo, (int) $_SESSION['user_id']);
 
-    if ($method === 'GET' && $action === 'get_qr') {
-        $approvedCv = getLatestApprovedCv($pdo, (int) $student['student_id']);
+    if ($method === 'GET' && $action === 'get_all_qr') {
+        $stmt = $pdo->prepare("SELECT * FROM cvs WHERE student_id = ? ORDER BY updated_at DESC");
+        $stmt->execute([$student['student_id']]);
+        $cvs = $stmt->fetchAll();
+        
+        $results = [];
+        foreach ($cvs as $cv) {
+            $results[] = [
+                'cv' => formatApprovedCv($cv, $student),
+                'qr' => getStudentQrMeta($pdo, $cv, $student)
+            ];
+        }
 
         jsonResponse(true, 'ok', [
-            'cv' => $approvedCv ? formatApprovedCv($approvedCv, $student) : null,
+            'qrs' => $results,
+            'user' => formatStudentUser($student)
+        ]);
+    }
+
+    if ($method === 'GET' && $action === 'get_qr') {
+        $cvId = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $cv = $cvId ? getCvByIdAndStatus($pdo, $cvId, null) : getLatestApprovedCv($pdo, (int) $student['student_id']);
+
+        jsonResponse(true, 'ok', [
+            'cv' => $cv ? formatApprovedCv($cv, $student) : null,
             'user' => formatStudentUser($student),
-            'qr' => $approvedCv ? getStudentQrMeta($pdo, $approvedCv, $student) : null,
+            'qr' => $cv ? getStudentQrMeta($pdo, $cv, $student) : null,
         ]);
     }
 
     if ($method === 'POST' && $action === 'generate_qr') {
-        $approvedCv = getLatestApprovedCv($pdo, (int) $student['student_id']);
-        if (!$approvedCv) {
-            jsonResponse(false, 'Your CV must be approved before you can generate a QR code.');
+        $cvId = (int) ($data['id'] ?? 0);
+        $cv = $cvId ? getCvByIdAndStatus($pdo, $cvId, 'approved') : getLatestApprovedCv($pdo, (int) $student['student_id']);
+
+        if (!$cv) {
+            jsonResponse(false, 'The specified CV must be approved before you can generate a QR code.');
         }
 
         $baseUrl = appBaseUrl();
-        $token = generateQrToken(); // We still keep the token in DB for potential future use or consistency
-        $shareUrl = buildPublicCvUrl($baseUrl, (int) $approvedCv['id']);
+        $token = generateQrToken();
+        $shareUrl = buildPublicCvUrl($baseUrl, (int) $cv['id']);
         $qrImageUrl = buildQrImageUrl($shareUrl);
 
         $stmt = $pdo->prepare("
@@ -83,24 +105,26 @@ try {
                 generated_at = CURRENT_TIMESTAMP,
                 expires_at = NULL
         ");
-        $stmt->execute([(int) $approvedCv['id'], $token, $qrImageUrl]);
+        $stmt->execute([(int) $cv['id'], $token, $qrImageUrl]);
 
-        $qrRow = getQrByCvId($pdo, (int) $approvedCv['id']);
+        $qrRow = getQrByCvId($pdo, (int) $cv['id']);
 
         jsonResponse(true, 'QR code generated successfully.', [
-            'cv' => formatApprovedCv($approvedCv, $student),
+            'cv' => formatApprovedCv($cv, $student),
             'user' => formatStudentUser($student),
-            'qr' => formatQrMeta($qrRow, $approvedCv, $student, $baseUrl),
+            'qr' => formatQrMeta($qrRow, $cv, $student, $baseUrl),
         ]);
     }
 
     if ($method === 'POST' && in_array($action, ['track_copy', 'track_download'], true)) {
-        $approvedCv = getLatestApprovedCv($pdo, (int) $student['student_id']);
-        if (!$approvedCv) {
+        $cvId = (int) ($data['id'] ?? 0);
+        $cv = $cvId ? getCvByIdAndStatus($pdo, $cvId, 'approved') : getLatestApprovedCv($pdo, (int) $student['student_id']);
+
+        if (!$cv) {
             jsonResponse(false, 'No approved CV is available for tracking.');
         }
 
-        $qrRow = getQrByCvId($pdo, (int) $approvedCv['id']);
+        $qrRow = getQrByCvId($pdo, (int) $cv['id']);
         if (!$qrRow) {
             jsonResponse(false, 'Generate a QR code first.');
         }
@@ -109,9 +133,9 @@ try {
         $stmt = $pdo->prepare("UPDATE qr_codes SET {$column} = {$column} + 1 WHERE id = ?");
         $stmt->execute([(int) $qrRow['id']]);
 
-        $qrRow = getQrByCvId($pdo, (int) $approvedCv['id']);
+        $qrRow = getQrByCvId($pdo, (int) $cv['id']);
         jsonResponse(true, 'ok', [
-            'qr' => formatQrMeta($qrRow, $approvedCv, $student, appBaseUrl()),
+            'qr' => formatQrMeta($qrRow, $cv, $student, appBaseUrl()),
         ]);
     }
 
@@ -158,6 +182,17 @@ function getLatestApprovedCv(PDO $pdo, int $studentId): ?array {
         LIMIT 1
     ");
     $stmt->execute([$studentId]);
+    return $stmt->fetch() ?: null;
+}
+
+function getCvByIdAndStatus(PDO $pdo, int $cvId, ?string $status): ?array {
+    if ($status === null) {
+        $stmt = $pdo->prepare("SELECT * FROM cvs WHERE id = ? LIMIT 1");
+        $stmt->execute([$cvId]);
+    } else {
+        $stmt = $pdo->prepare("SELECT * FROM cvs WHERE id = ? AND status = ? LIMIT 1");
+        $stmt->execute([$cvId, $status]);
+    }
     return $stmt->fetch() ?: null;
 }
 

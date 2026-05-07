@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const fileInput = document.getElementById("cv-docs");
   const fileListContainer = document.getElementById("file-list");
   let selectedFiles = [];
+  const urlParams = new URLSearchParams(window.location.search);
+  const cvIdFromUrl = urlParams.get('id');
   let currentUser = window.UserSession ? window.UserSession.getUser() : null;
 
   if (window.innerWidth <= 768 && menuToggle) {
@@ -145,6 +147,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function saveCv(action) {
     const formData = new FormData(form);
     formData.append("action", action);
+    if (cvIdFromUrl) {
+      formData.append("id", cvIdFromUrl);
+    }
     
     // Explicitly add files since we might have removed some from the array but not the input
     // Actually, it's easier to just append from selectedFiles
@@ -225,8 +230,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function hydrateCv() {
+    if (!cvIdFromUrl) {
+      window.CVStorage.clearCv();
+      return;
+    }
+
     try {
-      const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+      const url = `php_actions/cv_actions.php?action=get_cv&id=${cvIdFromUrl}`;
+      const res = await fetch(url, {
         headers: { Accept: "application/json" }
       });
       const data = await res.json();

@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cvIdFromUrl = urlParams.get('id');
   const menuToggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   await hydrateCv();
@@ -69,7 +71,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function hydrateCv() {
   try {
-    const res = await fetch("php_actions/cv_actions.php?action=get_cv", {
+    const url = cvIdFromUrl ? `php_actions/cv_actions.php?action=get_cv&id=${cvIdFromUrl}` : "php_actions/cv_actions.php?action=get_cv";
+    const res = await fetch(url, {
       headers: { Accept: "application/json" }
     });
     const data = await res.json();

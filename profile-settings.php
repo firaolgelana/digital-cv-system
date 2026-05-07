@@ -36,6 +36,14 @@ $roleName = ucfirst($user['role']);
         <a href="<?= dashboardForRole($user['role']) ?>" class="sidebar-link">
           <span class="sidebar-link__icon"><i class="fas fa-house"></i></span> Dashboard
         </a>
+        <?php if ($user['role'] === 'student'): ?>
+          <a href="create-cv.html" class="sidebar-link">
+            <span class="sidebar-link__icon"><i class="fas fa-file-pen"></i></span> Create CV
+          </a>
+          <a href="my-resumes.html" class="sidebar-link">
+            <span class="sidebar-link__icon"><i class="fas fa-file-lines"></i></span> My Resumes
+          </a>
+        <?php endif; ?>
         <div class="sidebar-section-title">Account</div>
         <a href="profile-settings.php" class="sidebar-link active">
           <span class="sidebar-link__icon"><i class="fas fa-user-gear"></i></span> Profile Settings

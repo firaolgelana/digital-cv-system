@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const menuToggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
+  const urlParams = new URLSearchParams(window.location.search);
+  const cvIdFromUrl = urlParams.get('id');
+  const scrollIntoView = urlParams.get('scroll');
   const currentUser = window.UserSession ? window.UserSession.getUser() : null;
 
   if (window.innerWidth <= 768 && menuToggle) {
@@ -11,7 +14,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     menuToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
   }
 
-  const latestPayload = await fetchJson("php_actions/cv_actions.php?action=get_cv");
+  const cvUrl = cvIdFromUrl ? `php_actions/cv_actions.php?action=get_cv&id=${cvIdFromUrl}` : "php_actions/cv_actions.php?action=get_cv";
+  const latestPayload = await fetchJson(cvUrl);
   if (latestPayload?.success && latestPayload.user && window.UserSession) {
     window.UserSession.saveUser(latestPayload.user);
   }
@@ -23,7 +27,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const latestCv = latestPayload?.cv || window.CVStorage.getCv();
   const sessionUser = (latestPayload?.user && window.UserSession ? window.UserSession.getUser() : null) || currentUser;
-  const approvedPayload = await fetchJson("php_actions/generate_qr.php?action=get_qr");
+  
+  const qrUrl = cvIdFromUrl ? `php_actions/generate_qr.php?action=get_qr&id=${cvIdFromUrl}` : "php_actions/generate_qr.php?action=get_qr";
+  const approvedPayload = await fetchJson(qrUrl);
   const approvedCv = approvedPayload?.success ? approvedPayload.cv : null;
   let qrMeta = approvedPayload?.success ? approvedPayload.qr : null;
 
@@ -74,7 +80,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     generateQrButton.disabled = true;
     setMessage("Generating a server-backed QR code...", false);
 
-    const payload = await postJson("php_actions/generate_qr.php", { action: "generate_qr" });
+    const payload = await postJson("php_actions/generate_qr.php", { 
+      action: "generate_qr",
+      id: cvIdFromUrl || latestCv?.id
+    });
     generateQrButton.disabled = false;
 
     if (!payload?.success || !payload.qr) {
@@ -95,7 +104,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
       await navigator.clipboard.writeText(qrMeta.shareUrl);
-      const payload = await postJson("php_actions/generate_qr.php", { action: "track_copy" });
+      const payload = await postJson("php_actions/generate_qr.php", { 
+        action: "track_copy",
+        id: cvIdFromUrl || latestCv?.id
+      });
       if (payload?.success && payload.qr) {
         qrMeta = payload.qr;
         updateStats(qrMeta);
@@ -129,7 +141,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.URL.revokeObjectURL(url);
 
       // Track download
-      const payload = await postJson("php_actions/generate_qr.php", { action: "track_download" });
+      const payload = await postJson("php_actions/generate_qr.php", { 
+        action: "track_download",
+        id: cvIdFromUrl || latestCv?.id
+      });
       if (payload?.success && payload.qr) {
         qrMeta = payload.qr;
         updateStats(qrMeta);

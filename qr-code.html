@@ -29,9 +29,9 @@
           <span class="sidebar-link__icon"><i class="fas fa-file-pen"></i></span>
           Create CV
         </a>
-        <a href="cv-preview.html" class="sidebar-link">
-          <span class="sidebar-link__icon"><i class="fas fa-eye"></i></span>
-          View CV
+        <a href="my-resumes.html" class="sidebar-link">
+          <span class="sidebar-link__icon"><i class="fas fa-file-lines"></i></span>
+          My Resumes
         </a>
         <a href="qr-code.html" class="sidebar-link active">
           <span class="sidebar-link__icon"><i class="fas fa-qrcode"></i></span>
@@ -60,139 +60,31 @@
       </header>
 
       <div class="page-content">
-        <div class="page-header animate-fade-in">
-          <h1 class="page-header__title">Share your CV with QR</h1>
-          <p class="page-header__sub">Generate a unique QR code for your saved CV. Anyone who scans it can open your public CV page and download it.</p>
+        <div class="page-header animate-fade-in" style="display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <h1 class="page-header__title">My QR Portfolio</h1>
+            <p class="page-header__sub">Unique QR codes for your approved resumes. Share them directly with recruiters.</p>
+          </div>
         </div>
 
-        <div id="qr-empty-state" class="card animate-fade-in">
+        <div id="qr-empty-state" class="card animate-fade-in" style="display: none;">
           <div class="empty-state">
             <div class="empty-state__icon"><i class="fas fa-qrcode"></i></div>
-            <h3 class="empty-state__title">No CV available for QR sharing</h3>
-            <p class="empty-state__desc">Create and save your CV first, then come back here to generate a shareable QR code.</p>
-            <a href="create-cv.html" class="btn btn-primary">
-              <i class="fas fa-plus"></i> Create CV
+            <h3 class="empty-state__title">No Approved Resumes Available</h3>
+            <p class="empty-state__desc">Your resumes must be approved by a supervisor before you can generate QR codes for them.</p>
+            <a href="my-resumes.html" class="btn btn-primary">
+              <i class="fas fa-file-lines"></i> Go to My Resumes
             </a>
           </div>
         </div>
 
-        <div id="qr-content" style="display: none;">
-          <div class="grid grid-2 gap-lg">
-            <div class="card animate-fade-in delay-1" style="text-align: center;">
-              <div style="margin-bottom: var(--space-lg);">
-                <span class="verified-badge" id="qr-status-badge">
-                  <i class="fas fa-circle-check"></i> Ready to Share
-                </span>
-              </div>
-
-              <div class="qr-card__image" style="margin: 0 auto var(--space-xl);">
-                <img id="qr-image" alt="Generated CV QR code" style="display: none;" />
-                <div id="qr-placeholder" style="color: var(--text-muted);">Generate a QR code to start sharing.</div>
-              </div>
-
-              <h3 style="font-family: var(--font-heading); font-size: 1.15rem; margin-bottom: 4px;" id="qr-student-name">Student</h3>
-              <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: var(--space-xl);" id="qr-student-meta">Department not added</p>
-
-              <div class="flex justify-center gap-md flex-wrap" style="margin-bottom: var(--space-lg);">
-                <button class="btn btn-primary" id="generate-qr-btn"><i class="fas fa-wand-magic-sparkles"></i> Generate Unique QR</button>
-                <button class="btn btn-secondary" id="download-qr-btn" disabled><i class="fas fa-download"></i> Download QR</button>
-                <button class="btn btn-outline" id="open-public-cv-btn" disabled><i class="fas fa-up-right-from-square"></i> Open Public CV</button>
-              </div>
-
-              <div class="qr-link-box">
-                <i class="fas fa-link" style="color: var(--text-muted);"></i>
-                <input id="share-link-input" class="form-input qr-link-input" readonly value="Generate a QR code to create a public CV link." />
-                <button class="btn btn-ghost btn-sm" id="copy-link-btn" disabled>Copy</button>
-              </div>
-              <p id="qr-message" style="margin-top: var(--space-md); color: var(--text-secondary); font-size: 0.85rem;"></p>
-            </div>
-
-            <div class="flex flex-col gap-lg">
-              <div class="card animate-fade-in delay-2">
-                <div class="card-header">
-                  <h3 class="card-title"><i class="fas fa-share-nodes" style="color: var(--primary-400); margin-right: 8px;"></i>Share Options</h3>
-                </div>
-                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: var(--space-md);">
-                  Use the generated link or send the QR to recruiters and employers.
-                </p>
-
-                <div class="share-grid">
-                  <button class="share-option" id="share-native-btn" type="button">
-                    <div class="share-option__icon" style="background: rgba(59,130,246,.15); color: var(--info);">
-                      <i class="fas fa-share"></i>
-                    </div>
-                    <div>
-                      <div class="share-option__title">Share</div>
-                      <div class="share-option__desc">Use the device share menu</div>
-                    </div>
-                  </button>
-                  <button class="share-option" id="share-email-btn" type="button">
-                    <div class="share-option__icon" style="background: rgba(34,197,94,.15); color: var(--success);">
-                      <i class="fas fa-envelope"></i>
-                    </div>
-                    <div>
-                      <div class="share-option__title">Email</div>
-                      <div class="share-option__desc">Send your public CV link</div>
-                    </div>
-                  </button>
-                  <button class="share-option" id="share-whatsapp-btn" type="button">
-                    <div class="share-option__icon" style="background: rgba(37,211,102,.15); color: #25d366;">
-                      <i class="fab fa-whatsapp"></i>
-                    </div>
-                    <div>
-                      <div class="share-option__title">WhatsApp</div>
-                      <div class="share-option__desc">Share with recruiters</div>
-                    </div>
-                  </button>
-                  <button class="share-option" id="share-telegram-btn" type="button">
-                    <div class="share-option__icon" style="background: rgba(14,165,233,.15); color: #0ea5e9;">
-                      <i class="fab fa-telegram"></i>
-                    </div>
-                    <div>
-                      <div class="share-option__title">Telegram</div>
-                      <div class="share-option__desc">Send the public CV page</div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-
-              <div class="card animate-fade-in delay-3">
-                <div class="card-header">
-                  <h3 class="card-title"><i class="fas fa-info-circle" style="color: var(--accent-400); margin-right: 8px;"></i>QR Details</h3>
-                </div>
-                <div class="stats-row">
-                  <div class="qr-stat">
-                    <div class="qr-stat__value" style="color: var(--primary-400);" id="qr-generated-count">0</div>
-                    <div class="qr-stat__label">QR Generated</div>
-                  </div>
-                  <div class="qr-stat">
-                    <div class="qr-stat__value" style="color: var(--accent-400);" id="qr-copied-count">0</div>
-                    <div class="qr-stat__label">Link Copied</div>
-                  </div>
-                  <div class="qr-stat">
-                    <div class="qr-stat__value" style="color: var(--warning);" id="qr-downloaded-count">0</div>
-                    <div class="qr-stat__label">QR Downloaded</div>
-                  </div>
-                </div>
-
-                <div style="margin-top: var(--space-xl); display: flex; flex-direction: column; gap: var(--space-sm);">
-                  <div class="qr-meta-row">
-                    <span>Public CV status</span>
-                    <strong id="qr-public-status">Not generated</strong>
-                  </div>
-                  <div class="qr-meta-row">
-                    <span>Last generated</span>
-                    <strong id="qr-last-generated">No Data</strong>
-                  </div>
-                  <div class="qr-meta-row">
-                    <span>Shared CV title</span>
-                    <strong id="qr-public-title">No CV yet</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div id="qr-list-container" class="grid grid-2 gap-lg animate-fade-in">
+           <!-- Dynamic QR cards will be loaded here -->
+           <div class="flex justify-center p-xl" style="grid-column: 1 / -1;">
+             <i class="fas fa-spinner fa-spin fa-2x" style="color:var(--primary-400);"></i>
+           </div>
         </div>
+      </div>
       </div>
     </main>
   </div>

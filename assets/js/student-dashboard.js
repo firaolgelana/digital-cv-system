@@ -65,8 +65,15 @@ function renderHeader(cv, currentUser, hasCv) {
   document.getElementById("header-avatar").textContent = initials;
 }
 
-function renderStats(cv, hasCv) {
-  document.getElementById("stat-cv-count").textContent = hasCv ? "1" : "0";
+async function renderStats(cv, hasCv) {
+  try {
+    const res = await fetch("php_actions/cv_actions.php?action=get_my_cvs");
+    const data = await res.json();
+    const count = data.success ? data.cvs.length : (hasCv ? 1 : 0);
+    document.getElementById("stat-cv-count").textContent = count;
+  } catch (err) {
+    document.getElementById("stat-cv-count").textContent = hasCv ? "1" : "0";
+  }
   document.getElementById("stat-status").textContent = hasCv ? cv.status || "Draft" : "Not Started";
   document.getElementById("stat-completion").textContent = hasCv ? `${window.CVStorage.getCompletion(cv)}%` : "0%";
   document.getElementById("stat-last-updated").textContent = hasCv ? window.CVStorage.formatDate(cv.updatedAt) : "No Data";
