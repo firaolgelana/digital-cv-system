@@ -192,6 +192,24 @@
             </div>
           </div>
 
+          <!-- Document Upload Section -->
+          <div class="card animate-fade-in" style="margin-bottom: var(--space-xl);">
+            <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-file-arrow-up" style="color: var(--accent-400); margin-right: 8px;"></i>Supporting Documents</h3>
+              <span class="badge badge--info">Optional (PDF/Image)</span>
+            </div>
+            <div class="form-group" style="margin-top: var(--space-md);">
+              <label class="form-label" for="cv-docs">Attach Degree, Transcripts, or Certificates</label>
+              <div class="file-upload-wrapper">
+                <input type="file" id="cv-docs" name="cv_docs[]" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;" />
+                <label for="cv-docs" class="btn btn-secondary btn-sm" style="display: inline-flex; width: auto;">
+                  <i class="fas fa-plus"></i> Add Files
+                </label>
+                <div id="file-list" class="flex flex-col gap-sm" style="margin-top: var(--space-md);"></div>
+              </div>
+            </div>
+          </div>
+
           <div class="card animate-fade-in" style="margin-bottom: var(--space-xl);">
             <div class="card-header">
               <h3 class="card-title"><i class="fas fa-circle-info" style="color: var(--accent-400); margin-right: 8px;"></i>Status</h3>

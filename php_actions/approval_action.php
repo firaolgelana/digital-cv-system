@@ -223,6 +223,7 @@ function getRecentReviewed(PDO $pdo): array {
 }
 
 function formatSubmissionRow(array $row): array {
+    global $pdo;
     $fields = [
         $row['full_name'] ?? '',
         $row['profession'] ?? '',
@@ -247,8 +248,13 @@ function formatSubmissionRow(array $row): array {
         }
     }
 
+    $cvId = (int) $row['id'];
+    $stmtDocs = $pdo->prepare("SELECT file_name, file_path, file_type FROM cv_documents WHERE cv_id = ?");
+    $stmtDocs->execute([$cvId]);
+    $documents = $stmtDocs->fetchAll();
+
     return [
-        'id' => (int) $row['id'],
+        'id' => $cvId,
         'full_name' => $row['full_name'],
         'email' => $row['email'],
         'phone' => $row['phone'] ?? '',
@@ -271,6 +277,7 @@ function formatSubmissionRow(array $row): array {
         'reviewed_at' => $row['reviewed_at'],
         'review_note' => $row['review_note'] ?? '',
         'documents_count' => (int) $row['documents_count'],
+        'documents' => $documents,
         'completion' => (int) round(($completed / count($fields)) * 100),
         'completed_sections' => $completed,
         'total_sections' => count($fields),

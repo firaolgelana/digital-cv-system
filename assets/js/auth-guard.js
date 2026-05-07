@@ -27,5 +27,8 @@
     })
     .catch(error => {
       console.error('Auth check failed:', error);
+      // Optional: don't redirect on network error to allow offline viewing if cached,
+      // but for security in this system, we redirect.
+      window.location.href = 'index.html';
     });
 })();

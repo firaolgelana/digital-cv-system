@@ -251,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ${previewBlock("Projects", nl2br(record.projects || "No projects provided."))}
       ${previewBlock("Certifications", nl2br(record.certifications || "No certifications provided."))}
       ${previewBlock("Links", buildLinks(record))}
+      ${previewBlock("Documents", buildDocuments(record))}
     `;
     modal.classList.add("open");
   }
@@ -268,6 +269,19 @@ document.addEventListener("DOMContentLoaded", () => {
       links.push(`<a href="${escapeAttr(record.portfolio)}" target="_blank" rel="noopener noreferrer">Portfolio</a>`);
     }
     return links.length ? links.join(" | ") : "No external links provided.";
+  }
+
+  function buildDocuments(record) {
+    if (!record.documents || !record.documents.length) {
+      return "No documents attached.";
+    }
+
+    return record.documents.map(doc => `
+      <div class="flex items-center gap-sm" style="margin-bottom: 4px;">
+        <i class="fas ${doc.file_name.toLowerCase().endsWith('.pdf') ? 'fa-file-pdf' : 'fa-file-image'}" style="color: var(--primary-400);"></i>
+        <a href="${escapeAttr(doc.file_path)}" target="_blank" rel="noopener noreferrer">${escapeHtml(doc.file_name)}</a>
+      </div>
+    `).join("");
   }
 
   function previewBlock(title, body) {

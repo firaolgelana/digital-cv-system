@@ -26,12 +26,12 @@ $action = $method === 'GET'
 
 try {
     if ($method === 'GET' && $action === 'get_public_cv') {
-        $token = trim((string) ($_GET['token'] ?? ''));
-        if ($token === '') {
-            jsonResponse(false, 'Missing QR token.');
+        $cvId = (int) ($_GET['id'] ?? 0);
+        if ($cvId <= 0) {
+            jsonResponse(false, 'Missing or invalid CV ID.');
         }
 
-        $publicCv = getPublicCvByToken($pdo, $token);
+        $publicCv = getPublicCvById($pdo, $cvId);
         if (!$publicCv) {
             http_response_code(404);
             jsonResponse(false, 'This CV link is invalid or unavailable.');
@@ -42,7 +42,7 @@ try {
         jsonResponse(true, 'ok', [
             'student' => formatPublicStudent($publicCv),
             'meta' => [
-                'token' => $token,
+                'id' => $cvId,
                 'generatedAt' => $publicCv['generated_at'],
                 'accessCount' => (int) $publicCv['access_count'],
             ],
@@ -69,8 +69,8 @@ try {
         }
 
         $baseUrl = appBaseUrl();
-        $token = generateQrToken();
-        $shareUrl = buildPublicCvUrl($baseUrl, $token);
+        $token = generateQrToken(); // We still keep the token in DB for potential future use or consistency
+        $shareUrl = buildPublicCvUrl($baseUrl, (int) $approvedCv['id']);
         $qrImageUrl = buildQrImageUrl($shareUrl);
 
         $stmt = $pdo->prepare("
@@ -179,8 +179,8 @@ function getStudentQrMeta(PDO $pdo, array $cv, array $student): ?array {
 function formatQrMeta(array $qrRow, array $cv, array $student, string $baseUrl): array {
     return [
         'token' => $qrRow['token'],
-        'shareUrl' => buildPublicCvUrl($baseUrl, $qrRow['token']),
-        'qrImageUrl' => $qrRow['qr_image'] ?: buildQrImageUrl(buildPublicCvUrl($baseUrl, $qrRow['token'])),
+        'shareUrl' => buildPublicCvUrl($baseUrl, (int) $cv['id']),
+        'qrImageUrl' => $qrRow['qr_image'] ?: buildQrImageUrl(buildPublicCvUrl($baseUrl, (int) $cv['id'])),
         'generatedCount' => (int) ($qrRow['generated_count'] ?? 0),
         'copiedCount' => (int) ($qrRow['copied_count'] ?? 0),
         'downloadedCount' => (int) ($qrRow['downloaded_count'] ?? 0),
@@ -191,8 +191,8 @@ function formatQrMeta(array $qrRow, array $cv, array $student, string $baseUrl):
     ];
 }
 
-function buildPublicCvUrl(string $baseUrl, string $token): string {
-    return rtrim($baseUrl, '/') . '/public-cv.html?token=' . rawurlencode($token);
+function buildPublicCvUrl(string $baseUrl, int $cvId): string {
+    return rtrim($baseUrl, '/') . '/public-cv.html?id=' . $cvId;
 }
 
 function buildQrImageUrl(string $shareUrl): string {
@@ -211,24 +211,23 @@ function generateQrToken(): string {
     return bin2hex(random_bytes(24));
 }
 
-function getPublicCvByToken(PDO $pdo, string $token): ?array {
+function getPublicCvById(PDO $pdo, int $cvId): ?array {
     $stmt = $pdo->prepare("
         SELECT qr.id AS qr_id, qr.token, qr.generated_at, qr.access_count, qr.expires_at,
                cv.id AS cv_id, cv.profession, cv.summary, cv.address, cv.linkedin, cv.portfolio,
                cv.education_text, cv.experience_text, cv.technical_skills, cv.soft_skills,
                cv.languages, cv.projects, cv.certifications, cv.status, cv.updated_at,
                u.full_name, u.email, u.phone, d.name AS department
-        FROM qr_codes qr
-        JOIN cvs cv ON cv.id = qr.cv_id
+        FROM cvs cv
+        LEFT JOIN qr_codes qr ON qr.cv_id = cv.id
         JOIN students st ON st.id = cv.student_id
         JOIN users u ON u.id = st.user_id
         LEFT JOIN departments d ON d.id = st.department_id
-        WHERE qr.token = ?
+        WHERE cv.id = ?
           AND cv.status = 'approved'
-          AND (qr.expires_at IS NULL OR qr.expires_at > NOW())
         LIMIT 1
     ");
-    $stmt->execute([$token]);
+    $stmt->execute([$cvId]);
     return $stmt->fetch() ?: null;
 }
 

@@ -114,6 +114,33 @@ try {
 
         $pdo->commit();
 
+        // Handle file uploads if any
+        if (!empty($_FILES['cv_docs'])) {
+            $uploadDir = __DIR__ . '/../uploads/';
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+
+            $files = $_FILES['cv_docs'];
+            for ($i = 0; $i < count($files['name']); $i++) {
+                if ($files['error'][$i] === UPLOAD_ERR_OK) {
+                    $tmpName = $files['tmp_name'][$i];
+                    $originalName = basename($files['name'][$i]);
+                    $extension = pathinfo($originalName, PATHINFO_EXTENSION);
+                    $newName = uniqid('cv_doc_', true) . '.' . $extension;
+                    $savePath = $uploadDir . $newName;
+
+                    if (move_uploaded_file($tmpName, $savePath)) {
+                        $stmtDoc = $pdo->prepare("
+                            INSERT INTO cv_documents (cv_id, file_name, file_path, file_type)
+                            VALUES (?, ?, ?, ?)
+                        ");
+                        $stmtDoc->execute([$cvId, $originalName, 'uploads/' . $newName, 'other']);
+                    }
+                }
+            }
+        }
+
         $savedCv = getCvById($pdo, $cvId);
         jsonResponse(true, $isSubmit ? 'CV submitted successfully.' : 'Draft saved successfully.', [
             'cv' => formatCvForFrontend($savedCv, $student),

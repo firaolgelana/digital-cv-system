@@ -1,18 +1,18 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const token = new URLSearchParams(window.location.search).get("token");
+  const cvId = new URLSearchParams(window.location.search).get("id");
   const errorCard = document.getElementById("public-cv-error");
   const content = document.getElementById("public-cv-content");
   const downloadButton = document.getElementById("download-public-cv-btn");
   const printButton = document.getElementById("print-public-cv-btn");
 
-  if (!token) {
+  if (!cvId) {
     showError();
     return;
   }
 
   let payload = null;
   try {
-    const response = await fetch(`php_actions/generate_qr.php?action=get_public_cv&token=${encodeURIComponent(token)}`, {
+    const response = await fetch(`php_actions/generate_qr.php?action=get_public_cv&id=${encodeURIComponent(cvId)}`, {
       headers: { Accept: "application/json" }
     });
     payload = await response.json();
