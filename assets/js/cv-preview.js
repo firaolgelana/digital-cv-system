@@ -45,6 +45,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderSkills("preview-technical-skills", window.CVStorage.toArray(cv.technicalSkills), "rgba(99,102,241,.15)", "var(--primary-700)");
   renderSkills("preview-soft-skills", window.CVStorage.toArray(cv.softSkills), "#ecfdf5", "#065f46");
   renderDocuments("preview-documents", cv.documents || []);
+
+  // PDF Export logic
+  const downloadBtn = document.getElementById("download-pdf-btn");
+  if (downloadBtn) {
+    const originalText = downloadBtn.innerHTML;
+    downloadBtn.addEventListener("click", async () => {
+      const element = document.querySelector(".cv-preview");
+      window.PDFUtils.setLoading(downloadBtn, true);
+      
+      try {
+        await window.PDFUtils.generateCV(element, { 
+          fullName: cv.fullName || currentUser?.fullName || "Student" 
+        });
+      } catch (err) {
+        alert("Could not generate PDF. Please try again.");
+      } finally {
+        window.PDFUtils.setLoading(downloadBtn, false, originalText);
+      }
+    });
+  }
 });
 
 async function hydrateCv() {

@@ -50,9 +50,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   downloadButton.disabled = false;
   printButton.disabled = false;
 
-  downloadButton.addEventListener("click", () => {
-    const filename = `${slugify(student.fullName || "student")}-cv.html`;
-    window.CVShare.downloadHtmlFile(filename, window.CVShare.buildDownloadHtml({ student }));
+  downloadButton.addEventListener("click", async () => {
+    const element = document.querySelector(".cv-preview");
+    const originalText = downloadButton.innerHTML;
+    window.PDFUtils.setLoading(downloadButton, true);
+
+    try {
+      await window.PDFUtils.generateCV(element, { 
+        fullName: student.fullName || "Student" 
+      });
+    } catch (err) {
+      alert("Could not generate PDF. Please try again.");
+    } finally {
+      window.PDFUtils.setLoading(downloadButton, false, originalText);
+    }
   });
 
   printButton.addEventListener("click", () => {

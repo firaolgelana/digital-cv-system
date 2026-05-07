@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="assets/js/auth-guard.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
   <div class="app-layout">
@@ -55,6 +56,7 @@
         <button class="btn btn-ghost btn-icon" id="menu-toggle"><i class="fas fa-bars"></i></button>
         <h2 class="top-bar__title">CV Preview</h2>
         <div class="top-bar__actions">
+          <button class="btn btn-outline btn-sm" id="download-pdf-btn"><i class="fas fa-file-pdf"></i> Download PDF</button>
           <a href="create-cv.html" class="btn btn-secondary btn-sm"><i class="fas fa-pen"></i> Edit</a>
         </div>
       </header>
@@ -157,6 +159,7 @@
   <script src="assets/js/mobile-nav.js"></script>
   <script src="assets/js/user-session.js"></script>
   <script src="assets/js/cv-storage.js"></script>
+  <script src="assets/js/pdf-utils.js"></script>
   <script src="assets/js/cv-preview.js"></script>
 </body>
 </html>
